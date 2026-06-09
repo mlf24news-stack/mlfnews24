@@ -2,7 +2,7 @@
 
 // ===== LOCAL STORAGE DATA STORE =====
 // DB = localStorage (replaced by Supabase)
-const DB = {
+const _DB_UNUSED = {
   get: (key) => { try { return JSON.parse(localStorage.getItem('mlf24_' + key)) || []; } catch { return []; } },
   set: (key, val) => localStorage.setItem('mlf24_' + key, JSON.stringify(val)),
   getObj: (key, def = {}) => { try { return JSON.parse(localStorage.getItem('mlf24_' + key)) || def; } catch { return def; } },
@@ -14,39 +14,39 @@ function seedData() {
   if (DB.get('seeded').length > 0) return;
 
   const articles = [
-    { id: 1, title: 'ଭାରତ-ପାକ ସୀମାରେ ଉତ୍ତେଜନା, ସୈନ୍ୟ ସତର୍କ', excerpt: 'ପାକିସ୍ତାନ ଆଡ଼ୁ ବାରମ୍ବାର ଉସ୍କାଣି ପରେ ଭାରତୀୟ ସେନା ସଂପୂର୍ଣ ପ୍ରସ୍ତୁତ। ରକ୍ଷା ମନ୍ତ୍ରୀ ସଂସଦରେ ବୟାନ ଦେଲେ।', body: 'ସୀମାରେ ସ୍ଥିତି ଉତ୍ତେଜନାପୂର୍ଣ ରହିଛି। ଭାରତୀୟ ସୁରକ୍ଷା ବଳ ନିଯୁକ୍ତି ବଢ଼ାଇ ହାଇ ଆଲର୍ଟ ଜାରି କରିଛନ୍ତି। ରକ୍ଷା ମନ୍ତ୍ରୀ ରାଜନାଥ ସିଂ କହିଛନ୍ତି ଯେ ଭାରତ ପ୍ରତ୍ୟେକ ପରିସ୍ଥିତି ପାଇଁ ପ୍ରସ୍ତୁତ। ସୀମାବର୍ତ୍ତୀ ଅଞ୍ଚଳରେ ନଜରଦାରି ବଢ଼ାଯାଇଛି।', category: 'ରାଜନୀତି', reporter: 'ସୁଭଙ୍ଗ ପ୍ରଧାନ', date: '2024-04-29', image: 'https://picsum.photos/seed/news1/800/500', status: 'published', featured: true, views: 15420 },
-    { id: 2, title: 'IPL 2024: ମୁମ୍ବାଇ ଇଣ୍ଡିଆନ୍ସର ଅଭୂତପୂର୍ବ ଜୟ', excerpt: 'ମୁମ୍ବାଇ ଇଣ୍ଡିଆନ୍ସ ଦିଲ୍ଲୀ କ୍ୟାପିଟାଲ୍ସକୁ ୮ ୱିକେଟରେ ହରାଇଲା। ରୋହିତ ଶର୍ମାଙ୍କ ଝଡ଼ ବ୍ୟାଟିଂ।', body: 'ମୁମ୍ବାଇ ଇଣ୍ଡିଆନ୍ସ ଏକ ଅଭୂତପୂର୍ବ ପ୍ରଦର୍ଶନରେ ଦିଲ୍ଲୀ କ୍ୟାପିଟାଲ୍ସକୁ ୮ ୱିକେଟରେ ହରାଇଲା। ରୋହିତ ଶର୍ମା ୬୫ ବଲରେ ୮୯ ରନ ସ୍କୋର କଲେ। ଏହା ମୁମ୍ବାଇର ଏହି ସିଜନର ପଞ୍ଚମ ଜୟ।', category: 'ଖେଳ', reporter: 'ଅନୁଜ ନାୟକ', date: '2024-04-28', image: 'https://picsum.photos/seed/news2/800/500', status: 'published', featured: true, views: 22100 },
-    { id: 3, title: 'ଓଡ଼ିଆ ଚଳଚ୍ଚିତ୍ର: ନୂଆ ଚଳଚ୍ଚିତ୍ରର ଟ୍ରେଲର ମୁକ୍ତ', excerpt: '"କିଙ୍ଗ" ଟ୍ରେଲର ଦେଖି ଭକ୍ତ ଦୀୱାନା। ୨୪ ଘଣ୍ଟାରେ ୫ କୋଟି ଭ୍ୟୁ।', body: 'ନୂଆ ଚଳଚ୍ଚିତ୍ର "କିଙ୍ଗ"ର ଟ୍ରେଲର ମୁକ୍ତ ପାଇଛି ଏବଂ ୨୪ ଘଣ୍ଟାରେ ୫ କୋଟିରୁ ଅଧିକ ଭ୍ୟୁ ମିଳିଛି। ଭକ୍ତ ସୋସିଆଲ ମିଡ଼ିଆରେ ଏହାର ପ୍ରଶଂସା କରୁଛନ୍ତି।', category: 'ମନୋରଞ୍ଜନ', reporter: 'ସ୍ୱପ୍ନା ଦାଶ', date: '2024-04-27', image: 'https://picsum.photos/seed/news3/800/500', status: 'published', featured: true, views: 31500 },
-    { id: 4, title: 'ଶେୟାର ବଜାର: ସେନ୍ସେକ୍ସ ୧୨୦୦ ପଏଣ୍ଟ ଉପରେ, ବିନିଯୋଗକାରୀ ଖୁସି', excerpt: 'ବିଦେଶୀ ବିନିଯୋଗକାରୀଙ୍କ ଫେରାରୁ ବଜାରରେ ଉଛୁଳ। ନିଫ୍ଟି ମଧ୍ୟ ନୂଆ ରେକର୍ଡ ଗଢ଼ିଲା।', body: 'ଆଜି ମୁମ୍ବାଇ ଶେୟାର ବଜାରରେ ବ୍ୟାପକ ଉଲ୍ଲମ୍ଫ ଦେଖାଗଲା। ସେନ୍ସେକ୍ସ ୧୨୦୦ ପଏଣ୍ଟ ବୃଦ୍ଧି ସହ ବନ୍ଦ ହେଲା। ବିଦେଶୀ ସଂସ୍ଥାଗତ ବିନିଯୋଗକାରୀ ଏ ମାସ ୧୫ ହଜାର କୋଟି ଟଙ୍କାରୁ ଅଧିକ ବିନିଯୋଗ କରିଛନ୍ତି।', category: 'ବ୍ୟବସାୟ', reporter: 'ସଂଜୟ ମହାପାତ୍ର', date: '2024-04-26', image: 'https://picsum.photos/seed/news4/800/500', status: 'published', featured: false, views: 9800 },
-    { id: 5, title: 'AI ବିପ୍ଲବ: ଭାରତରେ ୧୦ ଲକ୍ଷ ଚାକିରି ସଙ୍କଟ', excerpt: 'ଆର୍ଟିଫିସିଆଲ ଇଣ୍ଟେଲିଜେନ୍ସ IT କ୍ଷେତ୍ରରେ ବଡ଼ ପରିବର୍ତ୍ତନ ଆଣିବ ବୋଲି ଆଶଙ୍କା। ସରକାର ସଚେଷ୍ଟ।', body: 'ଦେଶରେ ଆର୍ଟିଫିସିଆଲ ଇଣ୍ଟେଲିଜେନ୍ସର ବଢ଼ୁଥିବା ପ୍ରଭାବ ନେଇ ଏକ ନୂଆ ରିପୋର୍ଟ ଆସିଛି ଯେଉଁଥିରେ କୁହାଯାଇଛି ଅଗଲା ପାଞ୍ଚ ବର୍ଷରେ ୧୦ ଲକ୍ଷରୁ ଅଧିକ ଚାକିରି ସଙ୍କଟରେ ପଡ଼ିପାରେ।', category: 'ପ୍ରଯୁକ୍ତି', reporter: 'ରାହୁଲ ବର୍ମା', date: '2024-04-25', image: 'https://picsum.photos/seed/news5/800/500', status: 'published', featured: false, views: 18200 },
-    { id: 6, title: 'ୟୁକ୍ରେନ ଯୁଦ୍ଧ: ଆମେରିକା ଦେବ ୬୦ ଅରବ ଡଲାର ସାହାଯ୍ୟ', excerpt: 'ଆମେରିକୀ କଂଗ୍ରେସ ୟୁକ୍ରେନ ପାଇଁ ସାହାଯ୍ୟ ପ୍ୟାକେଜ ମଞ୍ଜୁର କଲା। ରୁଷ କଡ଼ା ଆପତ୍ତି ଜଣାଇଲା।', body: 'ଆମେରିକୀ କଂଗ୍ରେସ ୟୁକ୍ରେନ ପାଇଁ ୬୦ ଅରବ ଡଲାର ସାହାଯ୍ୟ ପ୍ୟାକେଜ ଅନୁମୋଦନ ଦେଇଛି। ଏଥିରେ ସାମରିକ ଓ ଆର୍ଥିକ ଉଭୟ ସାହାଯ୍ୟ ଅଛି। ରୁଷ ଏହି ସିଦ୍ଧାନ୍ତ ଉପରେ କଡ଼ା ଆପତ୍ତି ଜଣାଇଛି।', category: 'ଅନ୍ତର୍ଜାତୀୟ', reporter: 'ନେହା ମିଶ୍ର', date: '2024-04-24', image: 'https://picsum.photos/seed/news6/800/500', status: 'published', featured: false, views: 12300 },
-    { id: 7, title: 'ଓଡ଼ିଶା ସରକାରଙ୍କ ବଡ଼ ଘୋଷଣା: ୫ ଲକ୍ଷ ଘର ତିଆରି ହେବ', excerpt: 'ଆବାସ ଯୋଜନା ଅଧୀନରେ ଅଗଲା ୫ ବର୍ଷ ଭିତରେ ୫ ଲକ୍ଷ ଘର ତିଆରି ଲକ୍ଷ୍ୟ।', body: 'ଓଡ଼ିଶା ମୁଖ୍ୟମନ୍ତ୍ରୀ ଆଜି ଏକ ବଡ଼ ଘୋଷଣା କରି କହିଛନ୍ତି ଯେ ସରକାର ଅଗଲା ପାଞ୍ଚ ବର୍ଷରେ ୫ ଲକ୍ଷ ଘର ତିଆରି କରିବ। ଏହା ଆବାସ ଯୋଜନାର ବିସ୍ତାର ହେବ।', category: 'ରାଜନୀତି', reporter: 'ଅମିତ ପଣ୍ଡା', date: '2024-04-23', image: 'https://picsum.photos/seed/news7/800/500', status: 'published', featured: false, views: 7600 },
-    { id: 8, title: 'ଭୁବନେଶ୍ୱର ଓଡ଼ିଶା ବ୍ଲାଷ୍ଟର୍ସ: IPL ରୁ ନୂଆ ଇତିହାସ', excerpt: 'ଓଡ଼ିଶା ବ୍ଲାଷ୍ଟର୍ସ ପ୍ଲେ-ଅଫ ରଉଣ୍ଡ ଗଲା। ରାଜ୍ୟ ବ୍ୟାପୀ ଉତ୍ସାହ।', body: 'ଓଡ଼ିଶା ବ୍ଲାଷ୍ଟର୍ସ ଏକ ଐତିହାସିକ ଜୟ ସହ IPL ପ୍ଲେ-ଅଫ ଗଲେ। ସ୍ଥାନୀୟ ଖେଳାଳୀ ସୁଭଙ୍ଗ ପ୍ରଧାନ ୬୫ ବଲରେ ୯୨ ରନ ସ୍କୋର କଲେ। ରାଜ୍ୟ ଭରି ଖୁସି ତରଙ୍ଗ ଖେଳିଗଲା।', category: 'ଖେଳ', reporter: 'ସୁମିତ ରାୟ', date: '2024-04-22', image: 'https://picsum.photos/seed/news8/800/500', status: 'published', featured: false, views: 45000 },
+    { id: 1, title: 'भारत-पाक सीमा पर तनाव, सेना अलर्ट पर', excerpt: 'पाकिस्तान की तरफ से लगातार उकसावे के बाद भारतीय सेना ने पूर्ण तैयारी कर ली है। रक्षा मंत्री ने संसद में बयान दिया।', body: 'सीमा पर स्थिति तनावपूर्ण बनी हुई है। भारतीय सुरक्षा बलों ने अपनी तैनाती बढ़ा दी है और हाई अलर्ट जारी किया गया है। रक्षा मंत्री राजनाथ सिंह ने कहा कि भारत हर परिस्थिति के लिए तैयार है और देश की संप्रभुता से कोई समझौता नहीं होगा। सेना प्रमुख ने भी कहा कि सीमावर्ती इलाकों में चौकसी बढ़ाई गई है।', category: 'राजनीति', reporter: 'रोहित शर्मा', date: '2024-04-29', image: 'https://picsum.photos/seed/news1/800/500', status: 'published', featured: true, views: 15420 },
+    { id: 2, title: 'IPL 2024: मुंबई इंडियंस की शानदार जीत', excerpt: 'मुंबई इंडियंस ने दिल्ली कैपिटल्स को 8 विकेट से हराया। रोहित शर्मा की धुआंधार बल्लेबाज़ी।', body: 'मुंबई इंडियंस ने एक शानदार प्रदर्शन में दिल्ली कैपिटल्स को 8 विकेट से हरा दिया। रोहित शर्मा ने 65 गेंदों में 89 रन बनाए और टीम को जीत दिलाई। यह मुंबई की इस सीजन की पांचवीं जीत है।', category: 'खेल', reporter: 'अनिल कुमार', date: '2024-04-28', image: 'https://picsum.photos/seed/news2/800/500', status: 'published', featured: true, views: 22100 },
+    { id: 3, title: 'बॉलीवुड: शाहरुख की नई फिल्म का ट्रेलर रिलीज़', excerpt: '"किंग" का ट्रेलर देखकर फैंस हुए दीवाने। 24 घंटे में 50 मिलियन व्यूज़।', body: 'शाहरुख खान की नई फिल्म "किंग" का ट्रेलर रिलीज़ हो गया है और इसने 24 घंटों में 50 मिलियन से अधिक व्यूज़ हासिल कर लिए हैं। फैंस ट्विटर पर इसकी जमकर तारीफ कर रहे हैं।', category: 'मनोरंजन', reporter: 'प्रिया सिंह', date: '2024-04-27', image: 'https://picsum.photos/seed/news3/800/500', status: 'published', featured: true, views: 31500 },
+    { id: 4, title: 'शेयर बाज़ार: सेंसेक्स 1200 अंक ऊपर, निवेशकों में खुशी', excerpt: 'विदेशी निवेशकों की वापसी से बाज़ार में उछाल। निफ्टी ने भी नया रिकॉर्ड बनाया।', body: 'मुंबई शेयर बाज़ार में आज जबरदस्त तेजी देखी गई। सेंसेक्स 1200 अंक की बढ़त के साथ बंद हुआ। विदेशी संस्थागत निवेशकों ने इस महीने अब तक 15000 करोड़ रुपये से अधिक का निवेश किया है।', category: 'व्यापार', reporter: 'संजय गुप्ता', date: '2024-04-26', image: 'https://picsum.photos/seed/news4/800/500', status: 'published', featured: false, views: 9800 },
+    { id: 5, title: 'AI क्रांति: भारत में 10 लाख नौकरियाँ खत्म होने का डर', excerpt: 'आर्टिफिशियल इंटेलिजेंस से IT सेक्टर में बड़े बदलाव की आशंका। सरकार सतर्क।', body: 'देश में आर्टिफिशियल इंटेलिजेंस के बढ़ते प्रभाव को लेकर एक नई रिपोर्ट सामने आई है जिसमें कहा गया है कि अगले पांच साल में भारत में 10 लाख से अधिक नौकरियाँ खतरे में पड़ सकती हैं।', category: 'तकनीक', reporter: 'राहुल वर्मा', date: '2024-04-25', image: 'https://picsum.photos/seed/news5/800/500', status: 'published', featured: false, views: 18200 },
+    { id: 6, title: 'यूक्रेन युद्ध: अमेरिका देगा 60 अरब डॉलर की मदद', excerpt: 'अमेरिकी कांग्रेस ने यूक्रेन के लिए सहायता पैकेज मंजूर किया। रूस ने जताई कड़ी आपत्ति।', body: 'अमेरिकी कांग्रेस ने यूक्रेन के लिए 60 अरब डॉलर के सहायता पैकेज को मंजूरी दे दी है। इसमें सैन्य और आर्थिक दोनों तरह की सहायता शामिल है। रूस ने इस फैसले पर कड़ी आपत्ति जताई है।', category: 'अंतरराष्ट्रीय', reporter: 'नेहा मिश्रा', date: '2024-04-24', image: 'https://picsum.photos/seed/news6/800/500', status: 'published', featured: false, views: 12300 },
+    { id: 7, title: 'मोदी सरकार का बड़ा ऐलान: 5 करोड़ मकान बनेंगे', excerpt: 'प्रधानमंत्री आवास योजना के तहत अगले 5 साल में 5 करोड़ मकान बनाने का लक्ष्य।', body: 'प्रधानमंत्री नरेंद्र मोदी ने आज एक बड़ी घोषणा करते हुए कहा कि सरकार अगले पांच वर्षों में 5 करोड़ मकान बनाएगी। यह प्रधानमंत्री आवास योजना का विस्तार होगा।', category: 'राजनीति', reporter: 'अमित पांडे', date: '2024-04-23', image: 'https://picsum.photos/seed/news7/800/500', status: 'published', featured: false, views: 7600 },
+    { id: 8, title: 'विराट कोहली ने की शतकों की शतकी, बने महान', excerpt: '100वां अंतरराष्ट्रीय शतक पूरा कर विराट ने सचिन की बराबरी की।', body: 'भारत के महान बल्लेबाज विराट कोहली ने अपना 100वां अंतरराष्ट्रीय शतक पूरा कर एक नया इतिहास रच दिया है। इसके साथ ही उन्होंने सचिन तेंदुलकर की बराबरी कर ली है।', category: 'खेल', reporter: 'सुमित राय', date: '2024-04-22', image: 'https://picsum.photos/seed/news8/800/500', status: 'published', featured: false, views: 45000 },
   ];
 
   const videos = [
-    { id: 1, title: 'ସୀମାରେ ଉତ୍ତେଜନା: ସମ୍ପୂର୍ଣ ରିପୋର୍ଟ ଦେଖନ୍ତୁ', thumb: 'https://picsum.photos/seed/vid1/400/250', youtubeId: 'dQw4w9WgXcQ', reporter: 'ସୁଭଙ୍ଗ ପ୍ରଧାନ', date: '2024-04-29', views: 8500 },
-    { id: 2, title: 'IPL 2024 ହାଇଲାଇଟ୍ସ: ମୁମ୍ବାଇ vs ଦିଲ୍ଲୀ', thumb: 'https://picsum.photos/seed/vid2/400/250', youtubeId: 'dQw4w9WgXcQ', reporter: 'ଅନୁଜ ନାୟକ', date: '2024-04-28', views: 12000 },
-    { id: 3, title: 'ନୂଆ ଓଡ଼ିଆ ଚଳଚ୍ଚିତ୍ର "ଜୟ ଓଡ଼ିଶା": ଟ୍ରେଲର ରିଭ୍ୟୁ', thumb: 'https://picsum.photos/seed/vid3/400/250', youtubeId: 'dQw4w9WgXcQ', reporter: 'ସ୍ୱପ୍ନା ଦାଶ', date: '2024-04-27', views: 21000 },
-    { id: 4, title: 'ଶେୟାର ବଜାରରେ ଉଲ୍ଲମ୍ଫ: କଣ ବିନିଯୋଗ କରିବେ?', thumb: 'https://picsum.photos/seed/vid4/400/250', youtubeId: 'dQw4w9WgXcQ', reporter: 'ସଂଜୟ ମହାପାତ୍ର', date: '2024-04-26', views: 5600 },
+    { id: 1, title: 'सीमा पर तनाव: देखिए पूरी रिपोर्ट', thumb: 'https://picsum.photos/seed/vid1/400/250', youtubeId: 'dQw4w9WgXcQ', reporter: 'रोहित शर्मा', date: '2024-04-29', views: 8500 },
+    { id: 2, title: 'IPL 2024 हाइलाइट्स: मुंबई vs दिल्ली', thumb: 'https://picsum.photos/seed/vid2/400/250', youtubeId: 'dQw4w9WgXcQ', reporter: 'अनिल कुमार', date: '2024-04-28', views: 12000 },
+    { id: 3, title: 'शाहरुख की "किंग": ट्रेलर रिव्यू', thumb: 'https://picsum.photos/seed/vid3/400/250', youtubeId: 'dQw4w9WgXcQ', reporter: 'प्रिया सिंह', date: '2024-04-27', views: 21000 },
+    { id: 4, title: 'शेयर बाज़ार में उछाल: क्या निवेश करें?', thumb: 'https://picsum.photos/seed/vid4/400/250', youtubeId: 'dQw4w9WgXcQ', reporter: 'संजय गुप्ता', date: '2024-04-26', views: 5600 },
   ];
 
   const reporters = [
-    { id: 1, name: 'ସୁଭଙ୍ଗ ପ୍ରଧାନ', role: 'ବରିଷ୍ଠ ସଂବାଦଦାତା', category: 'ରାଜନୀତି', email: 'rohit@mlf24.com', articles: 145, photo: 'https://picsum.photos/seed/rep1/100/100' },
-    { id: 2, name: 'ସ୍ୱପ୍ନା ଦାଶ', role: 'ମନୋରଞ୍ଜନ ସଂପାଦକ', category: 'ମନୋରଞ୍ଜନ', email: 'priya@mlf24.com', articles: 89, photo: 'https://picsum.photos/seed/rep2/100/100' },
-    { id: 3, name: 'ଅନୁଜ ନାୟକ', role: 'ଖେଳ ସଂବାଦଦାତା', category: 'ଖେଳ', email: 'anil@mlf24.com', articles: 201, photo: 'https://picsum.photos/seed/rep3/100/100' },
-    { id: 4, name: 'ସଂଜୟ ମହାପାତ୍ର', role: 'ବ୍ୟବସାୟ ସଂବାଦଦାତା', category: 'ବ୍ୟବସାୟ', email: 'sanjay@mlf24.com', articles: 67, photo: 'https://picsum.photos/seed/rep4/100/100' },
+    { id: 1, name: 'रोहित शर्मा', role: 'वरिष्ठ संवाददाता', category: 'राजनीति', email: 'rohit@mlf24.com', articles: 145, photo: 'https://picsum.photos/seed/rep1/100/100' },
+    { id: 2, name: 'प्रिया सिंह', role: 'मनोरंजन संपादक', category: 'मनोरंजन', email: 'priya@mlf24.com', articles: 89, photo: 'https://picsum.photos/seed/rep2/100/100' },
+    { id: 3, name: 'अनिल कुमार', role: 'खेल संवाददाता', category: 'खेल', email: 'anil@mlf24.com', articles: 201, photo: 'https://picsum.photos/seed/rep3/100/100' },
+    { id: 4, name: 'संजय गुप्ता', role: 'बिज़नेस रिपोर्टर', category: 'व्यापार', email: 'sanjay@mlf24.com', articles: 67, photo: 'https://picsum.photos/seed/rep4/100/100' },
   ];
 
   const epapers = [
-    { id: 1, title: 'MLF News 24 - 29 April 2024', date: '29 April 2024', pages: 12, file: '#' },
-    { id: 2, title: 'MLF News 24 - 28 April 2024', date: '28 April 2024', pages: 10, file: '#' },
-    { id: 3, title: 'MLF News 24 - 27 April 2024', date: '27 April 2024', pages: 14, file: '#' },
-    { id: 4, title: 'MLF News 24 - 26 April 2024', date: '26 April 2024', pages: 12, file: '#' },
-    { id: 5, title: 'MLF News 24 - 25 April 2024', date: '25 April 2024', pages: 8, file: '#' },
-    { id: 6, title: 'MLF News 24 - 24 April 2024', date: '24 April 2024', pages: 10, file: '#' },
-    { id: 7, title: 'MLF News 24 - 23 April 2024', date: '23 April 2024', pages: 12, file: '#' },
-    { id: 8, title: 'MLF News 24 - 22 April 2024', date: '22 April 2024', pages: 10, file: '#' },
+    { id: 1, title: 'MLF News 24 - 29 अप्रैल 2024', date: '29 April 2024', pages: 12, file: '#' },
+    { id: 2, title: 'MLF News 24 - 28 अप्रैल 2024', date: '28 April 2024', pages: 10, file: '#' },
+    { id: 3, title: 'MLF News 24 - 27 अप्रैल 2024', date: '27 April 2024', pages: 14, file: '#' },
+    { id: 4, title: 'MLF News 24 - 26 अप्रैल 2024', date: '26 April 2024', pages: 12, file: '#' },
+    { id: 5, title: 'MLF News 24 - 25 अप्रैल 2024', date: '25 April 2024', pages: 8, file: '#' },
+    { id: 6, title: 'MLF News 24 - 24 अप्रैल 2024', date: '24 April 2024', pages: 10, file: '#' },
+    { id: 7, title: 'MLF News 24 - 23 अप्रैल 2024', date: '23 April 2024', pages: 12, file: '#' },
+    { id: 8, title: 'MLF News 24 - 22 अप्रैल 2024', date: '22 April 2024', pages: 10, file: '#' },
   ];
 
   const ads = [
@@ -69,7 +69,7 @@ function startClock() {
   if (!el) return;
   function update() {
     const now = new Date();
-    el.textContent = now.toLocaleString('or-IN', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    el.textContent = now.toLocaleString('hi-IN', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', second: '2-digit' });
   }
   update();
   setInterval(update, 1000);
@@ -103,7 +103,7 @@ function loadHero() {
         <div class="hero-meta">
           <span class="reporter">✍ ${a.reporter}</span> &nbsp;|&nbsp; 📅 ${a.date} &nbsp;|&nbsp; 👁 ${a.views.toLocaleString()}
         </div>
-        <a href="article.html?id=${a.id}" class="hero-read-btn">ସଂପୂର୍ଣ ଖବର ପଢ଼ନ୍ତୁ →</a>
+        <a href="article.html?id=${a.id}" class="hero-read-btn">Read Full Story →</a>
       </div>
     </div>
   `).join('');
@@ -162,7 +162,7 @@ function loadTrending() {
 function loadCategorySections() {
   const el = document.getElementById('categorySections');
   if (!el) return;
-  const cats = ['ରାଜନୀତି', 'ଖେଳ', 'ମନୋରଞ୍ଜନ', 'ବ୍ୟବସାୟ'];
+  const cats = ['राजनीति', 'खेल', 'मनोरंजन', 'व्यापार'];
   const articles = DB.get('articles').filter(a => a.status === 'published');
   el.innerHTML = cats.map(cat => {
     const catArticles = articles.filter(a => a.category === cat).slice(0, 4);
@@ -187,7 +187,7 @@ function loadCategorySections() {
           `).join('')}
         </div>
         <div style="text-align:right;margin-top:12px">
-          <a href="category.html?cat=${cat}" class="see-all-btn">${cat} ର ସମସ୍ତ ଖବର →</a>
+          <a href="category.html?cat=${cat}" class="see-all-btn">${cat} All News →</a>
         </div>
       </section>
     `;
@@ -218,7 +218,7 @@ function loadArticlePage() {
   const params = new URLSearchParams(window.location.search);
   const id = parseInt(params.get('id'));
   const article = DB.get('articles').find(a => a.id === id);
-  if (!article) { document.querySelector('.article-page').innerHTML = '<p>ଲେଖା ମିଳିଲା ନାହିଁ।</p>'; return; }
+  if (!article) { document.querySelector('.article-page').innerHTML = '<p>Article not found।</p>'; return; }
 
   // increment views
   const articles = DB.get('articles');
@@ -256,12 +256,12 @@ function loadArticlePage() {
 function loadCategoryPage() {
   if (!document.querySelector('.category-page')) return;
   const params = new URLSearchParams(window.location.search);
-  const cat = params.get('cat') || 'ସବୁ';
+  const cat = params.get('cat') || 'सभी';
   document.getElementById('catTitle').textContent = cat;
   document.title = cat + ' - MLF News 24';
 
   let articles = DB.get('articles').filter(a => a.status === 'published');
-  if (cat !== 'ସବୁ') articles = articles.filter(a => a.category === cat);
+  if (cat !== 'सभी') articles = articles.filter(a => a.category === cat);
 
   const grid = document.getElementById('catArticlesGrid');
   if (grid) {
@@ -329,8 +329,8 @@ function loadEpaperPage() {
       <div class="epaper-info">
         <div class="epaper-date">${ep.date}</div>
         <div class="epaper-title">${ep.title}</div>
-        <div style="font-size:12px;color:#888;margin-top:4px">ପୃଷ୍ଠା: ${ep.pages}</div>
-        <a href="${ep.file}" class="epaper-download">📥 PDF ଡାଉନଲୋଡ</a>
+        <div style="font-size:12px;color:#888;margin-top:4px">पृष्ठ: ${ep.pages}</div>
+        <a href="${ep.file}" class="epaper-download">📥 PDF डाउनलोड करें</a>
       </div>
     </div>
   `).join('');
