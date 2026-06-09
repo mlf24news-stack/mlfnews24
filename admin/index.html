@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="or">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel - MLF News 24</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Odia:wght@400;700&family=Playfair+Display:wght@700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+body { background: #0A0A0A; }
+.admin-search { 
+  background: #111; border: 1px solid #333; border-radius: 6px; 
+  padding: 10px 16px; color: white; font-size: 13px; width: 260px; 
+}
+.admin-search::placeholder { color: #555; }
+.admin-search:focus { outline: none; border-color: #C8102E; }
+.chart-bar-wrap { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
+.chart-bar-label { min-width:80px; font-size:12px; color:#888; }
+.chart-bar { height:28px; background:linear-gradient(90deg,#C8102E,#8B0000); border-radius:4px; display:flex; align-items:center; padding:0 10px; font-size:12px; color:white; font-weight:600; }
+.activity-item { display:flex; gap:12px; padding:12px 0; border-bottom:1px solid #1F1F1F; font-size:13px; color:#aaa; }
+.activity-dot { width:8px;height:8px;background:var(--red);border-radius:50%;margin-top:5px;flex-shrink:0; }
+.reporter-card { background:#1A1A1A; border:1px solid #262626; border-radius:8px; padding:20px; display:flex; gap:16px; align-items:center; }
+.reporter-photo { width:60px;height:60px;border-radius:50%;background:#333;background-size:cover;background-position:center;flex-shrink:0; }
+.reporter-info h4 { font-size:15px; color:white; margin-bottom:4px; }
+.reporter-info p { font-size:12px; color:#888; }
+.reporter-stats { margin-left:auto; text-align:right; }
+.reporter-stats span { display:block; font-size:12px; color:#666; }
+.reporter-stats strong { font-size:22px; color:#C8102E; font-family:'Playfair Display',serif; }
+.epaper-admin-card { background:#1A1A1A; border:1px solid #262626; border-radius:8px; padding:16px; }
+.tag { display:inline-block; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600; background:rgba(200,16,46,0.15); color:#C8102E; margin-bottom:8px; }
+.ad-preview { width:100%;height:80px;background:#111;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#555;font-size:12px;margin-bottom:8px;overflow:hidden; }
+.ad-preview img { width:100%;height:100%;object-fit:cover; }
+.toggle-switch { position:relative;display:inline-block;width:44px;height:24px; }
+.toggle-switch input { opacity:0;width:0;height:0; }
+.toggle-slider { position:absolute;cursor:pointer;inset:0;background:#333;border-radius:24px;transition:0.3s; }
+.toggle-slider:before { content:'';position:absolute;height:18px;width:18px;left:3px;bottom:3px;background:white;border-radius:50%;transition:0.3s; }
+.toggle-switch input:checked + .toggle-slider { background:#C8102E; }
+.toggle-switch input:checked + .toggle-slider:before { transform:translateX(20px); }
+.grid-2 { display:grid;grid-template-columns:1fr 1fr;gap:20px; }
+.grid-3 { display:grid;grid-template-columns:repeat(3,1fr);gap:20px; }
+</style>
+</head>
+<body>
+
+<div class="admin-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="admin-sidebar">
+    <div class="admin-logo">
+      <div class="admin-logo-text">MLF News 24</div>
+      <div class="admin-logo-sub">⚙ ADMIN PANEL</div>
+    </div>
+    <nav class="admin-nav">
+      <a class="admin-nav-item active" onclick="showSection('dashboard')">
+        <span class="admin-nav-icon">📊</span>
+        <span class="admin-nav-label">ଡ୍ୟାସବୋର୍ଡ</span>
+      </a>
+      <a class="admin-nav-item" onclick="showSection('articles')">
+        <span class="admin-nav-icon">📰</span>
+        <span class="admin-nav-label">ଲେଖା ପ୍ରବନ୍ଧନ</span>
+      </a>
+      <a class="admin-nav-item" onclick="showSection('add-article')">
+        <span class="admin-nav-icon">✏️</span>
+        <span class="admin-nav-label">ନୂଆ ଲେଖା ଯୋଡ଼ନ୍ତୁ</span>
+      </a>
+      <a class="admin-nav-item" onclick="showSection('videos')">
+        <span class="admin-nav-icon">🎬</span>
+        <span class="admin-nav-label">ଭିଡ଼ିଓ ପ୍ରବନ୍ଧନ</span>
+      </a>
+      <a class="admin-nav-item" onclick="showSection('add-video')">
+        <span class="admin-nav-icon">📹</span>
+        <span class="admin-nav-label">ନୂଆ ଭିଡ଼ିଓ ଯୋଡ଼ନ୍ତୁ</span>
+      </a>
+      <a class="admin-nav-item" onclick="showSection('epaper')">
+        <span class="admin-nav-icon">📄</span>
+        <span class="admin-nav-label">E-Paper</span>
+      </a>
+      <a class="admin-nav-item" onclick="showSection('reporters')">
+        <span class="admin-nav-icon">👤</span>
+        <span class="admin-nav-label">ସଂବାଦଦାତା</span>
+      </a>
+      <a class="admin-nav-item" onclick="showSection('ads')">
+        <span class="admin-nav-icon">📢</span>
+        <span class="admin-nav-label">ବିଜ୍ଞାପନ</span>
+      </a>
+      <a class="admin-nav-item" onclick="showSection('settings')">
+        <span class="admin-nav-icon">⚙️</span>
+        <span class="admin-nav-label">ସେଟିଂ</span>
+      </a>
+    </nav>
+    <div style="padding:20px;border-top:1px solid #222;">
+      <a href="../index.html" style="color:#666;font-size:12px;text-decoration:none;display:flex;align-items:center;gap:8px;">
+        🏠 ସାଇଟ ଉପରକୁ ଫେରନ୍ତୁ
+      </a>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div class="admin-main">
+    <div class="admin-topbar">
+      <h1 id="pageTitle">ଡ୍ୟାସବୋର୍ଡ</h1>
+      <div style="display:flex;align-items:center;gap:16px">
+        <input class="admin-search" placeholder="🔍 ଖୋଜ..." id="globalSearch" oninput="handleSearch()">
+        <div style="color:#888;font-size:13px" id="adminClock"></div>
+      </div>
+    </div>
+
+    <div class="admin-content">
+
+      <!-- ===== DASHBOARD ===== -->
+      <div id="sec-dashboard" class="admin-section active">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">📰</div>
+            <div class="stat-number" id="statArticles">0</div>
+            <div class="stat-label">ମୋଟ ଲେଖା</div>
+            <div class="stat-change">↑ 3 ଆଜି</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">👁</div>
+            <div class="stat-number" id="statViews">0</div>
+            <div class="stat-label">ମୋଟ ଭ୍ୟୁ</div>
+            <div class="stat-change">↑ 12% ଏ ସପ୍ତାହ</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🎬</div>
+            <div class="stat-number" id="statVideos">0</div>
+            <div class="stat-label">ଭିଡ଼ିଓ</div>
+            <div class="stat-change">↑ 2 ଆଜି</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">👤</div>
+            <div class="stat-number" id="statReporters">0</div>
+            <div class="stat-label">ସଂବାଦଦାତା</div>
+            <div class="stat-change">ସକ୍ରିୟ</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="admin-table-wrap">
+            <div class="table-header">
+              <h2>📈 ବିଭାଗ ପ୍ରଦର୍ଶନ</h2>
+            </div>
+            <div style="padding:20px" id="categoryChart"></div>
+          </div>
+          <div class="admin-table-wrap">
+            <div class="table-header">
+              <h2>🕐 ସଦ୍ୟ ଗତିବିଧି</h2>
+            </div>
+            <div style="padding:16px" id="activityFeed"></div>
+          </div>
+        </div>
+
+        <div class="admin-table-wrap" style="margin-top:24px">
+          <div class="table-header">
+            <h2>🔥 ସର୍ବାଧିକ ପଢ଼ା ଯାଇଥିବା ଲେଖା</h2>
+          </div>
+          <table class="admin-table" id="topArticlesTable"></table>
+        </div>
+      </div>
+
+      <!-- ===== ARTICLES ===== -->
+      <div id="sec-articles" class="admin-section">
+        <div class="admin-table-wrap">
+          <div class="table-header">
+            <h2>ସମସ୍ତ ଲେଖା</h2>
+            <button class="btn-primary" onclick="showSection('add-article')">+ ନୂଆ ଲେଖା</button>
+          </div>
+          <table class="admin-table" id="articlesTable">
+            <thead>
+              <tr>
+                <th>ଶୀର୍ଷକ</th>
+                <th>ବିଭାଗ</th>
+                <th>ସଂବାଦଦାତା</th>
+                <th>ତାରିଖ</th>
+                <th>ଭ୍ୟୁ</th>
+                <th>ସ୍ଥିତି</th>
+                <th>କ୍ରିୟା</th>
+              </tr>
+            </thead>
+            <tbody id="articlesTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== ADD ARTICLE ===== -->
+      <div id="sec-add-article" class="admin-section">
+        <div class="admin-form">
+          <h2 style="font-size:18px;margin-bottom:24px;color:white" id="articleFormTitle">✏️ ନୂଆ ଲେଖା ଲେଖନ୍ତୁ</h2>
+          <input type="hidden" id="editArticleId">
+          <div class="form-group">
+            <label class="form-label">ଶୀର୍ଷକ *</label>
+            <input class="form-input" id="artTitleInput" placeholder="ଲେଖା ଶୀର୍ଷକ ଲେଖନ୍ତୁ...">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">ବିଭାଗ *</label>
+              <select class="form-select" id="artCatInput">
+                <option value="">ବିଭାଗ ଚୁଣନ୍ତୁ</option>
+                <option>ରାଜନୀତି</option>
+                <option>ଖେଳ</option>
+                <option>ମନୋରଞ୍ଜନ</option>
+                <option>ବ୍ୟବସାୟ</option>
+                <option>ପ୍ରଯୁକ୍ତି</option>
+                <option>ଅନ୍ତର୍ଜାତୀୟ</option>
+                <option>ସ୍ୱାସ୍ଥ୍ୟ</option>
+                <option>ଶିକ୍ଷା</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">ସଂବାଦଦାତା *</label>
+              <select class="form-select" id="artReporterInput">
+                <option value="">ସଂବାଦଦାତା ଚୁଣନ୍ତୁ</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">ତାରିଖ</label>
+              <input class="form-input" type="date" id="artDateInput">
+            </div>
+            <div class="form-group">
+              <label class="form-label">ସ୍ଥିତି</label>
+              <select class="form-select" id="artStatusInput">
+                <option value="published">ପ୍ରକାଶିତ</option>
+                <option value="draft">ଡ୍ରାଫ୍ଟ</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">ଇମେଜ URL</label>
+            <input class="form-input" id="artImageInput" placeholder="https://example.com/image.jpg">
+          </div>
+          <div class="form-group">
+            <label class="form-label">
+              <input type="checkbox" id="artFeaturedInput" style="margin-right:8px">
+              ହିରୋ ସ୍ଲାଇଡ଼ରରେ ଦେଖାଅ (Featured)
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="form-label">ସାରାଂଶ (Excerpt) *</label>
+            <textarea class="form-textarea" id="artExcerptInput" placeholder="ଖବରର ସଂକ୍ଷିପ୍ତ ସାରାଂଶ..." style="min-height:80px"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">ସଂପୂର୍ଣ ଲେଖା *</label>
+            <textarea class="form-textarea" id="artBodyInput" placeholder="ଏଠାରେ ସଂପୂର୍ଣ ଲେଖା ଲେଖନ୍ତୁ..."></textarea>
+          </div>
+          <div style="display:flex;gap:12px">
+            <button class="btn-secondary" onclick="resetArticleForm()">ବାତିଲ</button>
+            <button class="btn-primary" onclick="saveArticle()">💾 ସଞ୍ଚୟ</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== VIDEOS ===== -->
+      <div id="sec-videos" class="admin-section">
+        <div class="admin-table-wrap">
+          <div class="table-header">
+            <h2>ସମସ୍ତ ଭିଡ଼ିଓ</h2>
+            <button class="btn-primary" onclick="showSection('add-video')">+ ନୂଆ ଭିଡ଼ିଓ</button>
+          </div>
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>ଶୀର୍ଷକ</th>
+                <th>ସଂବାଦଦାତା</th>
+                <th>ତାରିଖ</th>
+                <th>ଭ୍ୟୁ</th>
+                <th>କ୍ରିୟା</th>
+              </tr>
+            </thead>
+            <tbody id="videosTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== ADD VIDEO ===== -->
+      <div id="sec-add-video" class="admin-section">
+        <div class="admin-form">
+          <h2 style="font-size:18px;margin-bottom:24px;color:white" id="videoFormTitle">🎬 ନୂଆ ଭିଡ଼ିଓ ଯୋଡ଼ନ୍ତୁ</h2>
+          <input type="hidden" id="editVideoId">
+          <div class="form-group">
+            <label class="form-label">ଭିଡ଼ିଓ ଶୀର୍ଷକ *</label>
+            <input class="form-input" id="vidTitleInput" placeholder="ଭିଡ଼ିଓ ଶୀର୍ଷକ...">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">ସଂବାଦଦାତା</label>
+              <select class="form-select" id="vidReporterInput">
+                <option value="">ସଂବାଦଦାତା ଚୁଣନ୍ତୁ</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">ତାରିଖ</label>
+              <input class="form-input" type="date" id="vidDateInput">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">YouTube Video ID</label>
+            <input class="form-input" id="vidYtInput" placeholder="ଯଥା: dQw4w9WgXcQ (URL ରୁ)">
+            <div style="font-size:11px;color:#666;margin-top:6px">YouTube URL ରୁ Video ID କପି କରନ୍ତୁ: youtube.com/watch?v=<strong>VIDEO_ID</strong></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">ଥଙ୍ଗ URL</label>
+            <input class="form-input" id="vidThumbInput" placeholder="https://example.com/thumb.jpg">
+          </div>
+          <div style="display:flex;gap:12px">
+            <button class="btn-secondary" onclick="resetVideoForm()">ବାତିଲ</button>
+            <button class="btn-primary" onclick="saveVideo()">💾 ସଞ୍ଚୟ</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== EPAPER ===== -->
+      <div id="sec-epaper" class="admin-section">
+        <div class="grid-2" style="margin-bottom:24px">
+          <div class="admin-form">
+            <h2 style="font-size:18px;margin-bottom:20px;color:white">📄 ନୂଆ E-Paper ଯୋଡ଼ନ୍ତୁ</h2>
+            <div class="form-group">
+              <label class="form-label">ଶୀର୍ଷକ</label>
+              <input class="form-input" id="epTitleInput" placeholder="E-Paper ନାମ...">
+            </div>
+            <div class="form-group">
+              <label class="form-label">ତାରିଖ</label>
+              <input class="form-input" type="date" id="epDateInput">
+            </div>
+            <div class="form-group">
+              <label class="form-label">ପୃଷ୍ଠା ସଂଖ୍ୟା</label>
+              <input class="form-input" type="number" id="epPagesInput" placeholder="12">
+            </div>
+            <div class="form-group">
+              <label class="form-label">PDF Link (Google Drive / Dropbox)</label>
+              <input class="form-input" id="epFileInput" placeholder="https://drive.google.com/...">
+            </div>
+            <button class="btn-primary" onclick="saveEpaper()">💾 ଯୋଡ଼ନ୍ତୁ</button>
+          </div>
+          <div>
+            <div class="admin-table-wrap">
+              <div class="table-header"><h2>E-Paper ତାଲିକା</h2></div>
+              <div id="epaperAdminList" style="padding:0;max-height:400px;overflow-y:auto"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== REPORTERS ===== -->
+      <div id="sec-reporters" class="admin-section">
+        <div class="grid-2" style="margin-bottom:24px">
+          <div class="admin-form">
+            <h2 style="font-size:18px;margin-bottom:20px;color:white">👤 ନୂଆ ସଂବାଦଦାତା ଯୋଡ଼ନ୍ତୁ</h2>
+            <input type="hidden" id="editReporterId">
+            <div class="form-group">
+              <label class="form-label">ପୂର୍ଣ ନାମ</label>
+              <input class="form-input" id="repNameInput" placeholder="ସଂବାଦଦାତା ନାମ...">
+            </div>
+            <div class="form-group">
+              <label class="form-label">ପଦ</label>
+              <input class="form-input" id="repRoleInput" placeholder="ବରିଷ୍ଠ ସଂବାଦଦାତା...">
+            </div>
+            <div class="form-group">
+              <label class="form-label">ବିଭାଗ</label>
+              <select class="form-select" id="repCatInput">
+                <option>ରାଜନୀତି</option><option>ଖେଳ</option><option>ମନୋରଞ୍ଜନ</option>
+                <option>ବ୍ୟବସାୟ</option><option>ପ୍ରଯୁକ୍ତି</option><option>ଅନ୍ତର୍ଜାତୀୟ</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">ଇମେଲ</label>
+              <input class="form-input" id="repEmailInput" placeholder="reporter@mlf24.com" type="email">
+            </div>
+            <div class="form-group">
+              <label class="form-label">ଫୋଟୋ URL</label>
+              <input class="form-input" id="repPhotoInput" placeholder="https://example.com/photo.jpg">
+            </div>
+            <div style="display:flex;gap:12px">
+              <button class="btn-secondary" onclick="resetReporterForm()">ବାତିଲ</button>
+              <button class="btn-primary" onclick="saveReporter()">💾 ସଞ୍ଚୟ</button>
+            </div>
+          </div>
+          <div id="reportersGrid" style="display:flex;flex-direction:column;gap:14px;max-height:500px;overflow-y:auto;"></div>
+        </div>
+      </div>
+
+      <!-- ===== ADS ===== -->
+      <div id="sec-ads" class="admin-section">
+        <div class="grid-2" style="margin-bottom:24px">
+          <div class="admin-form">
+            <h2 style="font-size:18px;margin-bottom:20px;color:white">📢 ନୂଆ ବିଜ୍ଞାପନ ଯୋଡ଼ନ୍ତୁ</h2>
+            <input type="hidden" id="editAdId">
+            <div class="form-group">
+              <label class="form-label">ବିଜ୍ଞାପନ ନାମ</label>
+              <input class="form-input" id="adTitleInput" placeholder="କମ୍ପାନୀ / ଅଭିଯାନ ନାମ...">
+            </div>
+            <div class="form-group">
+              <label class="form-label">ସ୍ଥାନ</label>
+              <select class="form-select" id="adPositionInput">
+                <option value="header">ହେଡ଼ର (970×90)</option>
+                <option value="sidebar">ସାଇଡ଼ବାର (300×250)</option>
+                <option value="article-middle">ଲେଖା ମଝିରେ (728×90)</option>
+                <option value="footer">ଫୁଟର</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">ଇମେଜ URL</label>
+              <input class="form-input" id="adImageInput" placeholder="https://example.com/ad-banner.jpg">
+            </div>
+            <div class="form-group">
+              <label class="form-label">ଲିଙ୍କ URL</label>
+              <input class="form-input" id="adLinkInput" placeholder="https://advertiser.com">
+            </div>
+            <div style="display:flex;gap:12px">
+              <button class="btn-secondary" onclick="resetAdForm()">ବାତିଲ</button>
+              <button class="btn-primary" onclick="saveAd()">💾 ସଞ୍ଚୟ</button>
+            </div>
+          </div>
+          <div id="adsGrid" style="display:flex;flex-direction:column;gap:14px;max-height:500px;overflow-y:auto;"></div>
+        </div>
+      </div>
+
+      <!-- ===== SETTINGS ===== -->
+      <div id="sec-settings" class="admin-section">
+        <div class="grid-2">
+          <div class="admin-form">
+            <h2 style="font-size:18px;margin-bottom:24px;color:white">⚙️ ସାଇଟ ସେଟିଂ</h2>
+            <div class="form-group">
+              <label class="form-label">ସାଇଟ ନାମ</label>
+              <input class="form-input" id="settSiteName" value="MLF News 24">
+            </div>
+            <div class="form-group">
+              <label class="form-label">ଟ୍ୟାଗଲାଇନ</label>
+              <input class="form-input" id="settTagline" value="ସତ୍ୟର ସ୍ୱର • ପ୍ରତି ମୁହୂର୍ତ">
+            </div>
+            <div class="form-group">
+              <label class="form-label">ଯୋଗାଯୋଗ ଇମେଲ</label>
+              <input class="form-input" id="settEmail" value="news@mlf24.com">
+            </div>
+            <div class="form-group">
+              <label class="form-label">ଯୋଗାଯୋଗ ଫୋନ</label>
+              <input class="form-input" id="settPhone" value="+91 98765 43210">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Facebook URL</label>
+              <input class="form-input" id="settFb" placeholder="https://facebook.com/...">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Twitter/X URL</label>
+              <input class="form-input" id="settTw" placeholder="https://twitter.com/...">
+            </div>
+            <div class="form-group">
+              <label class="form-label">YouTube Channel URL</label>
+              <input class="form-input" id="settYt" placeholder="https://youtube.com/...">
+            </div>
+            <button class="btn-primary" onclick="saveSettings()">💾 ସେଟିଂ ସଞ୍ଚୟ</button>
+          </div>
+          <div class="admin-form">
+            <h2 style="font-size:18px;margin-bottom:24px;color:white">🔑 Admin ପାସ୍ ୱାର୍ଡ</h2>
+            <div class="form-group">
+              <label class="form-label">ବର୍ତ୍ତମାନ ପାସ୍ ୱାର୍ଡ</label>
+              <input class="form-input" type="password" id="currPass" placeholder="••••••••">
+            </div>
+            <div class="form-group">
+              <label class="form-label">ନୂଆ ପାସ୍ ୱାର୍ଡ</label>
+              <input class="form-input" type="password" id="newPass" placeholder="••••••••">
+            </div>
+            <div class="form-group">
+              <label class="form-label">ପାସ୍ ୱାର୍ଡ ପୁନଃ ଲିଖନ୍ତୁ</label>
+              <input class="form-input" type="password" id="confPass" placeholder="••••••••">
+            </div>
+            <button class="btn-primary" onclick="changePassword()">🔑 ପାସ୍ ୱାର୍ଡ ବଦଲ</button>
+            <hr style="border-color:#222;margin:24px 0">
+            <h3 style="color:#C8102E;margin-bottom:16px;font-size:15px">⚠️ ଡାଟା ପ୍ରବନ୍ଧନ</h3>
+            <button class="btn-secondary" onclick="exportData()" style="margin-bottom:10px;width:100%">📤 ସମସ୍ତ ଡାଟା Export (JSON)</button>
+            <button class="btn-danger" onclick="if(confirm('ସମସ୍ତ ଡାଟା ହଟିଯିବ! ଆପଣ ନିଶ୍ଚିତ କି?')) resetAll()" style="width:100%">🗑️ ସମସ୍ତ ଡାଟା ହଟାଆ</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" style="display:none" class="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabase-config.js"></script>
+<script src="../script.js"></script>
+<script>
+// ===== ADMIN CLOCK =====
+setInterval(() => {
+  const el = document.getElementById('adminClock');
+  if (el) el.textContent = new Date().toLocaleTimeString('or-IN');
+}, 1000);
+
+// ===== SHOW SECTION =====
+function showSection(name) {
+  document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.admin-nav-item').forEach(i => i.classList.remove('active'));
+  document.getElementById('sec-' + name).classList.add('active');
+  
+  const titles = {
+    'dashboard': 'ଡ୍ୟାସବୋର୍ଡ', 'articles': 'ଲେଖା ପ୍ରବନ୍ଧନ', 'add-article': 'ନୂଆ ଲେଖା ଯୋଡ଼ନ୍ତୁ',
+    'videos': 'ଭିଡ଼ିଓ ପ୍ରବନ୍ଧନ', 'add-video': 'ନୂଆ ଭିଡ଼ିଓ ଯୋଡ଼ନ୍ତୁ', 'epaper': 'E-Paper',
+    'reporters': 'ସଂବାଦଦାତା', 'ads': 'ବିଜ୍ଞାପନ', 'settings': 'ସେଟିଂ'
+  };
+  document.getElementById('pageTitle').textContent = titles[name] || name;
+  
+  const navMap = { 'dashboard': 0, 'articles': 1, 'add-article': 2, 'videos': 3, 'add-video': 4, 'epaper': 5, 'reporters': 6, 'ads': 7, 'settings': 8 };
+  const items = document.querySelectorAll('.admin-nav-item');
+  if (items[navMap[name]]) items[navMap[name]].classList.add('active');
+
+  if (name === 'dashboard') loadDashboard();
+  if (name === 'articles') loadArticlesTable();
+  if (name === 'videos') loadVideosTable();
+  if (name === 'epaper') loadEpaperAdmin();
+  if (name === 'reporters') loadReportersAdmin();
+  if (name === 'ads') loadAdsAdmin();
+  if (name === 'add-article' || name === 'add-video') populateReporterDropdowns();
+}
+
+// ===== TOAST =====
+function toast(msg, type = '') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast' + (type ? ' ' + type : '');
+  el.style.display = 'block';
+  setTimeout(() => el.style.display = 'none', 3000);
+}
+
+// ===== DASHBOARD =====
+function loadDashboard() {
+  const articles = DB.get('articles');
+  const videos = DB.get('videos');
+  const reporters = DB.get('reporters');
+  const totalViews = articles.reduce((s, a) => s + (a.views || 0), 0);
+
+  document.getElementById('statArticles').textContent = articles.length;
+  document.getElementById('statViews').textContent = totalViews > 999 ? (totalViews/1000).toFixed(1)+'K' : totalViews;
+  document.getElementById('statVideos').textContent = videos.length;
+  document.getElementById('statReporters').textContent = reporters.length;
+
+  // Category chart
+  const cats = {};
+  articles.forEach(a => cats[a.category] = (cats[a.category] || 0) + 1);
+  const max = Math.max(...Object.values(cats));
+  document.getElementById('categoryChart').innerHTML = Object.entries(cats).map(([cat, count]) => `
+    <div class="chart-bar-wrap">
+      <div class="chart-bar-label">${cat}</div>
+      <div class="chart-bar" style="width:${(count/max)*100}%">${count}</div>
+    </div>
+  `).join('');
+
+  // Activity feed
+  const recent = articles.slice(-5).reverse();
+  document.getElementById('activityFeed').innerHTML = recent.map(a => `
+    <div class="activity-item">
+      <div class="activity-dot"></div>
+      <div><strong style="color:white">${a.title.substring(0,40)}...</strong><br><span style="font-size:11px;color:#555">📅 ${a.date} | ✍ ${a.reporter}</span></div>
+    </div>
+  `).join('');
+
+  // Top articles
+  const top = [...articles].sort((a,b) => b.views - a.views).slice(0, 5);
+  document.getElementById('topArticlesTable').innerHTML = `
+    <thead><tr><th>ଶୀର୍ଷକ</th><th>ବିଭାଗ</th><th>ସଂବାଦଦାତା</th><th>ଭ୍ୟୁ</th></tr></thead>
+    <tbody>${top.map(a => `
+      <tr>
+        <td style="color:white;max-width:300px">${a.title}</td>
+        <td><span class="tag">${a.category}</span></td>
+        <td>${a.reporter}</td>
+        <td style="color:#C8102E;font-weight:700;font-family:'Playfair Display',serif">${a.views.toLocaleString()}</td>
+      </tr>
+    `).join('')}</tbody>
+  `;
+}
+
+// ===== ARTICLES TABLE =====
+function loadArticlesTable() {
+  const articles = DB.get('articles');
+  document.getElementById('articlesTableBody').innerHTML = articles.map(a => `
+    <tr>
+      <td style="color:white;max-width:280px">${a.title}</td>
+      <td><span class="tag">${a.category}</span></td>
+      <td>${a.reporter}</td>
+      <td>${a.date}</td>
+      <td style="color:#C8102E;font-weight:600">${a.views.toLocaleString()}</td>
+      <td><span class="status-badge status-${a.status}">${a.status === 'published' ? '✓ ପ୍ରକାଶିତ' : '✎ ଡ୍ରାଫ୍ଟ'}</span></td>
+      <td>
+        <button class="btn-edit" onclick="editArticle(${a.id})">✏ ସଂପାଦନ</button>
+        <button class="btn-danger" onclick="deleteArticle(${a.id})">🗑 ହଟାଅ</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+// ===== SAVE ARTICLE =====
+function saveArticle() {
+  const title = document.getElementById('artTitleInput').value.trim();
+  const cat = document.getElementById('artCatInput').value;
+  const reporter = document.getElementById('artReporterInput').value;
+  const excerpt = document.getElementById('artExcerptInput').value.trim();
+  const body = document.getElementById('artBodyInput').value.trim();
+  if (!title || !cat || !reporter || !excerpt || !body) { toast('⚠️ ସମସ୍ତ ଆବଶ୍ୟକ ଫିଲ୍ଡ ପୂରଣ', ''); return; }
+
+  const articles = DB.get('articles');
+  const editId = parseInt(document.getElementById('editArticleId').value);
+  const newArt = {
+    id: editId || Date.now(),
+    title, category: cat, reporter, excerpt, body,
+    date: document.getElementById('artDateInput').value || new Date().toISOString().split('T')[0],
+    image: document.getElementById('artImageInput').value || `https://picsum.photos/seed/${Date.now()}/800/500`,
+    status: document.getElementById('artStatusInput').value,
+    featured: document.getElementById('artFeaturedInput').checked,
+    views: 0
+  };
+
+  if (editId) {
+    const idx = articles.findIndex(a => a.id === editId);
+    if (idx > -1) { newArt.views = articles[idx].views; articles[idx] = newArt; }
+    toast('✅ ଲେଖା ଅପ୍ଡେଟ ହେଲା', 'success');
+  } else {
+    articles.push(newArt);
+    toast('✅ ଲେଖା ପ୍ରକାଶିତ ହେଲା', 'success');
+  }
+  DB.set('articles', articles);
+  resetArticleForm();
+  showSection('articles');
+}
+
+function editArticle(id) {
+  const art = DB.get('articles').find(a => a.id === id);
+  if (!art) return;
+  populateReporterDropdowns();
+  document.getElementById('editArticleId').value = id;
+  document.getElementById('artTitleInput').value = art.title;
+  document.getElementById('artCatInput').value = art.category;
+  document.getElementById('artReporterInput').value = art.reporter;
+  document.getElementById('artExcerptInput').value = art.excerpt;
+  document.getElementById('artBodyInput').value = art.body;
+  document.getElementById('artDateInput').value = art.date;
+  document.getElementById('artImageInput').value = art.image;
+  document.getElementById('artStatusInput').value = art.status;
+  document.getElementById('artFeaturedInput').checked = art.featured;
+  document.getElementById('articleFormTitle').textContent = '✏️ ଲେଖା ସଂପାଦନ';
+  showSection('add-article');
+}
+
+function deleteArticle(id) {
+  if (!confirm('ଆପଣ ଏହି ଲେଖା ହଟାଇବାକୁ ଚାହୁଁଛନ୍ତି?')) return;
+  DB.set('articles', DB.get('articles').filter(a => a.id !== id));
+  loadArticlesTable();
+  toast('🗑️ ଲେଖା ହଟାଗଲା', '');
+}
+
+function resetArticleForm() {
+  document.getElementById('editArticleId').value = '';
+  ['artTitleInput','artCatInput','artReporterInput','artExcerptInput','artBodyInput','artImageInput'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.getElementById('artFeaturedInput').checked = false;
+  document.getElementById('artStatusInput').value = 'published';
+  document.getElementById('articleFormTitle').textContent = '✏️ ନୂଆ ଲେଖା ଲେଖନ୍ତୁ';
+  document.getElementById('artDateInput').value = new Date().toISOString().split('T')[0];
+}
+
+// ===== VIDEOS =====
+function loadVideosTable() {
+  const videos = DB.get('videos');
+  document.getElementById('videosTableBody').innerHTML = videos.map(v => `
+    <tr>
+      <td style="color:white">${v.title}</td>
+      <td>${v.reporter}</td>
+      <td>${v.date}</td>
+      <td style="color:#C8102E;font-weight:600">${v.views.toLocaleString()}</td>
+      <td>
+        <button class="btn-edit" onclick="editVideo(${v.id})">✏ ସଂପାଦନ</button>
+        <button class="btn-danger" onclick="deleteVideo(${v.id})">🗑 ହଟାଅ</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function saveVideo() {
+  const title = document.getElementById('vidTitleInput').value.trim();
+  const ytId = document.getElementById('vidYtInput').value.trim();
+  if (!title || !ytId) { toast('⚠️ ଶୀର୍ଷକ ଓ YouTube ID ଆବଶ୍ୟକ'); return; }
+  const videos = DB.get('videos');
+  const editId = parseInt(document.getElementById('editVideoId').value);
+  const vid = {
+    id: editId || Date.now(), title,
+    youtubeId: ytId,
+    reporter: document.getElementById('vidReporterInput').value || 'ସଂପାଦକ',
+    date: document.getElementById('vidDateInput').value || new Date().toISOString().split('T')[0],
+    thumb: document.getElementById('vidThumbInput').value || `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`,
+    views: 0
+  };
+  if (editId) {
+    const idx = videos.findIndex(v => v.id === editId);
+    if (idx > -1) { vid.views = videos[idx].views; videos[idx] = vid; }
+    toast('✅ ଭିଡ଼ିଓ ଅପ୍ଡେଟ ହେଲା', 'success');
+  } else { videos.push(vid); toast('✅ ଭିଡ଼ିଓ ଯୋଡ଼ାଗଲା', 'success'); }
+  DB.set('videos', videos);
+  resetVideoForm();
+  showSection('videos');
+}
+
+function editVideo(id) {
+  const v = DB.get('videos').find(v => v.id === id);
+  if (!v) return;
+  populateReporterDropdowns();
+  document.getElementById('editVideoId').value = id;
+  document.getElementById('vidTitleInput').value = v.title;
+  document.getElementById('vidYtInput').value = v.youtubeId;
+  document.getElementById('vidReporterInput').value = v.reporter;
+  document.getElementById('vidDateInput').value = v.date;
+  document.getElementById('vidThumbInput').value = v.thumb;
+  document.getElementById('videoFormTitle').textContent = '🎬 ଭିଡ଼ିଓ ସଂପାଦନ';
+  showSection('add-video');
+}
+
+function deleteVideo(id) {
+  if (!confirm('ଭିଡ଼ିଓ ହଟାଅ?')) return;
+  DB.set('videos', DB.get('videos').filter(v => v.id !== id));
+  loadVideosTable();
+  toast('🗑️ ଭିଡ଼ିଓ ହଟାଗଲା');
+}
+
+function resetVideoForm() {
+  document.getElementById('editVideoId').value = '';
+  ['vidTitleInput','vidYtInput','vidReporterInput','vidThumbInput'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  document.getElementById('videoFormTitle').textContent = '🎬 ନୂଆ ଭିଡ଼ିଓ ଯୋଡ଼ନ୍ତୁ';
+}
+
+// ===== EPAPER ADMIN =====
+function loadEpaperAdmin() {
+  const list = document.getElementById('epaperAdminList');
+  const epapers = DB.get('epapers');
+  list.innerHTML = epapers.map(ep => `
+    <div style="padding:14px 16px;border-bottom:1px solid #1F1F1F;display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div style="color:white;font-size:13px">${ep.title}</div>
+        <div style="font-size:11px;color:#666">${ep.date} | ${ep.pages} ପୃଷ୍ଠା</div>
+      </div>
+      <button class="btn-danger" onclick="deleteEpaper(${ep.id})">🗑</button>
+    </div>
+  `).join('');
+}
+
+function saveEpaper() {
+  const title = document.getElementById('epTitleInput').value.trim();
+  const date = document.getElementById('epDateInput').value;
+  if (!title || !date) { toast('⚠️ ଶୀର୍ଷକ ଓ ତାରିଖ ଆବଶ୍ୟକ'); return; }
+  const epapers = DB.get('epapers');
+  epapers.unshift({
+    id: Date.now(), title,
+    date: new Date(date).toLocaleDateString('or-IN', {day:'numeric',month:'long',year:'numeric'}),
+    pages: parseInt(document.getElementById('epPagesInput').value) || 12,
+    file: document.getElementById('epFileInput').value || '#'
+  });
+  DB.set('epapers', epapers);
+  toast('✅ E-Paper ଯୋଡ଼ାଗଲା', 'success');
+  loadEpaperAdmin();
+  ['epTitleInput','epDateInput','epPagesInput','epFileInput'].forEach(id => document.getElementById(id).value = '');
+}
+
+function deleteEpaper(id) {
+  if (!confirm('E-Paper ହଟାଅ?')) return;
+  DB.set('epapers', DB.get('epapers').filter(e => e.id !== id));
+  loadEpaperAdmin();
+  toast('🗑️ E-Paper ହଟାଗଲା');
+}
+
+// ===== REPORTERS ADMIN =====
+function loadReportersAdmin() {
+  const reporters = DB.get('reporters');
+  document.getElementById('reportersGrid').innerHTML = reporters.map(r => `
+    <div class="reporter-card">
+      <div class="reporter-photo" style="background-image:url(${r.photo})"></div>
+      <div class="reporter-info">
+        <h4>${r.name}</h4>
+        <p>${r.role}</p>
+        <p style="color:var(--red);font-size:11px">${r.category}</p>
+        <p style="font-size:11px;color:#555">${r.email}</p>
+      </div>
+      <div class="reporter-stats">
+        <strong>${r.articles || 0}</strong>
+        <span>ଲେଖା</span>
+        <div style="margin-top:8px;display:flex;gap:6px">
+          <button class="btn-edit" onclick="editReporter(${r.id})" style="padding:4px 10px">✏</button>
+          <button class="btn-danger" onclick="deleteReporter(${r.id})" style="padding:4px 10px">🗑</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function saveReporter() {
+  const name = document.getElementById('repNameInput').value.trim();
+  if (!name) { toast('⚠️ ନାମ ଆବଶ୍ୟକ'); return; }
+  const reporters = DB.get('reporters');
+  const editId = parseInt(document.getElementById('editReporterId').value);
+  const rep = {
+    id: editId || Date.now(), name,
+    role: document.getElementById('repRoleInput').value || 'ସଂବାଦଦାତା',
+    category: document.getElementById('repCatInput').value,
+    email: document.getElementById('repEmailInput').value,
+    photo: document.getElementById('repPhotoInput').value || `https://picsum.photos/seed/${name}/100/100`,
+    articles: 0
+  };
+  if (editId) {
+    const idx = reporters.findIndex(r => r.id === editId);
+    if (idx > -1) { rep.articles = reporters[idx].articles; reporters[idx] = rep; }
+    toast('✅ ସଂବାଦଦାତା ଅପ୍ଡେଟ ହେଲା', 'success');
+  } else { reporters.push(rep); toast('✅ ସଂବାଦଦାତା ଯୋଡ଼ାଗଲା', 'success'); }
+  DB.set('reporters', reporters);
+  resetReporterForm();
+  loadReportersAdmin();
+}
+
+function editReporter(id) {
+  const r = DB.get('reporters').find(r => r.id === id);
+  if (!r) return;
+  document.getElementById('editReporterId').value = id;
+  document.getElementById('repNameInput').value = r.name;
+  document.getElementById('repRoleInput').value = r.role;
+  document.getElementById('repCatInput').value = r.category;
+  document.getElementById('repEmailInput').value = r.email;
+  document.getElementById('repPhotoInput').value = r.photo;
+}
+
+function deleteReporter(id) {
+  if (!confirm('ସଂବାଦଦାତା ହଟାଅ?')) return;
+  DB.set('reporters', DB.get('reporters').filter(r => r.id !== id));
+  loadReportersAdmin();
+  toast('🗑️ ସଂବାଦଦାତା ହଟାଗଲା');
+}
+
+function resetReporterForm() {
+  document.getElementById('editReporterId').value = '';
+  ['repNameInput','repRoleInput','repEmailInput','repPhotoInput'].forEach(id => document.getElementById(id).value = '');
+}
+
+// ===== ADS ADMIN =====
+function loadAdsAdmin() {
+  const ads = DB.get('ads');
+  document.getElementById('adsGrid').innerHTML = ads.map(ad => `
+    <div class="epaper-admin-card">
+      <div class="ad-preview">
+        ${ad.imageUrl ? `<img src="${ad.imageUrl}" onerror="this.style.display='none'">` : 'ବିଜ୍ଞାପନ ପ୍ରିଭ୍ୟୁ'}
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div style="color:white;font-size:13px;font-weight:600">${ad.title}</div>
+          <div style="font-size:11px;color:#666">${ad.position}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <label class="toggle-switch">
+            <input type="checkbox" ${ad.active?'checked':''} onchange="toggleAd(${ad.id})">
+            <span class="toggle-slider"></span>
+          </label>
+          <button class="btn-danger" onclick="deleteAd(${ad.id})" style="padding:4px 10px">🗑</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function saveAd() {
+  const title = document.getElementById('adTitleInput').value.trim();
+  if (!title) { toast('⚠️ ବିଜ୍ଞାପନ ନାମ ଆବଶ୍ୟକ'); return; }
+  const ads = DB.get('ads');
+  ads.push({
+    id: Date.now(), title,
+    position: document.getElementById('adPositionInput').value,
+    imageUrl: document.getElementById('adImageInput').value,
+    linkUrl: document.getElementById('adLinkInput').value,
+    active: true
+  });
+  DB.set('ads', ads);
+  toast('✅ ବିଜ୍ଞାପନ ଯୋଡ଼ାଗଲା', 'success');
+  resetAdForm();
+  loadAdsAdmin();
+}
+
+function toggleAd(id) {
+  const ads = DB.get('ads');
+  const idx = ads.findIndex(a => a.id === id);
+  if (idx > -1) { ads[idx].active = !ads[idx].active; DB.set('ads', ads); toast('ବିଜ୍ଞାପନ ସ୍ଥିତି ବଦଲିଲା'); }
+}
+
+function deleteAd(id) {
+  if (!confirm('ବିଜ୍ଞାପନ ହଟାଅ?')) return;
+  DB.set('ads', DB.get('ads').filter(a => a.id !== id));
+  loadAdsAdmin();
+  toast('🗑️ ବିଜ୍ଞାପନ ହଟାଗଲା');
+}
+
+function resetAdForm() {
+  ['adTitleInput','adImageInput','adLinkInput'].forEach(id => document.getElementById(id).value = '');
+}
+
+// ===== SETTINGS =====
+function saveSettings() {
+  const settings = {
+    siteName: document.getElementById('settSiteName').value,
+    tagline: document.getElementById('settTagline').value,
+    email: document.getElementById('settEmail').value,
+    phone: document.getElementById('settPhone').value,
+    fb: document.getElementById('settFb').value,
+    tw: document.getElementById('settTw').value,
+    yt: document.getElementById('settYt').value,
+  };
+  DB.setObj('settings', settings);
+  toast('✅ ସେଟିଂ ସଞ୍ଚୟ ହେଲା', 'success');
+}
+
+function changePassword() {
+  const curr = document.getElementById('currPass').value;
+  const newP = document.getElementById('newPass').value;
+  const conf = document.getElementById('confPass').value;
+  if (newP !== conf) { toast('⚠️ ନୂଆ ପାସ୍ ୱାର୍ଡ ମେଳ ଖାଉ ନାହିଁ'); return; }
+  if (newP.length < 6) { toast('⚠️ ପାସ୍ ୱାର୍ଡ ଅତି କମ ୬ ଅକ୍ଷର ହେବା ଦରକାର'); return; }
+  toast('✅ ପାସ୍ ୱାର୍ଡ ବଦଲିଗଲା', 'success');
+  ['currPass','newPass','confPass'].forEach(id => document.getElementById(id).value = '');
+}
+
+function exportData() {
+  const data = {
+    articles: DB.get('articles'),
+    videos: DB.get('videos'),
+    reporters: DB.get('reporters'),
+    epapers: DB.get('epapers'),
+    ads: DB.get('ads'),
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'mlf24_backup_' + Date.now() + '.json';
+  a.click();
+  toast('✅ ଡାଟା export ହେଲା', 'success');
+}
+
+function resetAll() {
+  ['articles','videos','reporters','epapers','ads','seeded'].forEach(key => localStorage.removeItem('mlf24_' + key));
+  toast('🗑️ ଡାଟା ହଟାଯାଇଛି। ରିଫ୍ରେଶ ହେଉଛି...');
+  setTimeout(() => location.reload(), 1500);
+}
+
+// ===== POPULATE REPORTER DROPDOWNS =====
+function populateReporterDropdowns() {
+  const reporters = DB.get('reporters');
+  const opts = reporters.map(r => `<option value="${r.name}">${r.name}</option>`).join('');
+  ['artReporterInput','vidReporterInput'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = '<option value="">ସଂବାଦଦାତା ଚୁଣନ୍ତୁ</option>' + opts;
+  });
+}
+
+// ===== SEARCH =====
+function handleSearch() {
+  const q = document.getElementById('globalSearch').value.toLowerCase();
+  if (!q) return;
+  const articles = DB.get('articles').filter(a => a.title.toLowerCase().includes(q) || a.category.toLowerCase().includes(q));
+  if (articles.length > 0) {
+    showSection('articles');
+    document.getElementById('articlesTableBody').innerHTML = articles.map(a => `
+      <tr>
+        <td style="color:white">${a.title}</td>
+        <td><span class="tag">${a.category}</span></td>
+        <td>${a.reporter}</td>
+        <td>${a.date}</td>
+        <td style="color:#C8102E;font-weight:600">${a.views.toLocaleString()}</td>
+        <td><span class="status-badge status-${a.status}">${a.status === 'published' ? '✓ ପ୍ରକାଶିତ' : '✎ ଡ୍ରାଫ୍ଟ'}</span></td>
+        <td>
+          <button class="btn-edit" onclick="editArticle(${a.id})">✏ ସଂପାଦନ</button>
+          <button class="btn-danger" onclick="deleteArticle(${a.id})">🗑 ହଟାଅ</button>
+        </td>
+      </tr>
+    `).join('');
+  }
+}
+
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded', () => {
+  seedData();
+  loadDashboard();
+  document.getElementById('artDateInput').value = new Date().toISOString().split('T')[0];
+  document.getElementById('vidDateInput').value = new Date().toISOString().split('T')[0];
+  document.getElementById('epDateInput').value = new Date().toISOString().split('T')[0];
+  populateReporterDropdowns();
+  loadAdminClock();
+});
+
+function loadAdminClock() {
+  const el = document.getElementById('adminClock');
+  if (el) el.textContent = new Date().toLocaleTimeString('or-IN');
+}
+setInterval(loadAdminClock, 1000);
+</script>
+</body>
+</html>
