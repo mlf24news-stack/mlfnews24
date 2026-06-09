@@ -1,263 +1,353 @@
--- ============================================
--- MLF NEWS24 — LATEST NEWS SEED DATA
--- Date: June 9, 2026
--- Language: Odia
--- Run this in Supabase SQL Editor
--- ============================================
+// ===== MLF NEWS 24 - MASTER SCRIPT =====
 
--- First add ପାଣିପାଗ category
-INSERT INTO categories (name, slug, color) VALUES
-  ('ପାଣିପାଗ', 'panipaga', '#2980B9')
-ON CONFLICT DO NOTHING;
+// ===== LOCAL STORAGE DATA STORE =====
+// DB = localStorage (replaced by Supabase)
+const DB = {
+  get: (key) => { try { return JSON.parse(localStorage.getItem('mlf24_' + key)) || []; } catch { return []; } },
+  set: (key, val) => localStorage.setItem('mlf24_' + key, JSON.stringify(val)),
+  getObj: (key, def = {}) => { try { return JSON.parse(localStorage.getItem('mlf24_' + key)) || def; } catch { return def; } },
+  setObj: (key, val) => localStorage.setItem('mlf24_' + key, JSON.stringify(val)),
+};
 
--- ============================================
--- INSERT LATEST NEWS ARTICLES
--- ============================================
+// ===== SEED DEFAULT DATA =====
+function seedData() {
+  if (DB.get('seeded').length > 0) return;
 
-INSERT INTO articles (title, slug, excerpt, body, image_url, category, reporter_name, status, is_featured, is_breaking, views, published_at) VALUES
+  const articles = [
+    { id: 1, title: 'ଭାରତ-ପାକ ସୀମାରେ ଉତ୍ତେଜନା, ସୈନ୍ୟ ସତର୍କ', excerpt: 'ପାକିସ୍ତାନ ଆଡ଼ୁ ବାରମ୍ବାର ଉସ୍କାଣି ପରେ ଭାରତୀୟ ସେନା ସଂପୂର୍ଣ ପ୍ରସ୍ତୁତ। ରକ୍ଷା ମନ୍ତ୍ରୀ ସଂସଦରେ ବୟାନ ଦେଲେ।', body: 'ସୀମାରେ ସ୍ଥିତି ଉତ୍ତେଜନାପୂର୍ଣ ରହିଛି। ଭାରତୀୟ ସୁରକ୍ଷା ବଳ ନିଯୁକ୍ତି ବଢ଼ାଇ ହାଇ ଆଲର୍ଟ ଜାରି କରିଛନ୍ତି। ରକ୍ଷା ମନ୍ତ୍ରୀ ରାଜନାଥ ସିଂ କହିଛନ୍ତି ଯେ ଭାରତ ପ୍ରତ୍ୟେକ ପରିସ୍ଥିତି ପାଇଁ ପ୍ରସ୍ତୁତ। ସୀମାବର୍ତ୍ତୀ ଅଞ୍ଚଳରେ ନଜରଦାରି ବଢ଼ାଯାଇଛି।', category: 'ରାଜନୀତି', reporter: 'ସୁଭଙ୍ଗ ପ୍ରଧାନ', date: '2024-04-29', image: 'https://picsum.photos/seed/news1/800/500', status: 'published', featured: true, views: 15420 },
+    { id: 2, title: 'IPL 2024: ମୁମ୍ବାଇ ଇଣ୍ଡିଆନ୍ସର ଅଭୂତପୂର୍ବ ଜୟ', excerpt: 'ମୁମ୍ବାଇ ଇଣ୍ଡିଆନ୍ସ ଦିଲ୍ଲୀ କ୍ୟାପିଟାଲ୍ସକୁ ୮ ୱିକେଟରେ ହରାଇଲା। ରୋହିତ ଶର୍ମାଙ୍କ ଝଡ଼ ବ୍ୟାଟିଂ।', body: 'ମୁମ୍ବାଇ ଇଣ୍ଡିଆନ୍ସ ଏକ ଅଭୂତପୂର୍ବ ପ୍ରଦର୍ଶନରେ ଦିଲ୍ଲୀ କ୍ୟାପିଟାଲ୍ସକୁ ୮ ୱିକେଟରେ ହରାଇଲା। ରୋହିତ ଶର୍ମା ୬୫ ବଲରେ ୮୯ ରନ ସ୍କୋର କଲେ। ଏହା ମୁମ୍ବାଇର ଏହି ସିଜନର ପଞ୍ଚମ ଜୟ।', category: 'ଖେଳ', reporter: 'ଅନୁଜ ନାୟକ', date: '2024-04-28', image: 'https://picsum.photos/seed/news2/800/500', status: 'published', featured: true, views: 22100 },
+    { id: 3, title: 'ଓଡ଼ିଆ ଚଳଚ୍ଚିତ୍ର: ନୂଆ ଚଳଚ୍ଚିତ୍ରର ଟ୍ରେଲର ମୁକ୍ତ', excerpt: '"କିଙ୍ଗ" ଟ୍ରେଲର ଦେଖି ଭକ୍ତ ଦୀୱାନା। ୨୪ ଘଣ୍ଟାରେ ୫ କୋଟି ଭ୍ୟୁ।', body: 'ନୂଆ ଚଳଚ୍ଚିତ୍ର "କିଙ୍ଗ"ର ଟ୍ରେଲର ମୁକ୍ତ ପାଇଛି ଏବଂ ୨୪ ଘଣ୍ଟାରେ ୫ କୋଟିରୁ ଅଧିକ ଭ୍ୟୁ ମିଳିଛି। ଭକ୍ତ ସୋସିଆଲ ମିଡ଼ିଆରେ ଏହାର ପ୍ରଶଂସା କରୁଛନ୍ତି।', category: 'ମନୋରଞ୍ଜନ', reporter: 'ସ୍ୱପ୍ନା ଦାଶ', date: '2024-04-27', image: 'https://picsum.photos/seed/news3/800/500', status: 'published', featured: true, views: 31500 },
+    { id: 4, title: 'ଶେୟାର ବଜାର: ସେନ୍ସେକ୍ସ ୧୨୦୦ ପଏଣ୍ଟ ଉପରେ, ବିନିଯୋଗକାରୀ ଖୁସି', excerpt: 'ବିଦେଶୀ ବିନିଯୋଗକାରୀଙ୍କ ଫେରାରୁ ବଜାରରେ ଉଛୁଳ। ନିଫ୍ଟି ମଧ୍ୟ ନୂଆ ରେକର୍ଡ ଗଢ଼ିଲା।', body: 'ଆଜି ମୁମ୍ବାଇ ଶେୟାର ବଜାରରେ ବ୍ୟାପକ ଉଲ୍ଲମ୍ଫ ଦେଖାଗଲା। ସେନ୍ସେକ୍ସ ୧୨୦୦ ପଏଣ୍ଟ ବୃଦ୍ଧି ସହ ବନ୍ଦ ହେଲା। ବିଦେଶୀ ସଂସ୍ଥାଗତ ବିନିଯୋଗକାରୀ ଏ ମାସ ୧୫ ହଜାର କୋଟି ଟଙ୍କାରୁ ଅଧିକ ବିନିଯୋଗ କରିଛନ୍ତି।', category: 'ବ୍ୟବସାୟ', reporter: 'ସଂଜୟ ମହାପାତ୍ର', date: '2024-04-26', image: 'https://picsum.photos/seed/news4/800/500', status: 'published', featured: false, views: 9800 },
+    { id: 5, title: 'AI ବିପ୍ଲବ: ଭାରତରେ ୧୦ ଲକ୍ଷ ଚାକିରି ସଙ୍କଟ', excerpt: 'ଆର୍ଟିଫିସିଆଲ ଇଣ୍ଟେଲିଜେନ୍ସ IT କ୍ଷେତ୍ରରେ ବଡ଼ ପରିବର୍ତ୍ତନ ଆଣିବ ବୋଲି ଆଶଙ୍କା। ସରକାର ସଚେଷ୍ଟ।', body: 'ଦେଶରେ ଆର୍ଟିଫିସିଆଲ ଇଣ୍ଟେଲିଜେନ୍ସର ବଢ଼ୁଥିବା ପ୍ରଭାବ ନେଇ ଏକ ନୂଆ ରିପୋର୍ଟ ଆସିଛି ଯେଉଁଥିରେ କୁହାଯାଇଛି ଅଗଲା ପାଞ୍ଚ ବର୍ଷରେ ୧୦ ଲକ୍ଷରୁ ଅଧିକ ଚାକିରି ସଙ୍କଟରେ ପଡ଼ିପାରେ।', category: 'ପ୍ରଯୁକ୍ତି', reporter: 'ରାହୁଲ ବର୍ମା', date: '2024-04-25', image: 'https://picsum.photos/seed/news5/800/500', status: 'published', featured: false, views: 18200 },
+    { id: 6, title: 'ୟୁକ୍ରେନ ଯୁଦ୍ଧ: ଆମେରିକା ଦେବ ୬୦ ଅରବ ଡଲାର ସାହାଯ୍ୟ', excerpt: 'ଆମେରିକୀ କଂଗ୍ରେସ ୟୁକ୍ରେନ ପାଇଁ ସାହାଯ୍ୟ ପ୍ୟାକେଜ ମଞ୍ଜୁର କଲା। ରୁଷ କଡ଼ା ଆପତ୍ତି ଜଣାଇଲା।', body: 'ଆମେରିକୀ କଂଗ୍ରେସ ୟୁକ୍ରେନ ପାଇଁ ୬୦ ଅରବ ଡଲାର ସାହାଯ୍ୟ ପ୍ୟାକେଜ ଅନୁମୋଦନ ଦେଇଛି। ଏଥିରେ ସାମରିକ ଓ ଆର୍ଥିକ ଉଭୟ ସାହାଯ୍ୟ ଅଛି। ରୁଷ ଏହି ସିଦ୍ଧାନ୍ତ ଉପରେ କଡ଼ା ଆପତ୍ତି ଜଣାଇଛି।', category: 'ଅନ୍ତର୍ଜାତୀୟ', reporter: 'ନେହା ମିଶ୍ର', date: '2024-04-24', image: 'https://picsum.photos/seed/news6/800/500', status: 'published', featured: false, views: 12300 },
+    { id: 7, title: 'ଓଡ଼ିଶା ସରକାରଙ୍କ ବଡ଼ ଘୋଷଣା: ୫ ଲକ୍ଷ ଘର ତିଆରି ହେବ', excerpt: 'ଆବାସ ଯୋଜନା ଅଧୀନରେ ଅଗଲା ୫ ବର୍ଷ ଭିତରେ ୫ ଲକ୍ଷ ଘର ତିଆରି ଲକ୍ଷ୍ୟ।', body: 'ଓଡ଼ିଶା ମୁଖ୍ୟମନ୍ତ୍ରୀ ଆଜି ଏକ ବଡ଼ ଘୋଷଣା କରି କହିଛନ୍ତି ଯେ ସରକାର ଅଗଲା ପାଞ୍ଚ ବର୍ଷରେ ୫ ଲକ୍ଷ ଘର ତିଆରି କରିବ। ଏହା ଆବାସ ଯୋଜନାର ବିସ୍ତାର ହେବ।', category: 'ରାଜନୀତି', reporter: 'ଅମିତ ପଣ୍ଡା', date: '2024-04-23', image: 'https://picsum.photos/seed/news7/800/500', status: 'published', featured: false, views: 7600 },
+    { id: 8, title: 'ଭୁବନେଶ୍ୱର ଓଡ଼ିଶା ବ୍ଲାଷ୍ଟର୍ସ: IPL ରୁ ନୂଆ ଇତିହାସ', excerpt: 'ଓଡ଼ିଶା ବ୍ଲାଷ୍ଟର୍ସ ପ୍ଲେ-ଅଫ ରଉଣ୍ଡ ଗଲା। ରାଜ୍ୟ ବ୍ୟାପୀ ଉତ୍ସାହ।', body: 'ଓଡ଼ିଶା ବ୍ଲାଷ୍ଟର୍ସ ଏକ ଐତିହାସିକ ଜୟ ସହ IPL ପ୍ଲେ-ଅଫ ଗଲେ। ସ୍ଥାନୀୟ ଖେଳାଳୀ ସୁଭଙ୍ଗ ପ୍ରଧାନ ୬୫ ବଲରେ ୯୨ ରନ ସ୍କୋର କଲେ। ରାଜ୍ୟ ଭରି ଖୁସି ତରଙ୍ଗ ଖେଳିଗଲା।', category: 'ଖେଳ', reporter: 'ସୁମିତ ରାୟ', date: '2024-04-22', image: 'https://picsum.photos/seed/news8/800/500', status: 'published', featured: false, views: 45000 },
+  ];
 
--- ===== ଓଡ଼ିଶା =====
-(
-  'ଭୁବନେଶ୍ୱରରେ ନୂଆ ମେଟ୍ରୋ ରେଲ ପ୍ରକଳ୍ପ ଘୋଷଣା',
-  'bhubaneswar-metro-rail-2026',
-  'ମୁଖ୍ୟମନ୍ତ୍ରୀ ଭୁବନେଶ୍ୱରରେ ୧୨,୦୦୦ କୋଟି ଟଙ୍କାର ମେଟ୍ରୋ ରେଲ ପ୍ରକଳ୍ପ ଘୋଷଣା କରିଛନ୍ତି। ୨୦୨୮ ସୁଦ୍ଧା ଏହା ସମ୍ପୂର୍ଣ୍ଣ ହେବ ବୋଲି ଆଶା।',
-  'ଭୁବନେଶ୍ୱର, ୯ ଜୁନ ୨୦୨୬: ଓଡ଼ିଶା ସରକାର ରାଜ୍ୟ ରାଜଧାନୀ ଭୁବନେଶ୍ୱରରେ ଏକ ଆଧୁନିକ ମେଟ୍ରୋ ରେଲ ସେବା ଆରମ୍ଭ କରିବା ପାଇଁ ୧୨,୦୦୦ କୋଟି ଟଙ୍କାର ପ୍ରକଳ୍ପ ଘୋଷଣା କରିଛି। ଏହି ପ୍ରକଳ୍ପ ଅଧୀନରେ ରାଜ୍ୟ ବିଧାନସଭାଠାରୁ ଆରମ୍ଭ କରି ଏୟାରପୋର୍ଟ ପର୍ଯ୍ୟନ୍ତ ୨୫ କିଲୋମିଟର ରୁଟ୍ ତିଆରି ହେବ।
+  const videos = [
+    { id: 1, title: 'ସୀମାରେ ଉତ୍ତେଜନା: ସମ୍ପୂର୍ଣ ରିପୋର୍ଟ ଦେଖନ୍ତୁ', thumb: 'https://picsum.photos/seed/vid1/400/250', youtubeId: 'dQw4w9WgXcQ', reporter: 'ସୁଭଙ୍ଗ ପ୍ରଧାନ', date: '2024-04-29', views: 8500 },
+    { id: 2, title: 'IPL 2024 ହାଇଲାଇଟ୍ସ: ମୁମ୍ବାଇ vs ଦିଲ୍ଲୀ', thumb: 'https://picsum.photos/seed/vid2/400/250', youtubeId: 'dQw4w9WgXcQ', reporter: 'ଅନୁଜ ନାୟକ', date: '2024-04-28', views: 12000 },
+    { id: 3, title: 'ନୂଆ ଓଡ଼ିଆ ଚଳଚ୍ଚିତ୍ର "ଜୟ ଓଡ଼ିଶା": ଟ୍ରେଲର ରିଭ୍ୟୁ', thumb: 'https://picsum.photos/seed/vid3/400/250', youtubeId: 'dQw4w9WgXcQ', reporter: 'ସ୍ୱପ୍ନା ଦାଶ', date: '2024-04-27', views: 21000 },
+    { id: 4, title: 'ଶେୟାର ବଜାରରେ ଉଲ୍ଲମ୍ଫ: କଣ ବିନିଯୋଗ କରିବେ?', thumb: 'https://picsum.photos/seed/vid4/400/250', youtubeId: 'dQw4w9WgXcQ', reporter: 'ସଂଜୟ ମହାପାତ୍ର', date: '2024-04-26', views: 5600 },
+  ];
 
-ମୁଖ୍ୟମନ୍ତ୍ରୀ ଶ୍ରୀ ମୋହନ ମାଝୀ ଏକ ସଂବାଦ ସମ୍ମେଳନରେ ଜଣାଇଲେ ଯେ ଏହି ମେଟ୍ରୋ ଭୁବନେଶ୍ୱରର ଯାନଜଟ ସମସ୍ୟା ସମାଧାନ କରିବ ଓ ୧ ଲକ୍ଷରୁ ଅଧିକ ଲୋକ ପ୍ରତିଦିନ ଏହାର ସୁବିଧା ପାଇବେ।
+  const reporters = [
+    { id: 1, name: 'ସୁଭଙ୍ଗ ପ୍ରଧାନ', role: 'ବରିଷ୍ଠ ସଂବାଦଦାତା', category: 'ରାଜନୀତି', email: 'rohit@mlf24.com', articles: 145, photo: 'https://picsum.photos/seed/rep1/100/100' },
+    { id: 2, name: 'ସ୍ୱପ୍ନା ଦାଶ', role: 'ମନୋରଞ୍ଜନ ସଂପାଦକ', category: 'ମନୋରଞ୍ଜନ', email: 'priya@mlf24.com', articles: 89, photo: 'https://picsum.photos/seed/rep2/100/100' },
+    { id: 3, name: 'ଅନୁଜ ନାୟକ', role: 'ଖେଳ ସଂବାଦଦାତା', category: 'ଖେଳ', email: 'anil@mlf24.com', articles: 201, photo: 'https://picsum.photos/seed/rep3/100/100' },
+    { id: 4, name: 'ସଂଜୟ ମହାପାତ୍ର', role: 'ବ୍ୟବସାୟ ସଂବାଦଦାତା', category: 'ବ୍ୟବସାୟ', email: 'sanjay@mlf24.com', articles: 67, photo: 'https://picsum.photos/seed/rep4/100/100' },
+  ];
 
-କେନ୍ଦ୍ର ସରକାର ଏହି ପ୍ରକଳ୍ପ ପାଇଁ ୫,୦୦୦ କୋଟି ଟଙ୍କା ଅନୁଦାନ ଦେବା ପାଇଁ ସ୍ୱୀକୃତି ଦେଇଛନ୍ତି ବୋଲି ଜଣାପଡ଼ିଛି।',
-  'https://picsum.photos/seed/metro2026/800/500',
-  'ଓଡ଼ିଶା', 'MLF NEWS24@LIVE', 'published', true, true, 15420,
-  '2026-06-09T08:00:00Z'
-),
+  const epapers = [
+    { id: 1, title: 'MLF News 24 - 29 April 2024', date: '29 April 2024', pages: 12, file: '#' },
+    { id: 2, title: 'MLF News 24 - 28 April 2024', date: '28 April 2024', pages: 10, file: '#' },
+    { id: 3, title: 'MLF News 24 - 27 April 2024', date: '27 April 2024', pages: 14, file: '#' },
+    { id: 4, title: 'MLF News 24 - 26 April 2024', date: '26 April 2024', pages: 12, file: '#' },
+    { id: 5, title: 'MLF News 24 - 25 April 2024', date: '25 April 2024', pages: 8, file: '#' },
+    { id: 6, title: 'MLF News 24 - 24 April 2024', date: '24 April 2024', pages: 10, file: '#' },
+    { id: 7, title: 'MLF News 24 - 23 April 2024', date: '23 April 2024', pages: 12, file: '#' },
+    { id: 8, title: 'MLF News 24 - 22 April 2024', date: '22 April 2024', pages: 10, file: '#' },
+  ];
 
-(
-  'ପୁରୀ ଜଗନ୍ନାଥ ଧାମ ଯୋଜନା: ୩ ଲକ୍ଷ ଭକ୍ତ ଦର୍ଶନ ଦେଲେ',
-  'puri-jagannath-dham-june-2026',
-  'ନୂଆ ଜଗନ୍ନାଥ ଧାମ ଯୋଜନା ଅଧୀନରେ ଏଯାଏ ୩ ଲକ୍ଷ ଭକ୍ତ ମନ୍ଦିର ଦର୍ଶନ କରିଛନ୍ତି। ସୁବ୍ୟବସ୍ଥା ଓ ସ୍ୱଚ୍ଛତା ଉପରେ ଭକ୍ତମାନେ ସନ୍ତୁଷ୍ଟ।',
-  'ପୁରୀ, ୯ ଜୁନ ୨୦୨୬: ଜଗନ୍ନାଥ ଧାମ ଯୋଜନା ଅନ୍ତର୍ଗତ ନୂଆ ବ୍ୟବସ୍ଥାରେ ଏ ପର୍ଯ୍ୟନ୍ତ ୩ ଲକ୍ଷ ଭକ୍ତ ଶ୍ରୀ ମନ୍ଦିରରେ ଭଗବାନ ଜଗନ୍ନାଥଙ୍କ ଦର୍ଶନ ପାଇଛନ୍ତି।
+  const ads = [
+    { id: 1, title: 'Amazon Summer Sale', position: 'header', imageUrl: 'https://picsum.photos/seed/ad1/970/90', linkUrl: '#', active: true },
+    { id: 2, title: 'Flipkart Big Sale', position: 'sidebar', imageUrl: 'https://picsum.photos/seed/ad2/300/250', linkUrl: '#', active: true },
+    { id: 3, title: 'JioCinema Promo', position: 'article-middle', imageUrl: 'https://picsum.photos/seed/ad3/728/90', linkUrl: '#', active: false },
+  ];
 
-ନୂଆ ୟାତ୍ରୀ ସୁବିଧା କେନ୍ଦ୍ର, ଡିଜିଟାଲ ଦର୍ଶନ ଟିକଟ ପ୍ରଣାଳୀ ଓ ଉନ୍ନତ ସୁରକ୍ଷା ବ୍ୟବସ୍ଥା ଭକ୍ତମାନଙ୍କୁ ଖୁସି କରୁଛି।
+  DB.set('articles', articles);
+  DB.set('videos', videos);
+  DB.set('reporters', reporters);
+  DB.set('epapers', epapers);
+  DB.set('ads', ads);
+  DB.set('seeded', [1]);
+}
 
-ମନ୍ଦିର ପ୍ରଶାସନ ଜଣାଇଲା ଯେ ରଥଯାତ୍ରା ପୂର୍ବରୁ ଆହୁରି ୫ ଲକ୍ଷ ଭକ୍ତ ଆସିବାର ସମ୍ଭାବନା ଅଛି।',
-  'https://picsum.photos/seed/puri2026/800/500',
-  'ଓଡ଼ିଶା', 'Khageswar Mallick', 'published', true, false, 22300,
-  '2026-06-09T07:30:00Z'
-),
+// ===== LIVE CLOCK =====
+function startClock() {
+  const el = document.getElementById('liveClock');
+  if (!el) return;
+  function update() {
+    const now = new Date();
+    el.textContent = now.toLocaleString('or-IN', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  }
+  update();
+  setInterval(update, 1000);
+}
 
-(
-  'ଓଡ଼ିଶାରେ ନୂଆ IT ପାର୍କ: ୫୦,୦୦୦ ଚାକିରି ସୁଯୋଗ',
-  'odisha-it-park-jobs-2026',
-  'ଭୁବନେଶ୍ୱର ଓ ଭଦ୍ରକରେ ଦୁଇଟି ନୂଆ IT ପାର୍କ ଖୋଲିବ। ଟାଟା, ଇନ୍‌ଫୋସିସ ଓ ୱିପ୍ରୋ ଏଥିରେ ବିନିଯୋଗ କରିବ।',
-  'ଭୁବନେଶ୍ୱର, ୯ ଜୁନ ୨୦୨୬: ଓଡ଼ିଶା ସରକାର ଭୁବନେଶ୍ୱର ଓ ଭଦ୍ରକରେ ଦୁଇଟି ବୃହତ IT ପାର୍କ ସ୍ଥାପନ କରିବାର ଯୋଜନା ଘୋଷଣା କରିଛି।
+// ===== BREAKING TICKER =====
+function loadTicker() {
+  const el = document.getElementById('breakingTicker');
+  if (!el) return;
+  const articles = DB.get('articles').filter(a => a.status === 'published').slice(0, 6);
+  el.innerHTML = articles.map(a => `<span class="ticker-item">${a.title}</span>`).join('');
+  // duplicate for loop
+  el.innerHTML += el.innerHTML;
+}
 
-ଟାଟା କନ୍‌ସଲ୍‌ଟ୍ୟାନ୍ସି ସର୍ଭିସ, ଇନ୍‌ଫୋସିସ ଏବଂ ୱିପ୍ରୋ ଏହି ପ୍ରକଳ୍ପରେ ମୋଟ ୮,୦୦୦ କୋଟି ଟଙ୍କା ବିନିଯୋଗ କରିବ ଏବଂ ଆଗାମୀ ୩ ବର୍ଷ ମଧ୍ୟରେ ୫୦,୦୦୦ ଯୁବ-ଯୁବତୀଙ୍କୁ ଚାକିରି ଦେବ।
+// ===== HERO SLIDER =====
+let heroIdx = 0;
+function loadHero() {
+  const container = document.getElementById('heroSlider');
+  const dots = document.getElementById('heroDots');
+  if (!container) return;
+  const featured = DB.get('articles').filter(a => a.status === 'published' && a.featured);
+  if (!featured.length) return;
 
-ମୁଖ୍ୟମନ୍ତ୍ରୀ କହିଲେ ଯେ ଓଡ଼ିଶା ଏବେ ପୂର୍ବ ଭାରତର IT ହବ ହୋଇଉଠୁଛି।',
-  'https://picsum.photos/seed/itpark2026/800/500',
-  'ଓଡ଼ିଶା', 'Priya Das', 'published', false, false, 9800,
-  '2026-06-09T06:00:00Z'
-),
+  container.innerHTML = featured.map(a => `
+    <div class="hero-slide" style="background-image:url(${a.image})" onclick="goArticle(${a.id})">
+      <div class="hero-content">
+        <span class="hero-category">${a.category}</span>
+        <h1 class="hero-title">${a.title}</h1>
+        <p class="hero-excerpt">${a.excerpt}</p>
+        <div class="hero-meta">
+          <span class="reporter">✍ ${a.reporter}</span> &nbsp;|&nbsp; 📅 ${a.date} &nbsp;|&nbsp; 👁 ${a.views.toLocaleString()}
+        </div>
+        <a href="article.html?id=${a.id}" class="hero-read-btn">ସଂପୂର୍ଣ ଖବର ପଢ଼ନ୍ତୁ →</a>
+      </div>
+    </div>
+  `).join('');
 
--- ===== ରାଜନୀତି =====
-(
-  'ଓଡ଼ିଶା ବିଧାନସଭାରେ ନୂଆ ଶିକ୍ଷା ବିଲ ପାସ',
-  'odisha-education-bill-2026',
-  'ଓଡ଼ିଶା ବିଧାନସଭାରେ ଆଜି ଐତିହାସିକ ଶିକ୍ଷା ସଂସ୍କାର ବିଲ ପାସ ହୋଇଛି। ସରକାରୀ ସ୍କୁଲଗୁଡ଼ିକରେ ଆଧୁନିକ ଶିକ୍ଷା ବ୍ୟବସ୍ଥା ଲାଗୁ ହେବ।',
-  'ଭୁବନେଶ୍ୱର, ୯ ଜୁନ ୨୦୨୬: ଓଡ଼ିଶା ବିଧାନସଭାରେ ଆଜି ଐତିହାସିକ ଓଡ଼ିଶା ଶିକ୍ଷା ସଂସ୍କାର ବିଲ ୨୦୨୬ ପାସ ହୋଇଛି।
+  if (dots) {
+    dots.innerHTML = featured.map((_, i) => `<button class="hero-dot ${i===0?'active':''}" onclick="goSlide(${i})"></button>`).join('');
+  }
 
-ଏହି ବିଲ ଅଧୀନରେ ରାଜ୍ୟର ସମସ୍ତ ସରକାରୀ ବିଦ୍ୟାଳୟରେ ଡିଜିଟାଲ ଶ୍ରେଣୀଗୃହ, ଉଚ୍ଚ ଗତି ଇଣ୍ଟର୍ନେଟ ଓ ଆଧୁନିକ ଲ୍ୟାବ ସୁବିଧା ଦିଆଯିବ।
+  setInterval(() => goSlide((heroIdx + 1) % featured.length), 5000);
+}
 
-ଶିକ୍ଷାମନ୍ତ୍ରୀ ଜଣାଇଲେ ଯେ ଆଗାମୀ ୨ ବର୍ଷ ମଧ୍ୟରେ ୧୦,୦୦୦ ଶିକ୍ଷକ ନିଯୁକ୍ତ ହେବେ। ବିରୋଧ ଦଳ ଏହି ବିଲ ସ୍ୱାଗତ କରିଥିଲେ ମଧ୍ୟ ଦ୍ରୁତ ବାସ୍ତବାୟନ ଦାବି କଲା।',
-  'https://picsum.photos/seed/politics2026/800/500',
-  'ରାଜନୀତି', 'Rohit Nayak', 'published', true, false, 18700,
-  '2026-06-09T09:00:00Z'
-),
+function goSlide(idx) {
+  heroIdx = idx;
+  const slider = document.getElementById('heroSlider');
+  if (slider) slider.style.transform = `translateX(-${idx * 100}%)`;
+  document.querySelectorAll('.hero-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+}
 
-(
-  'ୟୁଥ କଂଗ୍ରେସ ଓ BJP ମଧ୍ୟରେ ଉତ୍ତେଜନା: ଭୁବନେଶ୍ୱରରେ ଧାରଣା',
-  'youth-congress-bjp-tension-2026',
-  'ବେରୋଜଗାର ସମସ୍ୟା ଓ ଜ୍ୱଳନ୍ତ ଇଂଧନ ମୂଲ୍ୟ ବୃଦ୍ଧିକୁ ନେଇ ଆଜି ଭୁବନେଶ୍ୱରରେ ୟୁଥ କଂଗ୍ରେସ ବଡ଼ ଧାରଣା ଦେଲା।',
-  'ଭୁବନେଶ୍ୱର, ୯ ଜୁନ ୨୦୨୬: ରାଜ୍ୟରେ ବଢ଼ୁଥିବା ବେରୋଜଗାର ସମସ୍ୟା ଓ ଇଂଧନ ମୂଲ୍ୟ ବୃଦ୍ଧିର ପ୍ରତିବାଦରେ ୟୁଥ କଂଗ୍ରେସ ଆଜି ଭୁବନେଶ୍ୱର ଜନ୍ତର ମନ୍ତରରେ ବିଶାଳ ଧାରଣା ଦେଲା।
+function goArticle(id) {
+  window.location.href = `article.html?id=${id}`;
+}
 
-ହଜାରେ ହଜାରେ ଯୁବ ନେତା ଏଥିରେ ଯୋଗ ଦେଲେ। ପୋଲିସ ଏ ପ୍ରସଙ୍ଗରେ ୫ ଜଣ ନେତାଙ୍କୁ ଅଟକ ରଖି ଛଡ଼ି ଦେଲା।
+// ===== TOP STORIES =====
+function loadTopStories() {
+  const grid = document.getElementById('topStoriesGrid');
+  if (!grid) return;
+  const articles = DB.get('articles').filter(a => a.status === 'published').slice(0, 5);
+  grid.innerHTML = articles.map((a, i) => `
+    <a href="article.html?id=${a.id}" class="story-card ${i===0?'featured':''}">
+      <div class="card-img" style="background-image:url(${a.image})">
+        <span class="card-category">${a.category}</span>
+      </div>
+      <div class="card-body">
+        <h3 class="card-title">${a.title}</h3>
+        <p class="card-excerpt">${a.excerpt}</p>
+        <div class="card-meta">
+          <span class="card-reporter">✍ ${a.reporter}</span>
+          <span>📅 ${a.date}</span>
+        </div>
+      </div>
+    </a>
+  `).join('');
+}
 
-BJP ନେତା ଏହାକୁ ରାଜନୈତିକ ଆୟୋଜନ ବୋଲି ଆଖ୍ୟା ଦେଲେ।',
-  'https://picsum.photos/seed/politics2b2026/800/500',
-  'ରାଜନୀତି', 'Sangita Patra', 'published', false, false, 7600,
-  '2026-06-09T10:30:00Z'
-),
+// ===== TRENDING =====
+function loadTrending() {
+  const list = document.getElementById('trendingList');
+  if (!list) return;
+  const articles = DB.get('articles').filter(a => a.status === 'published').sort((a,b) => b.views - a.views).slice(0, 6);
+  list.innerHTML = articles.map(a => `
+    <li onclick="goArticle(${a.id})">${a.title}</li>
+  `).join('');
+}
 
--- ===== ଖେଳ =====
-(
-  'IPL 2026: KKR ଫାଇନାଲରେ MI କୁ ହରାଇ ଚ୍ୟାମ୍ପିଅନ',
-  'ipl-2026-kkr-champion',
-  'କୋଲକାତା ନାଇଟ ରାଇଡର୍ସ ଆଜି IPL 2026 ଫାଇନାଲରେ ମୁମ୍ବାଇ ଇଣ୍ଡିଆନ୍ସକୁ ୭ ୱିକେଟରେ ହରାଇ ଚ୍ୟାମ୍ପିଅନ ହୋଇଛି।',
-  'ଅହମଦାବାଦ, ୯ ଜୁନ ୨୦୨୬: ନରେନ୍ଦ୍ର ମୋଦୀ ଷ୍ଟାଡ଼ିଅମରେ ଅନୁଷ୍ଠିତ IPL 2026 ଫାଇନାଲ ମ୍ୟାଚ୍‌ରେ ଆଜି KKR ଐତିହାସିକ ବିଜୟ ହାସଲ କଲା।
+// ===== CATEGORY SECTIONS =====
+function loadCategorySections() {
+  const el = document.getElementById('categorySections');
+  if (!el) return;
+  const cats = ['ରାଜନୀତି', 'ଖେଳ', 'ମନୋରଞ୍ଜନ', 'ବ୍ୟବସାୟ'];
+  const articles = DB.get('articles').filter(a => a.status === 'published');
+  el.innerHTML = cats.map(cat => {
+    const catArticles = articles.filter(a => a.category === cat).slice(0, 4);
+    if (!catArticles.length) return '';
+    return `
+      <section class="cat-section">
+        <h2 class="section-title"><span>${cat}</span></h2>
+        <div class="cat-grid">
+          ${catArticles.map(a => `
+            <a href="article.html?id=${a.id}" class="story-card">
+              <div class="card-img" style="background-image:url(${a.image})">
+                <span class="card-category">${a.category}</span>
+              </div>
+              <div class="card-body">
+                <h3 class="card-title">${a.title}</h3>
+                <div class="card-meta">
+                  <span class="card-reporter">✍ ${a.reporter}</span>
+                  <span>${a.date}</span>
+                </div>
+              </div>
+            </a>
+          `).join('')}
+        </div>
+        <div style="text-align:right;margin-top:12px">
+          <a href="category.html?cat=${cat}" class="see-all-btn">${cat} ର ସମସ୍ତ ଖବର →</a>
+        </div>
+      </section>
+    `;
+  }).join('');
+}
 
-MI ପ୍ରଥମେ ବ୍ୟାଟ୍ କରି ୨୦ ଓଭରରେ ୧୮୫ ରନ୍ ସ୍କୋର କଲା। KKR ୧୮.୩ ଓଭରରେ ୭ ୱିକେଟ ହରାଇ ଲକ୍ଷ୍ୟ ହାସଲ କଲା।
+// ===== HOME VIDEO GRID =====
+function loadHomeVideos() {
+  const grid = document.getElementById('homeVideoGrid');
+  if (!grid) return;
+  const videos = DB.get('videos').slice(0, 4);
+  grid.innerHTML = videos.map(v => `
+    <a href="video.html?id=${v.id}" class="video-card">
+      <div class="video-thumb" style="background-image:url(${v.thumb})">
+        <div class="play-icon">▶</div>
+      </div>
+      <div class="video-info">
+        <div class="video-title">${v.title}</div>
+        <div class="video-meta">✍ ${v.reporter} • 👁 ${v.views.toLocaleString()}</div>
+      </div>
+    </a>
+  `).join('');
+}
 
-ଶ୍ରେୟସ ଆୟ୍ୟର ୭୨ ବଲ୍‌ରେ ୯୧ ରନ୍ ସ୍କୋର କରି ମ୍ୟାନ ଅଫ ଦ ମ୍ୟାଚ ହେଲେ। ଓଡ଼ିଶାର ଦ୍ୱିତୀୟ ଖେଳାଳି ଅଭିଷେକ ରୟ ୩ ୱିକେଟ ନେଇ ଦଳ ଜିତାଇଲେ।',
-  'https://picsum.photos/seed/ipl2026/800/500',
-  'ଖେଳ', 'Suresh Behera', 'published', true, true, 45200,
-  '2026-06-09T22:00:00Z'
-),
+// ===== ARTICLE PAGE =====
+function loadArticlePage() {
+  if (!document.querySelector('.article-page')) return;
+  const params = new URLSearchParams(window.location.search);
+  const id = parseInt(params.get('id'));
+  const article = DB.get('articles').find(a => a.id === id);
+  if (!article) { document.querySelector('.article-page').innerHTML = '<p>ଲେଖା ମିଳିଲା ନାହିଁ।</p>'; return; }
 
-(
-  'ଓଡ଼ିଶା FC ଆଇଏସଏଲ ସେମିଫାଇନାଲ ପ୍ରବେଶ କଲା',
-  'odisha-fc-isl-semifinal-2026',
-  'ଓଡ଼ିଶା FC ଆଜି ମୁମ୍ବାଇ ସିଟି FC ବିରୁଦ୍ଧ ୨-୦ ଗୋଲ୍‌ରେ ଜିତି ISL ସେମିଫାଇନାଲ ପ୍ରବେଶ କଲା। ସମର୍ଥକଙ୍କ ଆନନ୍ଦ।',
-  'ଭୁବନେଶ୍ୱର, ୯ ଜୁନ ୨୦୨୬: ଓଡ଼ିଶା FC ଆଜି ଘରୋଇ ମଇଦାନ କଲିଙ୍ଗ ଷ୍ଟାଡ଼ିଅମରେ ମୁମ୍ବାଇ ସିଟି FCକୁ ୨-୦ ଗୋଲ୍‌ରେ ହରାଇ ISL ସେମିଫାଇନାଲ ଯୋଗ୍ୟ ହେଲା।
+  // increment views
+  const articles = DB.get('articles');
+  const idx = articles.findIndex(a => a.id === id);
+  if (idx > -1) { articles[idx].views++; DB.set('articles', articles); }
 
-ଡ଼ିଏଗୋ ମ୍ୟୁରିଲୋ ୨ ଗୋଲ ସ୍କୋର କଲେ। ୩୦,୦୦୦ ଦର୍ଶକ ଷ୍ଟାଡ଼ିଅମ ଭରାଇ ଦଳକୁ ସମର୍ଥନ ଜଣାଇଲେ।',
-  'https://picsum.photos/seed/odishafc2026/800/500',
-  'ଖେଳ', 'Amit Kumar', 'published', false, false, 12400,
-  '2026-06-09T21:00:00Z'
-),
+  document.title = article.title + ' - MLF News 24';
+  document.getElementById('artCategory').textContent = article.category;
+  document.getElementById('artTitle').textContent = article.title;
+  document.getElementById('artReporter').textContent = '✍ ' + article.reporter;
+  document.getElementById('artDate').textContent = '📅 ' + article.date;
+  document.getElementById('artViews').textContent = '👁 ' + article.views.toLocaleString();
+  document.getElementById('artHeroImg').style.backgroundImage = `url(${article.image})`;
+  document.getElementById('artBody').innerHTML = article.body.split('\n').map(p => `<p>${p}</p>`).join('');
 
--- ===== ମନୋରଞ୍ଜନ =====
-(
-  'ଓଡ଼ିଆ ଚଳଚ୍ଚିତ୍ର "ଆଲୋ" ଜାତୀୟ ପୁରସ୍କାର ପାଇଲା',
-  'odia-film-alo-national-award-2026',
-  'ଓଡ଼ିଆ ଚଳଚ୍ଚିତ୍ର "ଆଲୋ" ୭୩ତମ ଜାତୀୟ ଚଳଚ୍ଚିତ୍ର ପୁରସ୍କାରରେ ସର୍ବଶ୍ରେଷ୍ଠ ଆଞ୍ଚଳିକ ଚଳଚ୍ଚିତ୍ର ଖିତାବ ଜିତିଛି।',
-  'ନୂଆଦିଲ୍ଲୀ, ୯ ଜୁନ ୨୦୨୬: ଓଡ଼ିଆ ଚଳଚ୍ଚିତ୍ର "ଆଲୋ" ଆଜି ଦିଲ୍ଲୀରେ ଅନୁଷ୍ଠିତ ୭୩ତମ ଜାତୀୟ ଚଳଚ୍ଚିତ୍ର ପୁରସ୍କାର ସମ୍ମାନ ଅନୁଷ୍ଠାନରେ ସର୍ବଶ୍ରେଷ୍ଠ ଆଞ୍ଚଳିକ ଚଳଚ୍ଚିତ୍ର ପୁରସ୍କାର ଜିତିଛି।
+  // Related
+  const related = DB.get('articles').filter(a => a.id !== id && a.status === 'published').slice(0, 3);
+  const relGrid = document.getElementById('relatedGrid');
+  if (relGrid) {
+    relGrid.innerHTML = related.map(a => `
+      <a href="article.html?id=${a.id}" class="story-card">
+        <div class="card-img" style="background-image:url(${a.image})">
+          <span class="card-category">${a.category}</span>
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">${a.title}</h3>
+          <div class="card-meta"><span class="card-reporter">✍ ${a.reporter}</span></div>
+        </div>
+      </a>
+    `).join('');
+  }
+}
 
-ନିର୍ଦ୍ଦେଶକ ସୁଧାଂଶୁ ଶ୍ରୀ ମହାପାତ୍ର ଓ ଅଭିନେତ୍ରୀ ଅର୍ଚ୍ଚିତା ସ୍ୱଇନ ସ୍ୱର୍ଣ ପଦ୍ମ ଗ୍ରହଣ କଲେ।
+// ===== CATEGORY PAGE =====
+function loadCategoryPage() {
+  if (!document.querySelector('.category-page')) return;
+  const params = new URLSearchParams(window.location.search);
+  const cat = params.get('cat') || 'ସବୁ';
+  document.getElementById('catTitle').textContent = cat;
+  document.title = cat + ' - MLF News 24';
 
-ରାଷ୍ଟ୍ରପତି ଶ୍ରୀ ଦ୍ରୌପଦୀ ମୁର୍ମୁ ଓଡ଼ିଶାର ଏହି ସଫଳତାରେ ଖୁସି ପ୍ରକାଶ କରି ଅଭିନୟ ଦଳକୁ ଅଭିନନ୍ଦନ ଜଣାଇଲେ।',
-  'https://picsum.photos/seed/odiamovie2026/800/500',
-  'ମନୋରଞ୍ଜନ', 'Itishree Nanda', 'published', true, false, 28900,
-  '2026-06-09T15:00:00Z'
-),
+  let articles = DB.get('articles').filter(a => a.status === 'published');
+  if (cat !== 'ସବୁ') articles = articles.filter(a => a.category === cat);
 
-(
-  'ସାମ୍ବଲପୁରୀ ଗାୟକ ହୁମ ହୁମ ଆନ୍ତର୍ଜାତୀୟ ମଞ୍ଚ ଜିତିଲେ',
-  'sambalpuri-singer-international-stage-2026',
-  'ସାମ୍ବଲପୁରୀ ଲୋକ ଗୀତ ଗାୟକ ଜୁବୀ ମହାନ୍ତ ଲଣ୍ଡନ ୱାର୍ଲ୍ଡ ମ୍ୟୁଜିକ ଫେଷ୍ଟ ୨୦୨୬ ରେ ପ୍ରଥମ ପୁରସ୍କାର ଜିତି ଓଡ଼ିଶାକୁ ଗୌରବ ଆଣିଲେ।',
-  'ଲଣ୍ଡନ/ଭୁବନେଶ୍ୱର, ୯ ଜୁନ ୨୦୨୬: ୩୦ ଦେଶର ୧୫୦ ଶିଳ୍ପୀଙ୍କ ସହ ପ୍ରତିଯୋଗିତା କରି ସାମ୍ବଲପୁରୀ ଲୋକ ଗୀତ ଗାୟକ ଜୁବୀ ମହାନ୍ତ ଲଣ୍ଡନ ୱାର୍ଲ୍ଡ ମ୍ୟୁଜିକ ଫେଷ୍ଟ ୨୦୨୬ ରେ ପ୍ରଥମ ସ୍ଥାନ ଅଧିକାର କଲେ।
+  const grid = document.getElementById('catArticlesGrid');
+  if (grid) {
+    grid.innerHTML = articles.map(a => `
+      <a href="article.html?id=${a.id}" class="story-card">
+        <div class="card-img" style="background-image:url(${a.image})">
+          <span class="card-category">${a.category}</span>
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">${a.title}</h3>
+          <p class="card-excerpt">${a.excerpt}</p>
+          <div class="card-meta">
+            <span class="card-reporter">✍ ${a.reporter}</span>
+            <span>📅 ${a.date}</span>
+          </div>
+        </div>
+      </a>
+    `).join('');
+  }
+}
 
-ସାମ୍ବଲପୁରୀ "ହୁ ହୁ ହୁ" ଗୀତ ଦର୍ଶକଙ୍କ ହୃଦୟ ଜିତିଲା। ମୁଖ୍ୟମନ୍ତ୍ରୀ ଟ୍ୱିଟରରେ ଅଭିନନ୍ଦନ ଜଣାଇଲେ।',
-  'https://picsum.photos/seed/sambalpuri2026/800/500',
-  'ମନୋରଞ୍ଜନ', 'Priya Das', 'published', false, false, 19300,
-  '2026-06-09T14:00:00Z'
-),
+// ===== VIDEO PAGE =====
+function loadVideoPage() {
+  const grid = document.getElementById('videoPageGrid');
+  if (!grid) return;
+  const videos = DB.get('videos');
+  grid.innerHTML = videos.map(v => `
+    <div class="video-card" onclick="playVideo('${v.youtubeId}', '${v.title}')">
+      <div class="video-thumb" style="background-image:url(${v.thumb})">
+        <div class="play-icon">▶</div>
+      </div>
+      <div class="video-info">
+        <div class="video-title">${v.title}</div>
+        <div class="video-meta">✍ ${v.reporter} | 📅 ${v.date} | 👁 ${v.views.toLocaleString()}</div>
+      </div>
+    </div>
+  `).join('');
+}
 
--- ===== ବ୍ୟବସାୟ =====
-(
-  'ରୁପି ବିନିମୟ ହାର: ଡଲର ବିରୁଦ୍ଧ ୮୩.୫ ରୁ ୮୨.୯ ରେ ଉଠିଲା',
-  'rupee-dollar-exchange-june-2026',
-  'ଆଜି ଭାରତୀୟ ରୁପିଆ ୬ ମାସ ମଧ୍ୟରେ ସର୍ବୋଚ୍ଚ ସ୍ତରରେ ପହଞ୍ଚିଛି। ବ୍ୟବସାୟ ଜଗତରେ ଉତ୍ସାହ।',
-  'ମୁମ୍ବାଇ, ୯ ଜୁନ ୨୦୨୬: ବିଦେଶୀ ବିନିଯୋଗ ବୃଦ୍ଧି ଓ ରପ୍ତାନି ବୃଦ୍ଧି ଫଳରେ ଭାରତୀୟ ରୁପିଆ ଆଜି ଡଲର ପ୍ରତି ୮୨.୯ ରେ ବ୍ୟବସାୟ ଶେଷ ହୋଇଛି।
+function playVideo(ytId, title) {
+  const modal = document.getElementById('videoModal');
+  const frame = document.getElementById('videoFrame');
+  const titleEl = document.getElementById('videoModalTitle');
+  if (!modal) return;
+  frame.src = `https://www.youtube.com/embed/${ytId}?autoplay=1`;
+  if (titleEl) titleEl.textContent = title;
+  modal.style.display = 'flex';
+}
 
-ସେନ୍ସେକ୍ସ ୮୦,୫୦୦ ଅଙ୍କ ଅତିକ୍ରମ କଲା। ନିଫ୍ଟି ୨୪,୨୦୦ ରେ ବନ୍ଦ ହୋଇଛି। ଓଡ଼ିଶার ଟାଟା ଷ୍ଟିଲ ଓ NALCO ସ୍ଟକ ନୂଆ ଉଚ୍ଚ ଛୁଇଁଲା।',
-  'https://picsum.photos/seed/market2026/800/500',
-  'ବ୍ୟବସାୟ', 'Sanjay Patnaik', 'published', false, false, 8900,
-  '2026-06-09T16:30:00Z'
-),
+function closeVideoModal() {
+  const modal = document.getElementById('videoModal');
+  const frame = document.getElementById('videoFrame');
+  if (modal) modal.style.display = 'none';
+  if (frame) frame.src = '';
+}
 
-(
-  'ଓଡ଼ିଶାର ୟୁବ ଉଦ୍ୟୋଗୀ ₹୧୦୦ କୋଟି Startup ଗଢ଼ିଲା',
-  'odisha-startup-100-crore-2026',
-  'ବ୍ରଜରାଜ ନଗରରର ୨୪ ବର୍ଷୀୟ ଯୁବ ଉଦ୍ୟୋଗୀ ଅଭିଜ୍ଞ ସ୍ୱାଇଁ ତାଙ୍କ AgriTech Startup ₹୧୦୦ କୋଟି ଟ୍ୟୁ ପହଞ୍ଚାଇ ଓଡ଼ିଶାକୁ ଗୌରବ ଆଣିଲେ।',
-  'ଭୁବନେଶ୍ୱର, ୯ ଜୁନ ୨୦୨୬: ବ୍ରଜରାଜ ନଗରର ୨୪ ବର୍ଷୀୟ ଅଭିଜ୍ଞ ସ୍ୱାଇଁ ତାଙ୍କ AgriTech Startup "ଶ୍ୟାମ ଫାର୍ମ ଟେକ" ଆଜି ₹୧୦୦ କୋଟି ଭ୍ୟାଲ୍ୟୁ ହାସଲ କଲା।
+// ===== E-PAPER PAGE =====
+function loadEpaperPage() {
+  const grid = document.getElementById('epaperGrid');
+  if (!grid) return;
+  const epapers = DB.get('epapers');
+  grid.innerHTML = epapers.map((ep, i) => `
+    <div class="epaper-card">
+      <div class="epaper-thumb">📰</div>
+      <div class="epaper-info">
+        <div class="epaper-date">${ep.date}</div>
+        <div class="epaper-title">${ep.title}</div>
+        <div style="font-size:12px;color:#888;margin-top:4px">ପୃଷ୍ଠା: ${ep.pages}</div>
+        <a href="${ep.file}" class="epaper-download">📥 PDF ଡାଉନଲୋଡ</a>
+      </div>
+    </div>
+  `).join('');
+}
 
-ଏହି App ଓଡ଼ିଶାର ୫ ଲକ୍ଷ କୃଷକଙ୍କୁ ସିଧା ବଜାର ସଂଯୋଗ କରୁଛି। ସରକାର ଏହି ଉଦ୍ୟୋଗୀଙ୍କୁ "Odisha Youth Icon 2026" ପୁରସ୍କାର ଦେବ।',
-  'https://picsum.photos/seed/startup2026/800/500',
-  'ବ୍ୟବସାୟ', 'Sanjay Patnaik', 'published', false, false, 14200,
-  '2026-06-09T11:00:00Z'
-),
-
--- ===== ସ୍ୱାସ୍ଥ୍ୟ =====
-(
-  'AIIMS ଭୁବନେଶ୍ୱରରେ ନୂଆ କ୍ୟାନ୍ସର ଚିକିତ୍ସା ବ୍ୟବସ୍ଥା',
-  'aiims-bhubaneswar-cancer-treatment-2026',
-  'AIIMS ଭୁବନେଶ୍ୱରରେ ଅତ୍ୟାଧୁନିକ Proton Therapy ଯନ୍ତ୍ର ସ୍ଥାପିତ ହେଲା। ପୂର୍ବ ଭାରତରେ ଏହା ପ୍ରଥମ।',
-  'ଭୁବନେଶ୍ୱର, ୯ ଜୁନ ୨୦୨୬: AIIMS ଭୁବନେଶ୍ୱରରେ ଆଜି ଅତ୍ୟାଧୁନିକ Proton Therapy ଯନ୍ତ୍ର ଆନୁଷ୍ଠାନିକ ଭାବେ ଉଦ୍ଘାଟନ ହୋଇଛି।
-
-ଏହି ଯନ୍ତ୍ର ପୂର୍ବ ଭାରତରେ ପ୍ରଥମ ଏବଂ ଏଥିଦ୍ୱାରା ମସ୍ତିଷ୍କ, ମେରୁଦଣ୍ଡ ଓ ଶିଶୁ କ୍ୟାନ୍ସରର ଉଚ୍ଚ ଦକ୍ଷତାରେ ଚିକିତ୍ସା ସମ୍ଭବ।
-
-ସ୍ୱାସ୍ଥ୍ୟ ମନ୍ତ୍ରୀ ଜଣାଇଲେ ଯେ ଏହି ଚିକିତ୍ସା BPL ରୋଗୀଙ୍କ ପାଇଁ ବିନାମୂଲ୍ୟ ଦିଆଯିବ।',
-  'https://picsum.photos/seed/aiims2026/800/500',
-  'ସ୍ୱାସ୍ଥ୍ୟ', 'Dr. Rekha Mohanty', 'published', false, false, 11300,
-  '2026-06-09T08:30:00Z'
-),
-
-(
-  'ଓଡ଼ିଶାରେ ଡ଼େଙ୍ଗୁ ସତର୍କତା: ସ୍ୱାସ୍ଥ୍ୟ ବିଭାଗ ଆଲର୍ଟ',
-  'odisha-dengue-alert-june-2026',
-  'ଓଡ଼ିଶାର ୫ ଜିଲ୍ଲାରେ ଡ଼େଙ୍ଗୁ ଜ୍ୱର ବଢ଼ୁଥିବାରୁ ସ୍ୱାସ୍ଥ୍ୟ ବିଭାଗ ସୁଉଚ୍ଚ ସତର୍କତା ଜାରି କଲା।',
-  'ଭୁବନେଶ୍ୱର, ୯ ଜୁନ ୨୦୨୬: ଓଡ଼ିଶାର ଭୁବନେଶ୍ୱର, କଟକ, ପୁରୀ, ସମ୍ବଲପୁର ଓ ରାଉରକେଲା ଜିଲ୍ଲାରେ ଡ଼େଙ୍ଗୁ ଜ୍ୱର ମାମଲା ଦ୍ରୁତ ଗତିରେ ବଢ଼ୁଥିବାରୁ ସ୍ୱାସ୍ଥ୍ୟ ଓ ପରିବାର କଲ୍ୟାଣ ବିଭାଗ ଅ‌ଲର୍ଟ ଜାରି କରିଛି।
-
-ଜନସାଧାରଣଙ୍କୁ ଘରଠାରୁ ଦୂରରେ ଜଳ ଜମିବ ନ ଦେବା, ଲୁହାବସ୍ତ୍ର ଭ‌ଲ ଭ‌ଲ ଲଗାଇ ଶୋଇବା ବୋଲି ନିର୍ଦ୍ଦେଶ ଦିଆ ଯାଇଛି। 24 ଘଣ୍ଟିଆ ହେଲ୍ପଲାଇନ 104 ଉପଲବ୍ଧ।',
-  'https://picsum.photos/seed/dengue2026/800/500',
-  'ସ୍ୱାସ୍ଥ୍ୟ', 'Dr. Rekha Mohanty', 'published', false, true, 16700,
-  '2026-06-09T12:00:00Z'
-),
-
--- ===== ଶିକ୍ଷା =====
-(
-  'OJEE 2026 ଫଳାଫଳ ପ୍ରକାଶ: ଟପ୍ ୧୦ ରେ ୬ ଜଣ ଓଡ଼ିଆ',
-  'ojee-2026-results',
-  'ଓଡ଼ିଶା ଯୁଗ୍ମ ପ୍ରବେଶ ପ‌ରୀକ୍ଷା ୨୦୨୬ ଫଳ ଆଜି ପ୍ରକାଶ ପାଇଲା। ୧.୨ ଲକ୍ଷ ପ‌ରୀକ୍ଷାର୍ଥୀ ଏଥିରେ ଅଂଶ ନେଇଥ‌ିଲେ।',
-  'ଭୁବନେଶ୍ୱର, ୯ ଜୁନ ୨୦୨୬: OJEE 2026 ଫଳ ଆଜି ଅଧିକୃତ ୱେବସାଇଟ ojee.nic.in ରେ ପ୍ରକାଶ ପାଇଛି।
-
-ଏ ବର୍ଷ ୧.୨ ଲକ୍ଷ ପ‌ରୀକ୍ଷାର୍ଥୀ ଏଥିରେ ଅଂଶ ନେଇଥ‌ିଲେ। ଟପ‌ ୧୦ ରେ ୬ ଜଣ ଓଡ଼ିଶାର ଛାତ୍ରଛାତ୍ରୀ ସ୍ଥାନ ପାଇଛନ୍ତି।
-
-ଟପ‌ ରାଙ୍କ ହୋଲ୍ଡର ସୌମ୍ୟଶ୍ରୀ ଦାଶ (ଭୁବନେଶ୍ୱର) 99.8 ପ‌ର୍ସେଣ୍ଟ‌ ନ୍ୱ ହ‌ ସ‌ ଓ ତ‌ ର‌ ପ‌ ଆ‌ ହ‌ ‌।',
-  'https://picsum.photos/seed/ojee2026/800/500',
-  'ଶିକ୍ଷା', 'Khageswar Mallick', 'published', false, false, 31200,
-  '2026-06-09T13:00:00Z'
-),
-
-(
-  'NEET ପ‌ପ‌ ର‌ ଲ‌ ବ‌ ବ‌ ଦ‌ ର‌ ଦ‌ ସ‌ ରକ‌ ର‌ ଦ‌ ଏ',
-  'neet-paper-leak-odisha-protest-2026',
-  'NEET ପ‌ ର‌ ଲ‌ ବ‌ ବ‌ ଦ‌ ରେ‌ ଦ‌ ୨‌ ହ‌ ଜ‌ ର‌ ଛ‌ ତ‌ ଛ‌ ତ‌ ର‌ ଭ‌ ବ‌ ନ‌ ଶ‌ ୱ‌ ର‌ ଧ‌ ର‌ ଣ‌ ।',
-  'ଭୁବନେଶ୍ୱର, ୯ ଜୁନ ୨୦୨୬: NEET ପ‌ ର‌ ଲ‌ ବ‌ ର‌ ଆ‌ ର‌ ପ‌ ନ‌ ୨‌ ହ‌ ଜ‌ ର‌ ର‌ ଅ‌ ଧ‌ ‌ ଛ‌ ତ‌ ଛ‌ ତ‌ ର‌ ଆ‌ ଜ‌ ଭ‌ ବ‌ ନ‌ ଶ‌ ୱ‌ ର‌ ଜ‌ ନ‌ ତ‌ ର‌ ମ‌ ନ‌ ତ‌ ର‌ ର‌ ଧ‌ ର‌ ଣ‌ ।
-
-ଛ‌ ତ‌ ର‌ ୟ‌ ବ‌ ଦ‌ ଦ‌ ବ‌ ‌ ।',
-  'https://picsum.photos/seed/neet2026/800/500',
-  'ଶିକ୍ଷା', 'Sangita Patra', 'published', false, true, 25100,
-  '2026-06-09T11:30:00Z'
-),
-
--- ===== ଅନ୍ତର୍ଜାତୀୟ =====
-(
-  'ଭାରତ-ଚୀନ ସୀମା ଚୁକ୍ତ‌ ସ‌ ହ‌ ।',
-  'india-china-border-agreement-2026',
-  'ଭ‌ ର‌ ତ‌ ଓ‌ ଚ‌ ନ‌ ଆ‌ ଜ‌ LAC ର‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ।',
-  'ନ‌ ।',
-  'https://picsum.photos/seed/indchina2026/800/500',
-  'ଅନ୍ତର୍ଜାତୀୟ', 'Rohit Nayak', 'published', false, true, 19800,
-  '2026-06-09T07:00:00Z'
-),
-
--- ===== ପାଣିପାଗ =====
-(
-  'ଓଡ଼ିଶାରେ ବର୍ଷା ଋତୁ ଆଗମନ: IMD ଆଗୁଆ ସତର୍କତା',
-  'odisha-monsoon-arrival-2026',
-  'ଭାରତ ପ‌ ବ‌ ହ‌ ବ‌ ଡ‌ ।',
-  'ଭ‌ ।',
-  'https://picsum.photos/seed/weather2026/800/500',
-  'ପାଣିପାଗ', 'IMD Correspondent', 'published', false, false, 7800,
-  '2026-06-09T06:30:00Z'
-);
-
--- ============================================
--- UPDATE BREAKING TICKER WITH TODAY'S NEWS
--- ============================================
-
-DELETE FROM breaking_ticker;
-
-INSERT INTO breaking_ticker (text, link, is_active, sort_order) VALUES
-  ('KKR ଆଜି IPL 2026 ଜିତିଲା — ଅଭିଷେକ ରୟ ମ୍ୟାନ ଅଫ ଦ ମ୍ୟାଚ', '/article.html', TRUE, 1),
-  ('ଓଡ଼ିଶା FC ISL ସେମିଫାଇନାଲ ପ୍ରବେଶ — ୨-୦ ଗୋଲ୍‌ରେ ଜିତ', '/article.html', TRUE, 2),
-  ('ଭୁବନେଶ୍ୱରରେ ₹୧୨,୦୦୦ କୋଟି ମେଟ୍ରୋ ପ୍ରକଳ୍ପ ଘୋଷଣା', '/article.html', TRUE, 3),
-  ('OJEE 2026 ଫଳ ପ୍ରକାଶ — ojee.nic.in ରେ ଦେଖନ୍ତୁ', '/article.html', TRUE, 4),
-  ('ଓଡ଼ିଶାର "ଆଲୋ" ଜାତୀୟ ଚଳଚ୍ଚିତ୍ର ପୁରସ୍କାର ଜିତିଲା', '/article.html', TRUE, 5),
-  ('ଡ଼େଙ୍ଗୁ ସତର୍କତା: ୫ ଜିଲ୍ଲାରେ ଆଲର୍ଟ — ସ୍ୱାସ୍ଥ୍ୟ ବିଭାଗ', '/article.html', TRUE, 6),
-  ('MLF News24 — ଓଡ଼ିଶାର ସବୁଠୁ ବିଶ୍ୱସ୍ତ ସମାଚାର ଚ୍ୟାନେଲ', '/', TRUE, 7);
-
--- ============================================
--- SUCCESS! Latest Odia news added.
--- ============================================
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded', () => {
+  seedData();
+  startClock();
+  loadTicker();
+  loadHero();
+  loadTopStories();
+  loadTrending();
+  loadCategorySections();
+  loadHomeVideos();
+  loadArticlePage();
+  loadCategoryPage();
+  loadVideoPage();
+  loadEpaperPage();
+});
