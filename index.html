@@ -142,5 +142,15 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/supabase-config.js"></script>
 <script src="script.js"></script>
+  <script>
+// Load social links from settings
+document.addEventListener('DOMContentLoaded', () => {
+  const settings = DB.getObj('settings');
+  if (settings.fb) document.getElementById('socialFb').href = settings.fb;
+  if (settings.wa) document.getElementById('socialWa').href = 'https://wa.me/' + settings.wa.replace(/[^0-9]/g, '');
+  if (settings.ig) document.getElementById('socialIg').href = settings.ig;
+  if (settings.yt) document.getElementById('socialYt').href = settings.yt;
+});
+</script>
 </body>
 </html>
