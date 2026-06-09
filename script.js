@@ -2,7 +2,7 @@
 
 // ===== LOCAL STORAGE DATA STORE =====
 // DB = localStorage (replaced by Supabase)
-const _DB_UNUSED = {
+const DB = {
   get: (key) => { try { return JSON.parse(localStorage.getItem('mlf24_' + key)) || []; } catch { return []; } },
   set: (key, val) => localStorage.setItem('mlf24_' + key, JSON.stringify(val)),
   getObj: (key, def = {}) => { try { return JSON.parse(localStorage.getItem('mlf24_' + key)) || def; } catch { return def; } },
