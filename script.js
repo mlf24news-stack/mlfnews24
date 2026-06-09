@@ -336,6 +336,33 @@ function loadEpaperPage() {
   `).join('');
 }
 
+// ===== LOAD ADS =====
+function loadAds() {
+  const ads = DB.get('ads').filter(a => a.active);
+  
+  // Sidebar ad
+  const sidebarAd = ads.find(a => a.position === 'sidebar');
+  const sidebarEl = document.getElementById('sidebarAd');
+  if (sidebarAd && sidebarEl) {
+    sidebarEl.innerHTML = `
+      <a href="${sidebarAd.linkUrl || '#'}" target="_blank">
+        <img src="${sidebarAd.imageUrl}" alt="${sidebarAd.title}" 
+             style="width:100%;border-radius:6px;display:block;">
+      </a>`;
+  }
+
+  // Bottom/footer ad
+  const bottomAd = ads.find(a => a.position === 'footer' || a.position === 'header');
+  const bottomEl = document.getElementById('bottomAd');
+  if (bottomAd && bottomEl) {
+    bottomEl.innerHTML = `
+      <a href="${bottomAd.linkUrl || '#'}" target="_blank">
+        <img src="${bottomAd.imageUrl}" alt="${bottomAd.title}" 
+             style="max-width:100%;border-radius:6px;display:block;margin:0 auto;">
+      </a>`;
+  }
+}
+
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', () => {
   seedData();
@@ -350,4 +377,5 @@ document.addEventListener('DOMContentLoaded', () => {
   loadCategoryPage();
   loadVideoPage();
   loadEpaperPage();
+  loadAds();
 });
