@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MLF News 24 - ତାଜା ଖବର</title>
+<title>MLF News 24 - ବିଶ୍ୱସ୍ତ ଓଡ଼ିଆ ସମାଚାର</title>
 <link rel="stylesheet" href="style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Odia:wght@400;700&family=Playfair+Display:wght@700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -14,9 +14,7 @@
 <div class="breaking-bar">
   <span class="breaking-label">🔴 BREAKING</span>
   <div class="ticker-wrap">
-    <div class="ticker" id="breakingTicker">
-      <!-- Populated by JS -->
-    </div>
+    <div class="ticker" id="breakingTicker"></div>
   </div>
 </div>
 
@@ -27,104 +25,96 @@
       <div class="logo-icon">M</div>
       <div class="logo-text">
         <span class="logo-main">MLF News 24</span>
-        <span class="logo-tagline">ସତ୍ୟର ସ୍ୱର • ପ୍ରତି ମୁହୂର୍ତ</span>
+        <span class="logo-tagline">ସତ୍ୟର ସ୍ୱର • ସବୁ ସମୟ</span>
       </div>
     </div>
     <div class="header-meta">
       <span id="liveClock"></span>
       <a href="epaper.html" class="epaper-btn">📰 E-Paper</a>
-      <a href="admin/index.html" class="admin-btn">⚙ Admin</a>
+      
     </div>
   </div>
   <nav class="main-nav">
-    <a href="index.html" class="active">ହୋମ</a>
+    <a href="index.html" class="active">Home</a>
     <a href="category.html?cat=ରାଜନୀତି">ରାଜନୀତି</a>
     <a href="category.html?cat=ଖେଳ">ଖେଳ</a>
     <a href="category.html?cat=ମନୋରଞ୍ଜନ">ମନୋରଞ୍ଜନ</a>
     <a href="category.html?cat=ବ୍ୟବସାୟ">ବ୍ୟବସାୟ</a>
-    <a href="category.html?cat=ପ୍ରଯୁକ୍ତି">ପ୍ରଯୁକ୍ତି</a>
-    <a href="category.html?cat=ଅନ୍ତର୍ଜାତୀୟ">ଅନ୍ତର୍ଜାତୀୟ</a>
-    <a href="video.html">📺 ଭିଡ଼ିଓ</a>
+    <a href="category.html?cat=ସ୍ୱାସ୍ଥ୍ୟ">ସ୍ୱାସ୍ଥ୍ୟ</a>
+    <a href="category.html?cat=ଅନ୍ତର୍ଜାତୀୟ">International</a>
+    <a href="category.html?cat=ଓଡ଼ିଶା">ଓଡ଼ିଶା</a>
+    <a href="video.html">📺 Videos</a>
   </nav>
 </header>
 
 <!-- Hero Section -->
 <section class="hero-section">
-  <div class="hero-slider" id="heroSlider">
-    <!-- Populated by JS -->
-  </div>
+  <div class="hero-slider" id="heroSlider"></div>
   <div class="hero-dots" id="heroDots"></div>
 </section>
 
 <!-- Main Content Grid -->
 <main class="main-grid">
-  
-  <!-- Top Stories -->
   <section class="top-stories">
-    <h2 class="section-title"><span>ମୁଖ୍ୟ ସମ୍ବାଦ</span></h2>
-    <div class="stories-grid" id="topStoriesGrid">
-      <!-- Populated by JS -->
-    </div>
+    <h2 class="section-title"><span>Top Stories</span></h2>
+    <div class="stories-grid" id="topStoriesGrid"></div>
   </section>
 
-  <!-- Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-widget trending">
-      <h3>🔥 ଟ୍ରେଣ୍ଡିଂ</h3>
+      <h3>🔥 Trending</h3>
       <ol id="trendingList"></ol>
     </div>
     <div class="sidebar-widget ads-widget" id="sidebarAd">
-      <!-- Ad -->
+      Advertisement
     </div>
     <div class="sidebar-widget weather-widget">
-      <h3>🌤 ଆବହାୱା</h3>
+      <h3>🌤 Weather / ପାଣିପାଗ</h3>
       <div class="weather-info">
-        <div class="weather-city">ଭୁବନେଶ୍ୱର</div>
-        <div class="weather-temp">32°C</div>
-        <div class="weather-desc">ଆଂଶିକ ମେଘ</div>
+        <div class="weather-city">Bhubaneswar</div>
+        <div class="weather-temp">34°C</div>
+        <div class="weather-desc">Partly Cloudy</div>
       </div>
     </div>
   </aside>
-
 </main>
 
 <!-- Category Sections -->
-<div class="category-sections" id="categorySections">
-  <!-- Populated by JS -->
-</div>
+<div class="category-sections" id="categorySections"></div>
 
 <!-- Video Section -->
 <section class="video-section">
-  <h2 class="section-title"><span>📺 ଭିଡ଼ିଓ ସମ୍ବାଦ</span></h2>
+  <h2 class="section-title"><span>📺 Video News</span></h2>
   <div class="video-grid" id="homeVideoGrid"></div>
-  <a href="video.html" class="see-all-btn">ସମସ୍ତ ଭିଡ଼ିଓ ଦେଖନ୍ତୁ →</a>
+  <a href="video.html" class="see-all-btn">All Videos →</a>
 </section>
 
 <!-- Ad Banner -->
-<div class="ad-banner" id="bottomAd"></div>
+<div class="ad-banner" id="bottomAd">Advertisement</div>
 
 <!-- Footer -->
 <footer class="site-footer">
   <div class="footer-grid">
     <div class="footer-col">
       <div class="footer-logo">MLF News 24</div>
-      <p>ଓଡ଼ିଶାର ବିଶ୍ୱସ୍ତ ସମ୍ବାଦ ଉତ୍ସ। ପ୍ରତି ଖବର, ପ୍ରତି ମୁହୂର୍ତ।</p>
+      <p>Odisha's trusted news source. ଓଡ଼ିଶାର ବିଶ୍ୱସ୍ତ ସମାଚାର ଉତ୍ସ।</p>
     </div>
     <div class="footer-col">
-      <h4>ଦ୍ରୁତ ଲିଙ୍କ</h4>
-      <a href="index.html">ହୋମ</a>
-      <a href="video.html">ଭିଡ଼ିଓ</a>
+      <h4>Quick Links</h4>
+      <a href="index.html">Home</a>
+      <a href="video.html">Videos</a>
       <a href="epaper.html">E-Paper</a>
     </div>
     <div class="footer-col">
-      <h4>ବିଭାଗ</h4>
+      <h4>Categories</h4>
       <a href="category.html?cat=ରାଜନୀତି">ରାଜନୀତି</a>
       <a href="category.html?cat=ଖେଳ">ଖେଳ</a>
+      <a href="category.html?cat=ଓଡ଼ିଶା">ଓଡ଼ିଶା</a>
       <a href="category.html?cat=ବ୍ୟବସାୟ">ବ୍ୟବସାୟ</a>
     </div>
     <div class="footer-col">
-      <h4>ଯୋଗାଯୋଗ</h4>
-      <p>📧 news@mlf24.com</p>
+      <h4>Contact Us</h4>
+      <p>📧 news@mlfnews24.com</p>
       <p>📞 +91 98765 43210</p>
       <div class="social-links">
         <a href="#">FB</a><a href="#">TW</a><a href="#">YT</a><a href="#">IG</a>
@@ -132,7 +122,7 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2024 MLF News 24. ସମସ୍ତ ଅଧିକାର ସଂରକ୍ଷିତ।</p>
+    <p>© 2026 MLF News 24 — My Lifeline Foundation. All Rights Reserved.</p>
   </div>
 </footer>
 
