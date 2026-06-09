@@ -484,7 +484,33 @@ body { background: #0A0A0A; }
 <div id="toast" style="display:none" class="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="../supabase-config.js"></script>
+<script>
+const SUPABASE_URL = 'https://crltkbziyghpaqphdnzo.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNybHRrYnppeWdocGFxcGhkbnpvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1NzUyMzksImV4cCI6MjA5NTE1MTIzOX0.eM_hobjbUW4j-yLX7n5YSxj1uLEoRAbU9TgxmW6cHYI';
+const CLOUDINARY_CLOUD_NAME = 'dfenmdfjo';
+const CLOUDINARY_UPLOAD_PRESET = 'mlf24news';
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+async function uploadToCloudinary(file, folder = 'articles') {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+  formData.append('folder', `mlf24news/${folder}`);
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, { method: 'POST', body: formData });
+  const data = await res.json();
+  return data.secure_url;
+}
+async function uploadPDFToCloudinary(file) {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+  formData.append('folder', 'mlf24news/epapers');
+  formData.append('resource_type', 'raw');
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/raw/upload`, { method: 'POST', body: formData });
+  const data = await res.json();
+  return data.secure_url;
+}
+</script>
 <script src="../script.js"></script>
 <script>
 // ===== ADMIN CLOCK =====
