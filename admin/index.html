@@ -6,20 +6,20 @@
 <title>Admin Panel - MLF News 24</title>
 <link rel="stylesheet" href="../style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&family=Playfair+Display:wght@700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Odia:wght@400;700&family=Playfair+Display:wght@700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
 body { background: #0A0A0A; }
-.admin-search { 
-  background: #111; border: 1px solid #333; border-radius: 6px; 
-  padding: 10px 16px; color: white; font-size: 13px; width: 260px; 
+.admin-search {
+  background: #111; border: 1px solid #333; border-radius: 6px;
+  padding: 10px 16px; color: white; font-size: 13px; width: 260px;
 }
 .admin-search::placeholder { color: #555; }
 .admin-search:focus { outline: none; border-color: #C8102E; }
 .chart-bar-wrap { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
-.chart-bar-label { min-width:80px; font-size:12px; color:#888; }
-.chart-bar { height:28px; background:linear-gradient(90deg,#C8102E,#8B0000); border-radius:4px; display:flex; align-items:center; padding:0 10px; font-size:12px; color:white; font-weight:600; }
+.chart-bar-label { min-width:90px; font-size:12px; color:#888; }
+.chart-bar { height:28px; background:linear-gradient(90deg,#C8102E,#8B0000); border-radius:4px; display:flex; align-items:center; padding:0 10px; font-size:12px; color:white; font-weight:600; min-width:40px; }
 .activity-item { display:flex; gap:12px; padding:12px 0; border-bottom:1px solid #1F1F1F; font-size:13px; color:#aaa; }
-.activity-dot { width:8px;height:8px;background:var(--red);border-radius:50%;margin-top:5px;flex-shrink:0; }
+.activity-dot { width:8px;height:8px;background:#C8102E;border-radius:50%;margin-top:5px;flex-shrink:0; }
 .reporter-card { background:#1A1A1A; border:1px solid #262626; border-radius:8px; padding:20px; display:flex; gap:16px; align-items:center; }
 .reporter-photo { width:60px;height:60px;border-radius:50%;background:#333;background-size:cover;background-position:center;flex-shrink:0; }
 .reporter-info h4 { font-size:15px; color:white; margin-bottom:4px; }
@@ -42,7 +42,6 @@ body { background: #0A0A0A; }
 </style>
 </head>
 <body>
-
 <div class="admin-layout">
 
   <!-- SIDEBAR -->
@@ -78,7 +77,7 @@ body { background: #0A0A0A; }
       </a>
       <a class="admin-nav-item" onclick="showSection('reporters')">
         <span class="admin-nav-icon">👤</span>
-        <span class="admin-nav-label">Reporter</span>
+        <span class="admin-nav-label">Reporters / ସଂବାଦଦାତା</span>
       </a>
       <a class="admin-nav-item" onclick="showSection('ads')">
         <span class="admin-nav-icon">📢</span>
@@ -86,7 +85,7 @@ body { background: #0A0A0A; }
       </a>
       <a class="admin-nav-item" onclick="showSection('settings')">
         <span class="admin-nav-icon">⚙️</span>
-        <span class="admin-nav-label">Settings</span>
+        <span class="admin-nav-label">Settings / ସେଟିଂ</span>
       </a>
     </nav>
     <div style="padding:20px;border-top:1px solid #222;">
@@ -101,7 +100,7 @@ body { background: #0A0A0A; }
     <div class="admin-topbar">
       <h1 id="pageTitle">Dashboard</h1>
       <div style="display:flex;align-items:center;gap:16px">
-        <input class="admin-search" placeholder="🔍 Search..." id="globalSearch" oninput="handleSearch()">
+        <input class="admin-search" placeholder="🔍 Search articles..." id="globalSearch" oninput="handleSearch()">
         <div style="color:#888;font-size:13px" id="adminClock"></div>
       </div>
     </div>
@@ -113,49 +112,43 @@ body { background: #0A0A0A; }
         <div class="stats-grid">
           <div class="stat-card">
             <div class="stat-icon">📰</div>
-            <div class="stat-number" id="statArticles">0</div>
+            <div class="stat-number" id="statArticles">...</div>
             <div class="stat-label">Total Articles</div>
-            <div class="stat-change">↑ 3 Today</div>
+            <div class="stat-change" id="statArticlesChange">Loading...</div>
           </div>
           <div class="stat-card">
             <div class="stat-icon">👁</div>
-            <div class="stat-number" id="statViews">0</div>
-            <div class="stat-label">Total Views</div>
-            <div class="stat-change">↑ 12% This week</div>
+            <div class="stat-number" id="statViews">...</div>
+            <div class="stat-label">Total Views / ଭ୍ୟୁ</div>
+            <div class="stat-change">↑ This week</div>
           </div>
           <div class="stat-card">
             <div class="stat-icon">🎬</div>
-            <div class="stat-number" id="statVideos">0</div>
-            <div class="stat-label">वीडियो</div>
-            <div class="stat-change">↑ 2 Today</div>
+            <div class="stat-number" id="statVideos">...</div>
+            <div class="stat-label">Videos / ଭିଡ଼ିଓ</div>
+            <div class="stat-change" id="statVideosChange">Loading...</div>
           </div>
           <div class="stat-card">
             <div class="stat-icon">👤</div>
-            <div class="stat-number" id="statReporters">0</div>
-            <div class="stat-label">Reporter</div>
+            <div class="stat-number" id="statReporters">...</div>
+            <div class="stat-label">Reporters / ସଂବାଦଦାତା</div>
             <div class="stat-change">Active</div>
           </div>
         </div>
 
         <div class="grid-2">
           <div class="admin-table-wrap">
-            <div class="table-header">
-              <h2>📈 Category Performance</h2>
-            </div>
+            <div class="table-header"><h2>📈 Category Performance</h2></div>
             <div style="padding:20px" id="categoryChart"></div>
           </div>
           <div class="admin-table-wrap">
-            <div class="table-header">
-              <h2>🕐 Recent Activity</h2>
-            </div>
+            <div class="table-header"><h2>🕐 Recent Activity / ସାମ୍ପ୍ରତିକ</h2></div>
             <div style="padding:16px" id="activityFeed"></div>
           </div>
         </div>
 
         <div class="admin-table-wrap" style="margin-top:24px">
-          <div class="table-header">
-            <h2>🔥 Most Read Articles</h2>
-          </div>
+          <div class="table-header"><h2>🔥 Most Read / ସବୁଠୁ ଅଧିକ ପଢ଼ା</h2></div>
           <table class="admin-table" id="topArticlesTable"></table>
         </div>
       </div>
@@ -164,14 +157,14 @@ body { background: #0A0A0A; }
       <div id="sec-articles" class="admin-section">
         <div class="admin-table-wrap">
           <div class="table-header">
-            <h2>All Articles</h2>
+            <h2>All Articles / ସମସ୍ତ ଖବର</h2>
             <button class="btn-primary" onclick="showSection('add-article')">+ New Article</button>
           </div>
-          <table class="admin-table" id="articlesTable">
+          <table class="admin-table">
             <thead>
               <tr>
-                <th>Title</th>
-                <th>Category</th>
+                <th>Title / ଶୀର୍ଷକ</th>
+                <th>Category / ବିଭାଗ</th>
                 <th>Reporter</th>
                 <th>Date</th>
                 <th>Views</th>
@@ -187,68 +180,89 @@ body { background: #0A0A0A; }
       <!-- ===== ADD ARTICLE ===== -->
       <div id="sec-add-article" class="admin-section">
         <div class="admin-form">
-          <h2 style="font-size:18px;margin-bottom:24px;color:white" id="articleFormTitle">✏️ New Article लिखें</h2>
+          <h2 style="font-size:18px;margin-bottom:24px;color:white" id="articleFormTitle">✏️ New Article / ନୂଆ ଖବର</h2>
           <input type="hidden" id="editArticleId">
+
           <div class="form-group">
-            <label class="form-label">Title *</label>
-            <input class="form-input" id="artTitleInput" placeholder="Article का Title लिखें...">
+            <label class="form-label">Title / ଶୀର୍ଷକ *</label>
+            <input class="form-input" id="artTitleInput" placeholder="Article title in Odia or English...">
           </div>
+
           <div class="form-row">
             <div class="form-group">
-              <label class="form-label">Category *</label>
+              <label class="form-label">Category / ବିଭାଗ *</label>
               <select class="form-select" id="artCatInput">
-                <option value="">Category चुनें</option>
-                <option>राजनीति</option>
-                <option>खेल</option>
-                <option>मनोरंजन</option>
-                <option>व्यापार</option>
-                <option>तकनीक</option>
-                <option>अंतरराष्ट्रीय</option>
-                <option>स्वास्थ्य</option>
-                <option>शिक्षा</option>
+                <option value="">-- Select Category --</option>
+                <option value="ରାଜନୀତି">ରାଜନୀତି (Politics)</option>
+                <option value="ଖେଳ">ଖେଳ (Sports)</option>
+                <option value="ମନୋରଞ୍ଜନ">ମନୋରଞ୍ଜନ (Entertainment)</option>
+                <option value="ବ୍ୟବସାୟ">ବ୍ୟବସାୟ (Business)</option>
+                <option value="ସ୍ୱାସ୍ଥ୍ୟ">ସ୍ୱାସ୍ଥ୍ୟ (Health)</option>
+                <option value="ଅନ୍ତର୍ଜାତୀୟ">ଅନ୍ତର୍ଜାତୀୟ (International)</option>
+                <option value="ଓଡ଼ିଶା">ଓଡ଼ିଶା (Odisha)</option>
+                <option value="ପ୍ରଯୁକ୍ତି">ପ୍ରଯୁକ୍ତି (Technology)</option>
+                <option value="ପାଣିପାଗ">ପାଣିପାଗ (Weather)</option>
               </select>
             </div>
             <div class="form-group">
-              <label class="form-label">Reporter *</label>
+              <label class="form-label">Reporter / ସଂବାଦଦାତା *</label>
               <select class="form-select" id="artReporterInput">
-                <option value="">Reporter चुनें</option>
+                <option value="">-- Select Reporter --</option>
               </select>
             </div>
           </div>
+
           <div class="form-row">
             <div class="form-group">
-              <label class="form-label">Date</label>
+              <label class="form-label">Publish Date / ତାରିଖ</label>
               <input class="form-input" type="date" id="artDateInput">
             </div>
             <div class="form-group">
               <label class="form-label">Status</label>
               <select class="form-select" id="artStatusInput">
-                <option value="published">Published</option>
-                <option value="draft">Draft</option>
+                <option value="published">✅ Published</option>
+                <option value="draft">✎ Draft</option>
               </select>
             </div>
           </div>
+
           <div class="form-group">
-            <label class="form-label">इमेज URL</label>
-            <input class="form-input" id="artImageInput" placeholder="https://example.com/image.jpg">
+            <label class="form-label">Image URL (Cloudinary)</label>
+            <input class="form-input" id="artImageInput" placeholder="https://res.cloudinary.com/dfenmdfjo/...">
+            <div style="font-size:11px;color:#555;margin-top:5px">Upload image to Cloudinary first, then paste URL here</div>
           </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">
+                <input type="checkbox" id="artFeaturedInput" style="margin-right:8px">
+                ⭐ Featured (Hero Slider)
+              </label>
+            </div>
+            <div class="form-group">
+              <label class="form-label">
+                <input type="checkbox" id="artBreakingInput" style="margin-right:8px">
+                🔴 Breaking News / ବ୍ରେକିଂ ଖବର
+              </label>
+            </div>
+          </div>
+
           <div class="form-group">
-            <label class="form-label">
-              <input type="checkbox" id="artFeaturedInput" style="margin-right:8px">
-              Show in Hero Slider (Featured)
-            </label>
+            <label class="form-label">Summary / ସାରାଂଶ *</label>
+            <textarea class="form-textarea" id="artExcerptInput"
+              placeholder="Write 2-3 sentence summary in Odia..."
+              style="min-height:80px"></textarea>
           </div>
+
           <div class="form-group">
-            <label class="form-label">Summary (Excerpt) *</label>
-            <textarea class="form-textarea" id="artExcerptInput" placeholder="Write 2-3 sentence summary......" style="min-height:80px"></textarea>
+            <label class="form-label">Full Article / ସମ୍ପୂର୍ଣ ଖବର *</label>
+            <textarea class="form-textarea" id="artBodyInput"
+              placeholder="Write full article in Odia here..."></textarea>
           </div>
-          <div class="form-group">
-            <label class="form-label">Full Article *</label>
-            <textarea class="form-textarea" id="artBodyInput" placeholder="यहाँ Full Article लिखें..."></textarea>
-          </div>
+
           <div style="display:flex;gap:12px">
             <button class="btn-secondary" onclick="resetArticleForm()">Cancel</button>
-            <button class="btn-primary" onclick="saveArticle()">💾 Save</button>
+            <button class="btn-primary" onclick="saveArticle()">💾 Save Article</button>
           </div>
         </div>
       </div>
@@ -257,13 +271,13 @@ body { background: #0A0A0A; }
       <div id="sec-videos" class="admin-section">
         <div class="admin-table-wrap">
           <div class="table-header">
-            <h2>All Videos</h2>
-            <button class="btn-primary" onclick="showSection('add-video')">+ नया वीडियो</button>
+            <h2>All Videos / ସମସ୍ତ ଭିଡ଼ିଓ</h2>
+            <button class="btn-primary" onclick="showSection('add-video')">+ Add New Video</button>
           </div>
           <table class="admin-table">
             <thead>
               <tr>
-                <th>Title</th>
+                <th>Title / ଶୀର୍ଷକ</th>
                 <th>Reporter</th>
                 <th>Date</th>
                 <th>Views</th>
@@ -280,34 +294,48 @@ body { background: #0A0A0A; }
         <div class="admin-form">
           <h2 style="font-size:18px;margin-bottom:24px;color:white" id="videoFormTitle">🎬 Add New Video</h2>
           <input type="hidden" id="editVideoId">
+
           <div class="form-group">
-            <label class="form-label">वीडियो Title *</label>
-            <input class="form-input" id="vidTitleInput" placeholder="वीडियो का Title...">
+            <label class="form-label">Video Title / ଶୀର୍ଷକ *</label>
+            <input class="form-input" id="vidTitleInput" placeholder="Video title in Odia...">
           </div>
+
           <div class="form-row">
             <div class="form-group">
-              <label class="form-label">Reporter</label>
+              <label class="form-label">Reporter / ସଂବାଦଦାତା</label>
               <select class="form-select" id="vidReporterInput">
-                <option value="">Reporter चुनें</option>
+                <option value="">-- Select Reporter --</option>
               </select>
             </div>
             <div class="form-group">
-              <label class="form-label">Date</label>
-              <input class="form-input" type="date" id="vidDateInput">
+              <label class="form-label">Category / ବିଭାଗ</label>
+              <select class="form-select" id="vidCatInput">
+                <option value="">-- Select Category --</option>
+                <option value="ରାଜନୀତି">ରାଜନୀତି</option>
+                <option value="ଖେଳ">ଖେଳ</option>
+                <option value="ମନୋରଞ୍ଜନ">ମନୋରଞ୍ଜନ</option>
+                <option value="ବ୍ୟବସାୟ">ବ୍ୟବସାୟ</option>
+                <option value="ଓଡ଼ିଶା">ଓଡ଼ିଶା</option>
+              </select>
             </div>
           </div>
+
           <div class="form-group">
-            <label class="form-label">YouTube Video ID</label>
-            <input class="form-input" id="vidYtInput" placeholder="जैसे: dQw4w9WgXcQ (URL से)">
-            <div style="font-size:11px;color:#666;margin-top:6px">YouTube URL से Video ID कॉपी करें: youtube.com/watch?v=<strong>VIDEO_ID</strong></div>
+            <label class="form-label">YouTube Video ID *</label>
+            <input class="form-input" id="vidYtInput" placeholder="e.g. dQw4w9WgXcQ  (from youtube.com/watch?v=THIS_PART)">
+            <div style="font-size:11px;color:#666;margin-top:6px">
+              Copy the video ID from YouTube URL: youtube.com/watch?v=<strong style="color:#C8102E">VIDEO_ID</strong>
+            </div>
           </div>
+
           <div class="form-group">
-            <label class="form-label">थंबनेल URL</label>
-            <input class="form-input" id="vidThumbInput" placeholder="https://example.com/thumb.jpg">
+            <label class="form-label">Thumbnail URL (optional — auto from YouTube)</label>
+            <input class="form-input" id="vidThumbInput" placeholder="Leave blank to use YouTube thumbnail automatically">
           </div>
+
           <div style="display:flex;gap:12px">
             <button class="btn-secondary" onclick="resetVideoForm()">Cancel</button>
-            <button class="btn-primary" onclick="saveVideo()">💾 Save</button>
+            <button class="btn-primary" onclick="saveVideo()">💾 Save Video</button>
           </div>
         </div>
       </div>
@@ -316,24 +344,29 @@ body { background: #0A0A0A; }
       <div id="sec-epaper" class="admin-section">
         <div class="grid-2" style="margin-bottom:24px">
           <div class="admin-form">
-            <h2 style="font-size:18px;margin-bottom:20px;color:white">📄 Add New E-Paper</h2>
+            <h2 style="font-size:18px;margin-bottom:20px;color:white">📄 Add E-Paper / ଇ-ପେପର ଯୋଡ଼ନ୍ତୁ</h2>
             <div class="form-group">
-              <label class="form-label">Title</label>
-              <input class="form-input" id="epTitleInput" placeholder="E-Paper का नाम...">
+              <label class="form-label">Title / ଶୀର୍ଷକ</label>
+              <input class="form-input" id="epTitleInput" placeholder="MLF News 24 - 22 June 2026">
             </div>
             <div class="form-group">
-              <label class="form-label">Date</label>
+              <label class="form-label">Edition Date / ତାରିଖ</label>
               <input class="form-input" type="date" id="epDateInput">
             </div>
             <div class="form-group">
-              <label class="form-label">Page Count</label>
+              <label class="form-label">Page Count / ପୃଷ୍ଠା ସଂଖ୍ୟା</label>
               <input class="form-input" type="number" id="epPagesInput" placeholder="12">
             </div>
             <div class="form-group">
-              <label class="form-label">PDF Link (Google Drive / Dropbox)</label>
-              <input class="form-input" id="epFileInput" placeholder="https://drive.google.com/...">
+              <label class="form-label">PDF URL (Cloudinary)</label>
+              <input class="form-input" id="epFileInput" placeholder="https://res.cloudinary.com/...">
+              <div style="font-size:11px;color:#555;margin-top:5px">Upload PDF to Cloudinary, paste URL here</div>
             </div>
-            <button class="btn-primary" onclick="saveEpaper()">💾 जोड़ें</button>
+            <div class="form-group">
+              <label class="form-label">Thumbnail URL (Cloudinary — optional)</label>
+              <input class="form-input" id="epThumbInput" placeholder="https://res.cloudinary.com/...">
+            </div>
+            <button class="btn-primary" onclick="saveEpaper()">💾 Add E-Paper</button>
           </div>
           <div>
             <div class="admin-table-wrap">
@@ -348,34 +381,38 @@ body { background: #0A0A0A; }
       <div id="sec-reporters" class="admin-section">
         <div class="grid-2" style="margin-bottom:24px">
           <div class="admin-form">
-            <h2 style="font-size:18px;margin-bottom:20px;color:white">👤 नया Reporter जोड़ें</h2>
+            <h2 style="font-size:18px;margin-bottom:20px;color:white">👤 Add Reporter / ସଂବାଦଦାତା ଯୋଡ଼ନ୍ତୁ</h2>
             <input type="hidden" id="editReporterId">
             <div class="form-group">
-              <label class="form-label">Full Name</label>
-              <input class="form-input" id="repNameInput" placeholder="Reporter का नाम...">
+              <label class="form-label">Full Name / ପୂରା ନାମ</label>
+              <input class="form-input" id="repNameInput" placeholder="Reporter name in Odia...">
             </div>
             <div class="form-group">
-              <label class="form-label">Role</label>
-              <input class="form-input" id="repRoleInput" placeholder="Senior Reporter...">
+              <label class="form-label">Role / ପଦ</label>
+              <input class="form-input" id="repRoleInput" placeholder="Senior Reporter / ବରିଷ୍ଠ ସଂବାଦଦାତା">
             </div>
             <div class="form-group">
-              <label class="form-label">विभाग/Category</label>
+              <label class="form-label">Category / ବିଭାଗ</label>
               <select class="form-select" id="repCatInput">
-                <option>राजनीति</option><option>खेल</option><option>मनोरंजन</option>
-                <option>व्यापार</option><option>तकनीक</option><option>अंतरराष्ट्रीय</option>
+                <option value="ରାଜନୀତି">ରାଜନୀତି (Politics)</option>
+                <option value="ଖେଳ">ଖେଳ (Sports)</option>
+                <option value="ମନୋରଞ୍ଜନ">ମନୋରଞ୍ଜନ (Entertainment)</option>
+                <option value="ବ୍ୟବସାୟ">ବ୍ୟବସାୟ (Business)</option>
+                <option value="ଓଡ଼ିଶା">ଓଡ଼ିଶା (Odisha)</option>
+                <option value="ଅନ୍ତର୍ଜାତୀୟ">ଅନ୍ତର୍ଜାତୀୟ (International)</option>
               </select>
             </div>
             <div class="form-group">
               <label class="form-label">Email</label>
-              <input class="form-input" id="repEmailInput" placeholder="reporter@mlf24.com" type="email">
+              <input class="form-input" id="repEmailInput" placeholder="reporter@mlfnews24.com" type="email">
             </div>
             <div class="form-group">
-              <label class="form-label">Photo URL</label>
-              <input class="form-input" id="repPhotoInput" placeholder="https://example.com/photo.jpg">
+              <label class="form-label">Photo URL (Cloudinary)</label>
+              <input class="form-input" id="repPhotoInput" placeholder="https://res.cloudinary.com/...">
             </div>
             <div style="display:flex;gap:12px">
               <button class="btn-secondary" onclick="resetReporterForm()">Cancel</button>
-              <button class="btn-primary" onclick="saveReporter()">💾 Save</button>
+              <button class="btn-primary" onclick="saveReporter()">💾 Save Reporter</button>
             </div>
           </div>
           <div id="reportersGrid" style="display:flex;flex-direction:column;gap:14px;max-height:500px;overflow-y:auto;"></div>
@@ -386,32 +423,32 @@ body { background: #0A0A0A; }
       <div id="sec-ads" class="admin-section">
         <div class="grid-2" style="margin-bottom:24px">
           <div class="admin-form">
-            <h2 style="font-size:18px;margin-bottom:20px;color:white">📢 नया Advertisement जोड़ें</h2>
+            <h2 style="font-size:18px;margin-bottom:20px;color:white">📢 Add Advertisement</h2>
             <input type="hidden" id="editAdId">
             <div class="form-group">
-              <label class="form-label">Advertisement नाम</label>
-              <input class="form-input" id="adTitleInput" placeholder="कंपनी / अभियान नाम...">
+              <label class="form-label">Ad Name / ନାମ</label>
+              <input class="form-input" id="adTitleInput" placeholder="Company / Campaign name...">
             </div>
             <div class="form-group">
-              <label class="form-label">Position</label>
+              <label class="form-label">Position / ସ୍ଥାନ</label>
               <select class="form-select" id="adPositionInput">
-                <option value="header">हेडर (970×90)</option>
-                <option value="sidebar">साइडबार (300×250)</option>
-                <option value="article-middle">Article के बीच (728×90)</option>
-                <option value="footer">फुटर</option>
+                <option value="header">Header (970×90)</option>
+                <option value="sidebar">Sidebar (300×250)</option>
+                <option value="article-middle">Article Middle (728×90)</option>
+                <option value="footer">Footer</option>
               </select>
             </div>
             <div class="form-group">
-              <label class="form-label">इमेज URL</label>
-              <input class="form-input" id="adImageInput" placeholder="https://example.com/ad-banner.jpg">
+              <label class="form-label">Image URL (Cloudinary)</label>
+              <input class="form-input" id="adImageInput" placeholder="https://res.cloudinary.com/...">
             </div>
             <div class="form-group">
-              <label class="form-label">लिंक URL</label>
+              <label class="form-label">Link URL</label>
               <input class="form-input" id="adLinkInput" placeholder="https://advertiser.com">
             </div>
             <div style="display:flex;gap:12px">
               <button class="btn-secondary" onclick="resetAdForm()">Cancel</button>
-              <button class="btn-primary" onclick="saveAd()">💾 Save</button>
+              <button class="btn-primary" onclick="saveAd()">💾 Save Ad</button>
             </div>
           </div>
           <div id="adsGrid" style="display:flex;flex-direction:column;gap:14px;max-height:500px;overflow-y:auto;"></div>
@@ -422,43 +459,44 @@ body { background: #0A0A0A; }
       <div id="sec-settings" class="admin-section">
         <div class="grid-2">
           <div class="admin-form">
-            <h2 style="font-size:18px;margin-bottom:24px;color:white">⚙️ साइट Settings</h2>
+            <h2 style="font-size:18px;margin-bottom:24px;color:white">⚙️ Site Settings / ସାଇଟ ସେଟିଂ</h2>
             <div class="form-group">
               <label class="form-label">Site Name</label>
               <input class="form-input" id="settSiteName" value="MLF News 24">
             </div>
             <div class="form-group">
-              <label class="form-label">टैगलाइन</label>
+              <label class="form-label">Tagline / ଟ୍ୟାଗ୍‌ଲାଇନ</label>
               <input class="form-input" id="settTagline" value="ସତ୍ୟର ସ୍ୱର • ସବୁ ସମୟ">
             </div>
             <div class="form-group">
-              <label class="form-label">संपर्क Email</label>
-              <input class="form-input" id="settEmail" value="news@mlf24.com">
+              <label class="form-label">Contact Email / ଯୋଗାଯୋଗ</label>
+              <input class="form-input" id="settEmail" value="news@mlfnews24.com">
             </div>
             <div class="form-group">
-              <label class="form-label">संपर्क फोन</label>
+              <label class="form-label">Contact Phone / ଫୋନ</label>
               <input class="form-input" id="settPhone" value="+91 98765 43210">
             </div>
             <div class="form-group">
               <label class="form-label">Facebook URL</label>
-              <input class="form-input" id="settFb" placeholder="https://facebook.com/...">
+              <input class="form-input" id="settFb" placeholder="https://facebook.com/mlfnews24">
             </div>
             <div class="form-group">
-              <label class="form-label">Twitter/X URL</label>
-              <input class="form-input" id="settTw" placeholder="https://twitter.com/...">
+              <label class="form-label">Instagram URL</label>
+              <input class="form-input" id="settIg" placeholder="https://instagram.com/mlfnews24">
             </div>
             <div class="form-group">
               <label class="form-label">YouTube Channel URL</label>
-              <input class="form-input" id="settYt" placeholder="https://youtube.com/...">
+              <input class="form-input" id="settYt" placeholder="https://youtube.com/@mlfnews24">
             </div>
-            <button class="btn-primary" onclick="saveSettings()">💾 Settings सहेजें</button>
-          </div>
-          <div class="admin-form">
-            <h2 style="font-size:18px;margin-bottom:24px;color:white">🔑 Admin Password</h2>
             <div class="form-group">
-              <label class="form-label">Current Password</label>
-              <input class="form-input" type="password" id="currPass" placeholder="••••••••">
+              <label class="form-label">WhatsApp Number</label>
+              <input class="form-input" id="settWa" placeholder="+91 98765 43210">
             </div>
+            <button class="btn-primary" onclick="saveSettings()">💾 Save Settings</button>
+          </div>
+
+          <div class="admin-form">
+            <h2 style="font-size:18px;margin-bottom:24px;color:white">🔑 Change Password</h2>
             <div class="form-group">
               <label class="form-label">New Password</label>
               <input class="form-input" type="password" id="newPass" placeholder="••••••••">
@@ -468,10 +506,15 @@ body { background: #0A0A0A; }
               <input class="form-input" type="password" id="confPass" placeholder="••••••••">
             </div>
             <button class="btn-primary" onclick="changePassword()">🔑 Change Password</button>
+
             <hr style="border-color:#222;margin:24px 0">
             <h3 style="color:#C8102E;margin-bottom:16px;font-size:15px">⚠️ Data Management</h3>
-            <button class="btn-secondary" onclick="exportData()" style="margin-bottom:10px;width:100%">📤 Export All Data (JSON)</button>
-            <button class="btn-danger" onclick="if(confirm('All data will be deleted! Are you sure?')) resetAll()" style="width:100%">🗑️ सारा डेटा Delete</button>
+            <button class="btn-secondary" onclick="exportData()" style="margin-bottom:10px;width:100%">
+              📤 Export All Data (JSON)
+            </button>
+            <button class="btn-secondary" onclick="adminLogout()" style="width:100%">
+              🚪 Logout
+            </button>
           </div>
         </div>
       </div>
@@ -485,9 +528,9 @@ body { background: #0A0A0A; }
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="../js/supabase-config.js"></script>
-<script src="../script.js"></script>
 <script>
-// ===== ADMIN CLOCK =====
+
+// ===== CLOCK =====
 function updateClock() {
   const el = document.getElementById('adminClock');
   if (el) el.textContent = new Date().toLocaleTimeString('en-IN');
@@ -498,10 +541,7 @@ setInterval(updateClock, 1000);
 // ===== AUTH CHECK =====
 async function checkAuth() {
   const { data: { session } } = await db.auth.getSession();
-  if (!session) {
-    window.location.href = 'login.html';
-    return false;
-  }
+  if (!session) { window.location.href = 'login.html'; return false; }
   return true;
 }
 
@@ -514,89 +554,103 @@ function toast(msg, type = '') {
   setTimeout(() => el.style.display = 'none', 3500);
 }
 
-// ===== SHOW SECTION =====
+// ===== NAVIGATION =====
 function showSection(name) {
   document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.admin-nav-item').forEach(i => i.classList.remove('active'));
-  document.getElementById('sec-' + name).classList.add('active');
+  document.getElementById('sec-' + name)?.classList.add('active');
   const titles = {
-    'dashboard':'Dashboard','articles':'Article Management','add-article':'New Article',
-    'videos':'Video Management','add-video':'New Video','epaper':'E-Paper',
-    'reporters':'Reporters','ads':'Advertisement','settings':'Settings'
+    'dashboard':    'Dashboard',
+    'articles':     'Article Management / ଖବର ପରିଚାଳନା',
+    'add-article':  'New Article / ନୂଆ ଖବର',
+    'videos':       'Video Management / ଭିଡ଼ିଓ',
+    'add-video':    'Add New Video',
+    'epaper':       'E-Paper',
+    'reporters':    'Reporters / ସଂବାଦଦାତା',
+    'ads':          'Advertisement',
+    'settings':     'Settings / ସେଟିଂ'
   };
   document.getElementById('pageTitle').textContent = titles[name] || name;
-  const navMap = {'dashboard':0,'articles':1,'add-article':2,'videos':3,'add-video':4,'epaper':5,'reporters':6,'ads':7,'settings':8};
+  const navMap = { 'dashboard':0,'articles':1,'add-article':2,'videos':3,'add-video':4,'epaper':5,'reporters':6,'ads':7,'settings':8 };
   const items = document.querySelectorAll('.admin-nav-item');
   if (items[navMap[name]]) items[navMap[name]].classList.add('active');
-  if (name === 'dashboard') loadDashboard();
-  if (name === 'articles') loadArticlesTable();
-  if (name === 'videos') loadVideosTable();
-  if (name === 'epaper') loadEpaperAdmin();
-  if (name === 'reporters') loadReportersAdmin();
-  if (name === 'ads') loadAdsAdmin();
+
+  if (name === 'dashboard')   loadDashboard();
+  if (name === 'articles')    loadArticlesTable();
+  if (name === 'videos')      loadVideosTable();
+  if (name === 'epaper')      loadEpaperAdmin();
+  if (name === 'reporters')   loadReportersAdmin();
+  if (name === 'ads')         loadAdsAdmin();
   if (name === 'add-article' || name === 'add-video') populateReporterDropdowns();
 }
 
 // ===== DASHBOARD =====
 async function loadDashboard() {
-  const [articles, videos, reporters] = await Promise.all([
-    db.from('articles').select('id,title,category,reporter_name,views,status,created_at').order('created_at',{ascending:false}),
-    db.from('videos').select('id').order('created_at',{ascending:false}),
-    db.from('reporters').select('id').eq('is_active',true)
+  const [arts, vids, reps] = await Promise.all([
+    db.from('articles').select('id,title,category,reporter_name,views,status,created_at').order('created_at', { ascending: false }),
+    db.from('videos').select('id').order('created_at', { ascending: false }),
+    db.from('reporters').select('id').eq('is_active', true)
   ]);
-  const arts = articles.data || [];
-  const vids = videos.data || [];
-  const reps = reporters.data || [];
-  const totalViews = arts.reduce((s,a) => s+(a.views||0), 0);
+  const articles = arts.data || [];
+  const totalViews = articles.reduce((s, a) => s + (a.views || 0), 0);
 
-  document.getElementById('statArticles').textContent = arts.length;
-  document.getElementById('statViews').textContent = totalViews > 999 ? (totalViews/1000).toFixed(1)+'K' : totalViews;
-  document.getElementById('statVideos').textContent = vids.length;
-  document.getElementById('statReporters').textContent = reps.length;
+  document.getElementById('statArticles').textContent = articles.length;
+  document.getElementById('statViews').textContent = totalViews > 999 ? (totalViews / 1000).toFixed(1) + 'K' : totalViews;
+  document.getElementById('statVideos').textContent = (vids.data || []).length;
+  document.getElementById('statReporters').textContent = (reps.data || []).length;
 
   // Category chart
   const cats = {};
-  arts.forEach(a => cats[a.category] = (cats[a.category]||0)+1);
+  articles.forEach(a => { if (a.category) cats[a.category] = (cats[a.category] || 0) + 1; });
   const max = Math.max(...Object.values(cats), 1);
-  document.getElementById('categoryChart').innerHTML = Object.entries(cats).map(([cat,count]) => `
-    <div class="chart-bar-wrap">
-      <div class="chart-bar-label">${cat}</div>
-      <div class="chart-bar" style="width:${(count/max)*100}%">${count}</div>
-    </div>`).join('');
+  document.getElementById('categoryChart').innerHTML = Object.entries(cats)
+    .sort((a, b) => b[1] - a[1])
+    .map(([cat, count]) => `
+      <div class="chart-bar-wrap">
+        <div class="chart-bar-label">${cat}</div>
+        <div class="chart-bar" style="width:${Math.max((count / max) * 200, 40)}px">${count}</div>
+      </div>`).join('');
 
   // Activity feed
-  document.getElementById('activityFeed').innerHTML = arts.slice(0,5).map(a => `
+  document.getElementById('activityFeed').innerHTML = articles.slice(0, 6).map(a => `
     <div class="activity-item">
       <div class="activity-dot"></div>
-      <div><strong style="color:white">${a.title.substring(0,45)}...</strong><br>
-      <span style="font-size:11px;color:#555">📅 ${a.created_at?.split('T')[0]} | ✍ ${a.reporter_name||''}</span></div>
+      <div>
+        <strong style="color:white">${a.title.substring(0, 50)}${a.title.length > 50 ? '...' : ''}</strong><br>
+        <span style="font-size:11px;color:#555">📅 ${a.created_at?.split('T')[0]} | ✍ ${a.reporter_name || ''}</span>
+      </div>
     </div>`).join('');
 
   // Top articles
-  const top = [...arts].sort((a,b)=>(b.views||0)-(a.views||0)).slice(0,5);
+  const top = [...articles].sort((a, b) => (b.views || 0) - (a.views || 0)).slice(0, 5);
   document.getElementById('topArticlesTable').innerHTML = `
-    <thead><tr><th>Title</th><th>Category</th><th>Reporter</th><th>Views</th></tr></thead>
-    <tbody>${top.map(a=>`
+    <thead><tr>
+      <th>Title / ଶୀର୍ଷକ</th>
+      <th>Category / ବିଭାଗ</th>
+      <th>Reporter</th>
+      <th>Views</th>
+    </tr></thead>
+    <tbody>${top.map(a => `
       <tr>
         <td style="color:white;max-width:300px">${a.title}</td>
-        <td><span class="tag">${a.category}</span></td>
-        <td>${a.reporter_name||''}</td>
-        <td style="color:#C8102E;font-weight:700">${(a.views||0).toLocaleString()}</td>
-      </tr>`).join('')}</tbody>`;
+        <td><span class="tag">${a.category || ''}</span></td>
+        <td>${a.reporter_name || ''}</td>
+        <td style="color:#C8102E;font-weight:700">${(a.views || 0).toLocaleString()}</td>
+      </tr>`).join('')}
+    </tbody>`;
 }
 
 // ===== ARTICLES TABLE =====
 async function loadArticlesTable() {
-  const { data } = await db.from('articles').select('*').order('created_at',{ascending:false});
-  const arts = data || [];
-  document.getElementById('articlesTableBody').innerHTML = arts.map(a => `
+  const { data } = await db.from('articles').select('*').order('created_at', { ascending: false });
+  document.getElementById('articlesTableBody').innerHTML = (data || []).map(a => `
     <tr>
       <td style="color:white;max-width:260px">${a.title}</td>
-      <td><span class="tag">${a.category}</span></td>
-      <td>${a.reporter_name||''}</td>
-      <td>${a.published_at?.split('T')[0]||a.created_at?.split('T')[0]}</td>
-      <td style="color:#C8102E;font-weight:600">${(a.views||0).toLocaleString()}</td>
-      <td><span class="status-badge status-${a.status}">${a.status==='published'?'✓ Published':'✎ Draft'}</span></td>
+      <td><span class="tag">${a.category || ''}</span></td>
+      <td>${a.reporter_name || ''}</td>
+      <td>${a.published_at?.split('T')[0] || a.created_at?.split('T')[0] || ''}</td>
+      <td style="color:#C8102E;font-weight:600">${(a.views || 0).toLocaleString()}</td>
+      <td><span class="status-badge status-${a.status}">${a.status === 'published' ? '✓ Published' : '✎ Draft'}</span></td>
       <td>
         <button class="btn-edit" onclick="editArticle('${a.id}')">✏ Edit</button>
         <button class="btn-danger" onclick="deleteArticle('${a.id}')">🗑</button>
@@ -606,35 +660,35 @@ async function loadArticlesTable() {
 
 // ===== SAVE ARTICLE =====
 async function saveArticle() {
-  const title = document.getElementById('artTitleInput').value.trim();
-  const cat = document.getElementById('artCatInput').value;
+  const title    = document.getElementById('artTitleInput').value.trim();
+  const cat      = document.getElementById('artCatInput').value;
   const reporter = document.getElementById('artReporterInput').value;
-  const excerpt = document.getElementById('artExcerptInput').value.trim();
-  const body = document.getElementById('artBodyInput').value.trim();
-  if (!title||!cat||!reporter||!excerpt||!body) { toast('⚠️ Please fill all required fields'); return; }
-
+  const excerpt  = document.getElementById('artExcerptInput').value.trim();
+  const body     = document.getElementById('artBodyInput').value.trim();
+  if (!title || !cat || !reporter || !excerpt || !body) {
+    toast('⚠️ Please fill all required fields'); return;
+  }
   const editId = document.getElementById('editArticleId').value;
   const status = document.getElementById('artStatusInput').value;
+  const now    = new Date().toISOString();
   const payload = {
     title, category: cat, reporter_name: reporter,
     excerpt, body,
-    image_url: document.getElementById('artImageInput').value || null,
+    image_url:   document.getElementById('artImageInput').value || null,
     status,
     is_featured: document.getElementById('artFeaturedInput').checked,
-    is_breaking: document.getElementById('artBreakingInput')?.checked || false,
-    published_at: status==='published' ? new Date().toISOString() : null,
-    updated_at: new Date().toISOString(),
-    slug: title.toLowerCase().replace(/[^\w\s]/g,'').replace(/\s+/g,'-').slice(0,80)+'-'+Date.now()
+    is_breaking: document.getElementById('artBreakingInput').checked,
+    published_at: status === 'published' ? now : null,
+    updated_at:   now,
+    slug: title.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, '-').slice(0, 80) + '-' + Date.now()
   };
 
   let error;
   if (editId) {
-    const res = await db.from('articles').update(payload).eq('id', editId);
-    error = res.error;
+    ({ error } = await db.from('articles').update(payload).eq('id', editId));
     if (!error) toast('✅ Article updated!', 'success');
   } else {
-    const res = await db.from('articles').insert([{...payload, views:0}]);
-    error = res.error;
+    ({ error } = await db.from('articles').insert([{ ...payload, views: 0 }]));
     if (!error) toast('✅ Article published!', 'success');
   }
   if (error) { toast('❌ Error: ' + error.message); return; }
@@ -646,68 +700,55 @@ async function editArticle(id) {
   const { data } = await db.from('articles').select('*').eq('id', id).single();
   if (!data) return;
   await populateReporterDropdowns();
-  document.getElementById('editArticleId').value = id;
-  document.getElementById('artTitleInput').value = data.title;
-  document.getElementById('artCatInput').value = data.category;
-  document.getElementById('artReporterInput').value = data.reporter_name||'';
-  document.getElementById('artExcerptInput').value = data.excerpt||'';
-  document.getElementById('artBodyInput').value = data.body||'';
-  document.getElementById('artDateInput').value = data.published_at?.split('T')[0]||'';
-  document.getElementById('artImageInput').value = data.image_url||'';
-  document.getElementById('artStatusInput').value = data.status;
-  document.getElementById('artFeaturedInput').checked = data.is_featured||false;
-  document.getElementById('articleFormTitle').textContent = '✏️ Edit Article';
+  document.getElementById('editArticleId').value      = id;
+  document.getElementById('artTitleInput').value      = data.title;
+  document.getElementById('artCatInput').value        = data.category;
+  document.getElementById('artReporterInput').value   = data.reporter_name || '';
+  document.getElementById('artExcerptInput').value    = data.excerpt || '';
+  document.getElementById('artBodyInput').value       = data.body || '';
+  document.getElementById('artDateInput').value       = data.published_at?.split('T')[0] || '';
+  document.getElementById('artImageInput').value      = data.image_url || '';
+  document.getElementById('artStatusInput').value     = data.status;
+  document.getElementById('artFeaturedInput').checked = data.is_featured || false;
+  document.getElementById('artBreakingInput').checked = data.is_breaking || false;
+  document.getElementById('articleFormTitle').textContent = '✏️ Edit Article / ଖବର ସଂଶୋଧନ';
   showSection('add-article');
 }
 
 async function deleteArticle(id) {
-  if (!confirm('Delete this article?')) return;
+  if (!confirm('Delete this article? / ଏହି ଖବର ଡିଲିଟ ହେବ?')) return;
   const { error } = await db.from('articles').delete().eq('id', id);
-  if (error) { toast('❌ Error: '+error.message); return; }
+  if (error) { toast('❌ Error: ' + error.message); return; }
   toast('🗑️ Article deleted');
   loadArticlesTable();
 }
 
 function resetArticleForm() {
   document.getElementById('editArticleId').value = '';
-  ['artTitleInput','artCatInput','artReporterInput','artExcerptInput','artBodyInput','artImageInput'].forEach(id => {
-    const el = document.getElementById(id); if (el) el.value = '';
-  });
+  ['artTitleInput','artCatInput','artReporterInput','artExcerptInput','artBodyInput','artImageInput']
+    .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
   document.getElementById('artFeaturedInput').checked = false;
+  document.getElementById('artBreakingInput').checked = false;
   document.getElementById('artStatusInput').value = 'published';
-  document.getElementById('articleFormTitle').textContent = '✏️ Write New Article';
+  document.getElementById('articleFormTitle').textContent = '✏️ New Article / ନୂଆ ଖବର';
   document.getElementById('artDateInput').value = new Date().toISOString().split('T')[0];
-}
-
-// ===== IMAGE UPLOAD TO CLOUDINARY =====
-async function handleImageUpload(inputId, previewId) {
-  const input = document.getElementById(inputId);
-  const file = input?.files?.[0];
-  if (!file) return;
-  toast('⏳ Uploading image...');
-  try {
-    const url = await uploadToCloudinary(file, 'articles');
-    document.getElementById('artImageInput').value = url;
-    if (previewId) document.getElementById(previewId).src = url;
-    toast('✅ Image uploaded!', 'success');
-  } catch(e) { toast('❌ Upload failed: '+e.message); }
 }
 
 // ===== VIDEOS =====
 async function loadVideosTable() {
-  const { data } = await db.from('videos').select('*').order('created_at',{ascending:false});
-  const vids = data || [];
-  document.getElementById('videosTableBody').innerHTML = vids.map(v => `
+  const { data } = await db.from('videos').select('*').order('created_at', { ascending: false });
+  document.getElementById('videosTableBody').innerHTML = (data || []).map(v => `
     <tr>
       <td style="color:white">
         <div style="display:flex;align-items:center;gap:10px">
-          <img src="https://img.youtube.com/vi/${v.youtube_id}/default.jpg" style="width:60px;height:40px;object-fit:cover;border-radius:4px">
+          <img src="https://img.youtube.com/vi/${v.youtube_id}/default.jpg"
+               style="width:60px;height:40px;object-fit:cover;border-radius:4px">
           ${v.title}
         </div>
       </td>
-      <td>${v.reporter_name||''}</td>
-      <td>${v.published_at?.split('T')[0]||v.created_at?.split('T')[0]}</td>
-      <td style="color:#C8102E;font-weight:600">${(v.views||0).toLocaleString()}</td>
+      <td>${v.reporter_name || ''}</td>
+      <td>${v.published_at?.split('T')[0] || v.created_at?.split('T')[0] || ''}</td>
+      <td style="color:#C8102E;font-weight:600">${(v.views || 0).toLocaleString()}</td>
       <td>
         <button class="btn-edit" onclick="editVideo('${v.id}')">✏ Edit</button>
         <button class="btn-danger" onclick="deleteVideo('${v.id}')">🗑</button>
@@ -717,37 +758,35 @@ async function loadVideosTable() {
 
 async function saveVideo() {
   const title = document.getElementById('vidTitleInput').value.trim();
-  let ytId = document.getElementById('vidYtInput').value.trim();
-  if (!title||!ytId) { toast('⚠️ Title and YouTube ID are required'); return; }
+  let ytId    = document.getElementById('vidYtInput').value.trim();
+  if (!title || !ytId) { toast('⚠️ Title and YouTube ID required'); return; }
 
-  // Auto extract ID from full URL if pasted
+  // Auto-extract from full URL
   if (ytId.includes('youtube.com') || ytId.includes('youtu.be')) {
     const match = ytId.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
     if (match) ytId = match[1];
   }
 
   const thumbInput = document.getElementById('vidThumbInput').value.trim();
-  const editId = document.getElementById('editVideoId').value;
-
+  const editId     = document.getElementById('editVideoId').value;
   const payload = {
     title,
-    youtube_id: ytId,
-    thumbnail_url: thumbInput || `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`,
-    reporter_name: document.getElementById('vidReporterInput').value || 'Editor',
-    published_at: new Date().toISOString(),
+    youtube_id:    ytId,
+    thumb_url:     thumbInput || `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`,
+    reporter_name: document.getElementById('vidReporterInput').value || '',
+    category:      document.getElementById('vidCatInput').value || '',
+    published_at:  new Date().toISOString(),
   };
 
   let error;
   if (editId) {
-    const res = await db.from('videos').update(payload).eq('id', editId);
-    error = res.error;
+    ({ error } = await db.from('videos').update(payload).eq('id', editId));
     if (!error) toast('✅ Video updated!', 'success');
   } else {
-    const res = await db.from('videos').insert([{...payload, views:0}]);
-    error = res.error;
-    if (!error) toast('✅ Video added! It will show on website now.', 'success');
+    ({ error } = await db.from('videos').insert([{ ...payload, views: 0 }]));
+    if (!error) toast('✅ Video added! Now visible on website.', 'success');
   }
-  if (error) { toast('❌ Error: '+error.message); return; }
+  if (error) { toast('❌ Error: ' + error.message); return; }
   resetVideoForm();
   showSection('videos');
 }
@@ -756,12 +795,12 @@ async function editVideo(id) {
   const { data } = await db.from('videos').select('*').eq('id', id).single();
   if (!data) return;
   await populateReporterDropdowns();
-  document.getElementById('editVideoId').value = id;
-  document.getElementById('vidTitleInput').value = data.title;
-  document.getElementById('vidYtInput').value = data.youtube_id;
-  document.getElementById('vidReporterInput').value = data.reporter_name||'';
-  document.getElementById('vidDateInput').value = data.published_at?.split('T')[0]||'';
-  document.getElementById('vidThumbInput').value = data.thumbnail_url||'';
+  document.getElementById('editVideoId').value      = id;
+  document.getElementById('vidTitleInput').value    = data.title;
+  document.getElementById('vidYtInput').value       = data.youtube_id;
+  document.getElementById('vidReporterInput').value = data.reporter_name || '';
+  document.getElementById('vidCatInput').value      = data.category || '';
+  document.getElementById('vidThumbInput').value    = data.thumb_url || '';
   document.getElementById('videoFormTitle').textContent = '🎬 Edit Video';
   showSection('add-video');
 }
@@ -769,28 +808,26 @@ async function editVideo(id) {
 async function deleteVideo(id) {
   if (!confirm('Delete this video?')) return;
   const { error } = await db.from('videos').delete().eq('id', id);
-  if (error) { toast('❌ Error: '+error.message); return; }
+  if (error) { toast('❌ Error: ' + error.message); return; }
   toast('🗑️ Video deleted');
   loadVideosTable();
 }
 
 function resetVideoForm() {
   document.getElementById('editVideoId').value = '';
-  ['vidTitleInput','vidYtInput','vidReporterInput','vidThumbInput'].forEach(id => {
-    const el = document.getElementById(id); if (el) el.value='';
-  });
+  ['vidTitleInput','vidYtInput','vidReporterInput','vidCatInput','vidThumbInput']
+    .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
   document.getElementById('videoFormTitle').textContent = '🎬 Add New Video';
 }
 
 // ===== EPAPER =====
 async function loadEpaperAdmin() {
-  const { data } = await db.from('epapers').select('*').order('edition_date',{ascending:false});
-  const eps = data || [];
-  document.getElementById('epaperAdminList').innerHTML = eps.map(ep => `
+  const { data } = await db.from('epapers').select('*').order('edition_date', { ascending: false });
+  document.getElementById('epaperAdminList').innerHTML = (data || []).map(ep => `
     <div style="padding:14px 16px;border-bottom:1px solid #1F1F1F;display:flex;align-items:center;justify-content:space-between">
       <div>
         <div style="color:white;font-size:13px">${ep.title}</div>
-        <div style="font-size:11px;color:#666">${ep.edition_date} | ${ep.pages||12} Pages</div>
+        <div style="font-size:11px;color:#666">${ep.edition_date} | ${ep.pages || 12} Pages</div>
       </div>
       <button class="btn-danger" onclick="deleteEpaper('${ep.id}')">🗑</button>
     </div>`).join('');
@@ -798,28 +835,20 @@ async function loadEpaperAdmin() {
 
 async function saveEpaper() {
   const title = document.getElementById('epTitleInput').value.trim();
-  const date = document.getElementById('epDateInput').value;
-  if (!title||!date) { toast('⚠️ Title and Date are required'); return; }
-
-  // Handle PDF upload
-  const pdfInput = document.getElementById('epPdfInput');
-  let pdfUrl = document.getElementById('epFileInput').value || null;
-
-  if (pdfInput?.files?.[0]) {
-    toast('⏳ Uploading PDF...');
-    try { pdfUrl = await uploadPDFToCloudinary(pdfInput.files[0]); }
-    catch(e) { toast('❌ PDF upload failed'); return; }
-  }
-
+  const date  = document.getElementById('epDateInput').value;
+  if (!title || !date) { toast('⚠️ Title and Date required'); return; }
   const { error } = await db.from('epapers').insert([{
-    title, edition_date: date,
-    pages: parseInt(document.getElementById('epPagesInput').value)||12,
-    pdf_url: pdfUrl
+    title,
+    edition_date:  date,
+    pages:         parseInt(document.getElementById('epPagesInput').value) || 12,
+    file_url:      document.getElementById('epFileInput').value || null,
+    thumbnail_url: document.getElementById('epThumbInput').value || null,
   }]);
-  if (error) { toast('❌ Error: '+error.message); return; }
+  if (error) { toast('❌ Error: ' + error.message); return; }
   toast('✅ E-Paper added!', 'success');
   loadEpaperAdmin();
-  ['epTitleInput','epDateInput','epPagesInput','epFileInput'].forEach(id => document.getElementById(id).value='');
+  ['epTitleInput','epDateInput','epPagesInput','epFileInput','epThumbInput']
+    .forEach(id => { document.getElementById(id).value = ''; });
 }
 
 async function deleteEpaper(id) {
@@ -832,18 +861,18 @@ async function deleteEpaper(id) {
 // ===== REPORTERS =====
 async function loadReportersAdmin() {
   const { data } = await db.from('reporters').select('*').order('name');
-  const reps = data || [];
-  document.getElementById('reportersGrid').innerHTML = reps.map(r => `
+  document.getElementById('reportersGrid').innerHTML = (data || []).map(r => `
     <div class="reporter-card">
-      <div class="reporter-photo" style="background-image:url(${r.photo_url||'https://picsum.photos/seed/'+r.name+'/100/100'})"></div>
+      <div class="reporter-photo"
+           style="background-image:url(${r.photo_url || 'https://picsum.photos/seed/' + r.name + '/100/100'})"></div>
       <div class="reporter-info">
         <h4>${r.name}</h4>
-        <p>${r.role||'Reporter'}</p>
-        <p style="color:var(--red);font-size:11px">${r.category||''}</p>
-        <p style="font-size:11px;color:#555">${r.email||''}</p>
+        <p>${r.role || 'Reporter'}</p>
+        <p style="color:#C8102E;font-size:11px">${r.category || ''}</p>
+        <p style="font-size:11px;color:#555">${r.email || ''}</p>
       </div>
       <div class="reporter-stats">
-        <strong>${r.articles_count||0}</strong>
+        <strong>${r.articles_count || 0}</strong>
         <span>Articles</span>
         <div style="margin-top:8px;display:flex;gap:6px">
           <button class="btn-edit" onclick="editReporter('${r.id}')" style="padding:4px 10px">✏</button>
@@ -859,23 +888,21 @@ async function saveReporter() {
   const editId = document.getElementById('editReporterId').value;
   const payload = {
     name,
-    role: document.getElementById('repRoleInput').value||'Reporter',
-    category: document.getElementById('repCatInput').value,
-    email: document.getElementById('repEmailInput').value,
-    photo_url: document.getElementById('repPhotoInput').value||null,
+    role:      document.getElementById('repRoleInput').value || 'Reporter',
+    category:  document.getElementById('repCatInput').value,
+    email:     document.getElementById('repEmailInput').value,
+    photo_url: document.getElementById('repPhotoInput').value || null,
     is_active: true
   };
   let error;
   if (editId) {
-    const res = await db.from('reporters').update(payload).eq('id', editId);
-    error = res.error;
+    ({ error } = await db.from('reporters').update(payload).eq('id', editId));
     if (!error) toast('✅ Reporter updated!', 'success');
   } else {
-    const res = await db.from('reporters').insert([{...payload, articles_count:0}]);
-    error = res.error;
+    ({ error } = await db.from('reporters').insert([{ ...payload, articles_count: 0 }]));
     if (!error) toast('✅ Reporter added!', 'success');
   }
-  if (error) { toast('❌ Error: '+error.message); return; }
+  if (error) { toast('❌ Error: ' + error.message); return; }
   resetReporterForm();
   loadReportersAdmin();
 }
@@ -883,12 +910,12 @@ async function saveReporter() {
 async function editReporter(id) {
   const { data } = await db.from('reporters').select('*').eq('id', id).single();
   if (!data) return;
-  document.getElementById('editReporterId').value = id;
-  document.getElementById('repNameInput').value = data.name;
-  document.getElementById('repRoleInput').value = data.role||'';
-  document.getElementById('repCatInput').value = data.category||'';
-  document.getElementById('repEmailInput').value = data.email||'';
-  document.getElementById('repPhotoInput').value = data.photo_url||'';
+  document.getElementById('editReporterId').value  = id;
+  document.getElementById('repNameInput').value    = data.name;
+  document.getElementById('repRoleInput').value    = data.role || '';
+  document.getElementById('repCatInput').value     = data.category || '';
+  document.getElementById('repEmailInput').value   = data.email || '';
+  document.getElementById('repPhotoInput').value   = data.photo_url || '';
 }
 
 async function deleteReporter(id) {
@@ -900,17 +927,19 @@ async function deleteReporter(id) {
 
 function resetReporterForm() {
   document.getElementById('editReporterId').value = '';
-  ['repNameInput','repRoleInput','repEmailInput','repPhotoInput'].forEach(id => document.getElementById(id).value='');
+  ['repNameInput','repRoleInput','repEmailInput','repPhotoInput']
+    .forEach(id => { document.getElementById(id).value = ''; });
 }
 
 // ===== ADS =====
 async function loadAdsAdmin() {
-  const { data } = await db.from('ads').select('*').order('created_at',{ascending:false});
-  const ads = data || [];
-  document.getElementById('adsGrid').innerHTML = ads.map(ad => `
+  const { data } = await db.from('ads').select('*').order('created_at', { ascending: false });
+  document.getElementById('adsGrid').innerHTML = (data || []).map(ad => `
     <div class="epaper-admin-card">
       <div class="ad-preview">
-        ${ad.image_url ? `<img src="${ad.image_url}" onerror="this.style.display='none'" style="width:100%;height:100%;object-fit:cover">` : 'Ad Preview'}
+        ${ad.image_url
+          ? `<img src="${ad.image_url}" onerror="this.style.display='none'">`
+          : 'Ad Preview'}
       </div>
       <div style="display:flex;align-items:center;justify-content:space-between">
         <div>
@@ -919,7 +948,7 @@ async function loadAdsAdmin() {
         </div>
         <div style="display:flex;align-items:center;gap:10px">
           <label class="toggle-switch">
-            <input type="checkbox" ${ad.is_active?'checked':''} onchange="toggleAd('${ad.id}',this.checked)">
+            <input type="checkbox" ${ad.is_active ? 'checked' : ''} onchange="toggleAd('${ad.id}',this.checked)">
             <span class="toggle-slider"></span>
           </label>
           <button class="btn-danger" onclick="deleteAd('${ad.id}')" style="padding:4px 10px">🗑</button>
@@ -930,22 +959,22 @@ async function loadAdsAdmin() {
 
 async function saveAd() {
   const title = document.getElementById('adTitleInput').value.trim();
-  if (!title) { toast('⚠️ Ad name is required'); return; }
+  if (!title) { toast('⚠️ Ad name required'); return; }
   const { error } = await db.from('ads').insert([{
     title,
-    position: document.getElementById('adPositionInput').value,
-    image_url: document.getElementById('adImageInput').value||null,
-    link_url: document.getElementById('adLinkInput').value||null,
+    position:  document.getElementById('adPositionInput').value,
+    image_url: document.getElementById('adImageInput').value || null,
+    link_url:  document.getElementById('adLinkInput').value || null,
     is_active: true
   }]);
-  if (error) { toast('❌ Error: '+error.message); return; }
+  if (error) { toast('❌ Error: ' + error.message); return; }
   toast('✅ Advertisement added!', 'success');
   resetAdForm();
   loadAdsAdmin();
 }
 
 async function toggleAd(id, active) {
-  await db.from('ads').update({is_active: active}).eq('id', id);
+  await db.from('ads').update({ is_active: active }).eq('id', id);
   toast('Ad status updated');
 }
 
@@ -957,77 +986,99 @@ async function deleteAd(id) {
 }
 
 function resetAdForm() {
-  ['adTitleInput','adImageInput','adLinkInput'].forEach(id => document.getElementById(id).value='');
+  ['adTitleInput','adImageInput','adLinkInput'].forEach(id => document.getElementById(id).value = '');
 }
 
 // ===== SETTINGS =====
 async function saveSettings() {
   const settings = [
-    {key:'site_name', value: document.getElementById('settSiteName').value},
-    {key:'tagline', value: document.getElementById('settTagline').value},
-    {key:'contact_email', value: document.getElementById('settEmail').value},
-    {key:'contact_phone', value: document.getElementById('settPhone').value},
-    {key:'facebook_url', value: document.getElementById('settFb').value},
-    {key:'twitter_url', value: document.getElementById('settTw').value},
-    {key:'youtube_url', value: document.getElementById('settYt').value},
+    { key: 'site_name',       value: document.getElementById('settSiteName').value },
+    { key: 'tagline',         value: document.getElementById('settTagline').value },
+    { key: 'contact_email',   value: document.getElementById('settEmail').value },
+    { key: 'contact_phone',   value: document.getElementById('settPhone').value },
+    { key: 'facebook_url',    value: document.getElementById('settFb').value },
+    { key: 'instagram_url',   value: document.getElementById('settIg').value },
+    { key: 'youtube_url',     value: document.getElementById('settYt').value },
+    { key: 'whatsapp_number', value: document.getElementById('settWa').value },
   ];
   for (const s of settings) {
-    await db.from('site_settings').upsert({key: s.key, value: s.value, updated_at: new Date().toISOString()});
+    await db.from('site_settings').upsert({ key: s.key, value: s.value, updated_at: new Date().toISOString() });
   }
   toast('✅ Settings saved!', 'success');
 }
 
+async function loadSettings() {
+  const settings = await getSiteSettings();
+  if (settings.site_name)       document.getElementById('settSiteName').value = settings.site_name;
+  if (settings.tagline)         document.getElementById('settTagline').value   = settings.tagline;
+  if (settings.contact_email)   document.getElementById('settEmail').value     = settings.contact_email;
+  if (settings.contact_phone)   document.getElementById('settPhone').value     = settings.contact_phone;
+  if (settings.facebook_url)    document.getElementById('settFb').value        = settings.facebook_url;
+  if (settings.instagram_url)   document.getElementById('settIg').value        = settings.instagram_url;
+  if (settings.youtube_url)     document.getElementById('settYt').value        = settings.youtube_url;
+  if (settings.whatsapp_number) document.getElementById('settWa').value        = settings.whatsapp_number;
+}
+
 async function changePassword() {
-  const newP = document.getElementById('newPass').value;
-  const conf = document.getElementById('confPass').value;
-  if (newP !== conf) { toast('⚠️ Passwords do not match'); return; }
-  if (newP.length < 6) { toast('⚠️ Password must be at least 6 characters'); return; }
+  const newP  = document.getElementById('newPass').value;
+  const confP = document.getElementById('confPass').value;
+  if (newP !== confP)    { toast('⚠️ Passwords do not match'); return; }
+  if (newP.length < 6)   { toast('⚠️ Password must be at least 6 characters'); return; }
   const { error } = await db.auth.updateUser({ password: newP });
-  if (error) { toast('❌ Error: '+error.message); return; }
+  if (error) { toast('❌ Error: ' + error.message); return; }
   toast('✅ Password changed!', 'success');
-  ['currPass','newPass','confPass'].forEach(id => document.getElementById(id).value='');
+  document.getElementById('newPass').value  = '';
+  document.getElementById('confPass').value = '';
 }
 
 async function exportData() {
-  const [a,v,r,e] = await Promise.all([
+  const [a, v, r, e] = await Promise.all([
     db.from('articles').select('*'),
     db.from('videos').select('*'),
     db.from('reporters').select('*'),
     db.from('epapers').select('*'),
   ]);
-  const blob = new Blob([JSON.stringify({articles:a.data,videos:v.data,reporters:r.data,epapers:e.data},null,2)],{type:'application/json'});
+  const blob = new Blob(
+    [JSON.stringify({ articles: a.data, videos: v.data, reporters: r.data, epapers: e.data }, null, 2)],
+    { type: 'application/json' }
+  );
   const link = document.createElement('a');
   link.href = URL.createObjectURL(blob);
-  link.download = 'mlf24_backup_'+Date.now()+'.json';
+  link.download = 'mlf24_backup_' + Date.now() + '.json';
   link.click();
   toast('✅ Data exported!', 'success');
 }
 
+async function adminLogout() {
+  await db.auth.signOut();
+  window.location.href = 'login.html';
+}
+
 // ===== REPORTER DROPDOWNS =====
 async function populateReporterDropdowns() {
-  const { data } = await db.from('reporters').select('name').eq('is_active',true).order('name');
-  const opts = (data||[]).map(r => `<option value="${r.name}">${r.name}</option>`).join('');
-  ['artReporterInput','vidReporterInput'].forEach(id => {
+  const { data } = await db.from('reporters').select('name').eq('is_active', true).order('name');
+  const opts = (data || []).map(r => `<option value="${r.name}">${r.name}</option>`).join('');
+  ['artReporterInput', 'vidReporterInput'].forEach(id => {
     const el = document.getElementById(id);
-    if (el) el.innerHTML = '<option value="">Select Reporter</option>' + opts;
+    if (el) el.innerHTML = '<option value="">-- Select Reporter --</option>' + opts;
   });
 }
 
 // ===== SEARCH =====
 async function handleSearch() {
-  const q = document.getElementById('globalSearch').value.trim().toLowerCase();
-  if (!q) return;
-  const { data } = await db.from('articles').select('*').ilike('title','%'+q+'%').limit(20);
+  const q = document.getElementById('globalSearch').value.trim();
+  if (q.length < 2) return;
+  const { data } = await db.from('articles').select('*').ilike('title', '%' + q + '%').limit(20);
   if (data?.length) {
     showSection('articles');
     document.getElementById('articlesTableBody').innerHTML = data.map(a => `
       <tr>
         <td style="color:white">${a.title}</td>
-        <td><span class="tag">${a.category}</span></td>
-        <td>${a.reporter_name||''}</td>
-        <td>${a.published_at?.split('T')[0]||''}</td>
-        <td style="color:#C8102E;font-weight:600">${(a.views||0).toLocaleString()}</td>
-        <td><span class="status-badge status-${a.status}">${a.status==='published'?'✓ Published':'✎ Draft'}</span></td>
+        <td><span class="tag">${a.category || ''}</span></td>
+        <td>${a.reporter_name || ''}</td>
+        <td>${a.published_at?.split('T')[0] || ''}</td>
+        <td style="color:#C8102E;font-weight:600">${(a.views || 0).toLocaleString()}</td>
+        <td><span class="status-badge status-${a.status}">${a.status === 'published' ? '✓ Published' : '✎ Draft'}</span></td>
         <td>
           <button class="btn-edit" onclick="editArticle('${a.id}')">✏ Edit</button>
           <button class="btn-danger" onclick="deleteArticle('${a.id}')">🗑</button>
@@ -1036,21 +1087,14 @@ async function handleSearch() {
   }
 }
 
-// ===== LOGOUT =====
-async function adminLogout() {
-  await db.auth.signOut();
-  window.location.href = 'login.html';
-}
-
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', async () => {
   const ok = await checkAuth();
   if (!ok) return;
   document.getElementById('artDateInput').value = new Date().toISOString().split('T')[0];
-  document.getElementById('vidDateInput').value = new Date().toISOString().split('T')[0];
-  document.getElementById('epDateInput').value = new Date().toISOString().split('T')[0];
-  await loadDashboard();
-  await populateReporterDropdowns();
+  document.getElementById('vidDateInput') && (document.getElementById('vidDateInput').value = new Date().toISOString().split('T')[0]);
+  document.getElementById('epDateInput').value  = new Date().toISOString().split('T')[0];
+  await Promise.all([loadDashboard(), populateReporterDropdowns(), loadSettings()]);
 });
 </script>
 </body>
