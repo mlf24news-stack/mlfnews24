@@ -1,67 +1,4 @@
-// ===== MLF NEWS 24 - MASTER SCRIPT =====
-
-// ===== LOCAL STORAGE DATA STORE =====
-// DB = localStorage (replaced by Supabase)
-const DB = {
-  get: (key) => { try { return JSON.parse(localStorage.getItem('mlf24_' + key)) || []; } catch { return []; } },
-  set: (key, val) => localStorage.setItem('mlf24_' + key, JSON.stringify(val)),
-  getObj: (key, def = {}) => { try { return JSON.parse(localStorage.getItem('mlf24_' + key)) || def; } catch { return def; } },
-  setObj: (key, val) => localStorage.setItem('mlf24_' + key, JSON.stringify(val)),
-};
-
-// ===== SEED DEFAULT DATA =====
-function seedData() {
-  if (DB.get('seeded').length > 0) return;
-
-  const articles = [
-    { id: 1, title: 'ଭାରତ-ପାକ ସୀମାରେ ଉତ୍ତେଜନା, ସୈନ୍ୟ ସତର୍କ', excerpt: 'ପାକିସ୍ତାନ ଆଡ଼ୁ ବାରମ୍ବାର ଉସ୍କାଣି ପରେ ଭାରତୀୟ ସେନା ସଂପୂର୍ଣ ପ୍ରସ୍ତୁତ। ରକ୍ଷା ମନ୍ତ୍ରୀ ସଂସଦରେ ବୟାନ ଦେଲେ।', body: 'ସୀମାରେ ସ୍ଥିତି ଉତ୍ତେଜନାପୂର୍ଣ ରହିଛି। ଭାରତୀୟ ସୁରକ୍ଷା ବଳ ନିଯୁକ୍ତି ବଢ଼ାଇ ହାଇ ଆଲର୍ଟ ଜାରି କରିଛନ୍ତି। ରକ୍ଷା ମନ୍ତ୍ରୀ ରାଜନାଥ ସିଂ କହିଛନ୍ତି ଯେ ଭାରତ ପ୍ରତ୍ୟେକ ପରିସ୍ଥିତି ପାଇଁ ପ୍ରସ୍ତୁତ। ସୀମାବର୍ତ୍ତୀ ଅଞ୍ଚଳରେ ନଜରଦାରି ବଢ଼ାଯାଇଛି।', category: 'ରାଜନୀତି', reporter: 'ସୁଭଙ୍ଗ ପ୍ରଧାନ', date: '2024-04-29', image: 'https://picsum.photos/seed/news1/800/500', status: 'published', featured: true, views: 15420 },
-    { id: 2, title: 'IPL 2024: ମୁମ୍ବାଇ ଇଣ୍ଡିଆନ୍ସର ଅଭୂତପୂର୍ବ ଜୟ', excerpt: 'ମୁମ୍ବାଇ ଇଣ୍ଡିଆନ୍ସ ଦିଲ୍ଲୀ କ୍ୟାପିଟାଲ୍ସକୁ ୮ ୱିକେଟରେ ହରାଇଲା। ରୋହିତ ଶର୍ମାଙ୍କ ଝଡ଼ ବ୍ୟାଟିଂ।', body: 'ମୁମ୍ବାଇ ଇଣ୍ଡିଆନ୍ସ ଏକ ଅଭୂତପୂର୍ବ ପ୍ରଦର୍ଶନରେ ଦିଲ୍ଲୀ କ୍ୟାପିଟାଲ୍ସକୁ ୮ ୱିକେଟରେ ହରାଇଲା। ରୋହିତ ଶର୍ମା ୬୫ ବଲରେ ୮୯ ରନ ସ୍କୋର କଲେ। ଏହା ମୁମ୍ବାଇର ଏହି ସିଜନର ପଞ୍ଚମ ଜୟ।', category: 'ଖେଳ', reporter: 'ଅନୁଜ ନାୟକ', date: '2024-04-28', image: 'https://picsum.photos/seed/news2/800/500', status: 'published', featured: true, views: 22100 },
-    { id: 3, title: 'ଓଡ଼ିଆ ଚଳଚ୍ଚିତ୍ର: ନୂଆ ଚଳଚ୍ଚିତ୍ରର ଟ୍ରେଲର ମୁକ୍ତ', excerpt: '"କିଙ୍ଗ" ଟ୍ରେଲର ଦେଖି ଭକ୍ତ ଦୀୱାନା। ୨୪ ଘଣ୍ଟାରେ ୫ କୋଟି ଭ୍ୟୁ।', body: 'ନୂଆ ଚଳଚ୍ଚିତ୍ର "କିଙ୍ଗ"ର ଟ୍ରେଲର ମୁକ୍ତ ପାଇଛି ଏବଂ ୨୪ ଘଣ୍ଟାରେ ୫ କୋଟିରୁ ଅଧିକ ଭ୍ୟୁ ମିଳିଛି। ଭକ୍ତ ସୋସିଆଲ ମିଡ଼ିଆରେ ଏହାର ପ୍ରଶଂସା କରୁଛନ୍ତି।', category: 'ମନୋରଞ୍ଜନ', reporter: 'ସ୍ୱପ୍ନା ଦାଶ', date: '2024-04-27', image: 'https://picsum.photos/seed/news3/800/500', status: 'published', featured: true, views: 31500 },
-    { id: 4, title: 'ଶେୟାର ବଜାର: ସେନ୍ସେକ୍ସ ୧୨୦୦ ପଏଣ୍ଟ ଉପରେ, ବିନିଯୋଗକାରୀ ଖୁସି', excerpt: 'ବିଦେଶୀ ବିନିଯୋଗକାରୀଙ୍କ ଫେରାରୁ ବଜାରରେ ଉଛୁଳ। ନିଫ୍ଟି ମଧ୍ୟ ନୂଆ ରେକର୍ଡ ଗଢ଼ିଲା।', body: 'ଆଜି ମୁମ୍ବାଇ ଶେୟାର ବଜାରରେ ବ୍ୟାପକ ଉଲ୍ଲମ୍ଫ ଦେଖାଗଲା। ସେନ୍ସେକ୍ସ ୧୨୦୦ ପଏଣ୍ଟ ବୃଦ୍ଧି ସହ ବନ୍ଦ ହେଲା। ବିଦେଶୀ ସଂସ୍ଥାଗତ ବିନିଯୋଗକାରୀ ଏ ମାସ ୧୫ ହଜାର କୋଟି ଟଙ୍କାରୁ ଅଧିକ ବିନିଯୋଗ କରିଛନ୍ତି।', category: 'ବ୍ୟବସାୟ', reporter: 'ସଂଜୟ ମହାପାତ୍ର', date: '2024-04-26', image: 'https://picsum.photos/seed/news4/800/500', status: 'published', featured: false, views: 9800 },
-    { id: 5, title: 'AI ବିପ୍ଲବ: ଭାରତରେ ୧୦ ଲକ୍ଷ ଚାକିରି ସଙ୍କଟ', excerpt: 'ଆର୍ଟିଫିସିଆଲ ଇଣ୍ଟେଲିଜେନ୍ସ IT କ୍ଷେତ୍ରରେ ବଡ଼ ପରିବର୍ତ୍ତନ ଆଣିବ ବୋଲି ଆଶଙ୍କା। ସରକାର ସଚେଷ୍ଟ।', body: 'ଦେଶରେ ଆର୍ଟିଫିସିଆଲ ଇଣ୍ଟେଲିଜେନ୍ସର ବଢ଼ୁଥିବା ପ୍ରଭାବ ନେଇ ଏକ ନୂଆ ରିପୋର୍ଟ ଆସିଛି ଯେଉଁଥିରେ କୁହାଯାଇଛି ଅଗଲା ପାଞ୍ଚ ବର୍ଷରେ ୧୦ ଲକ୍ଷରୁ ଅଧିକ ଚାକିରି ସଙ୍କଟରେ ପଡ଼ିପାରେ।', category: 'ପ୍ରଯୁକ୍ତି', reporter: 'ରାହୁଲ ବର୍ମା', date: '2024-04-25', image: 'https://picsum.photos/seed/news5/800/500', status: 'published', featured: false, views: 18200 },
-    { id: 6, title: 'ୟୁକ୍ରେନ ଯୁଦ୍ଧ: ଆମେରିକା ଦେବ ୬୦ ଅରବ ଡଲାର ସାହାଯ୍ୟ', excerpt: 'ଆମେରିକୀ କଂଗ୍ରେସ ୟୁକ୍ରେନ ପାଇଁ ସାହାଯ୍ୟ ପ୍ୟାକେଜ ମଞ୍ଜୁର କଲା। ରୁଷ କଡ଼ା ଆପତ୍ତି ଜଣାଇଲା।', body: 'ଆମେରିକୀ କଂଗ୍ରେସ ୟୁକ୍ରେନ ପାଇଁ ୬୦ ଅରବ ଡଲାର ସାହାଯ୍ୟ ପ୍ୟାକେଜ ଅନୁମୋଦନ ଦେଇଛି। ଏଥିରେ ସାମରିକ ଓ ଆର୍ଥିକ ଉଭୟ ସାହାଯ୍ୟ ଅଛି। ରୁଷ ଏହି ସିଦ୍ଧାନ୍ତ ଉପରେ କଡ଼ା ଆପତ୍ତି ଜଣାଇଛି।', category: 'ଅନ୍ତର୍ଜାତୀୟ', reporter: 'ନେହା ମିଶ୍ର', date: '2024-04-24', image: 'https://picsum.photos/seed/news6/800/500', status: 'published', featured: false, views: 12300 },
-    { id: 7, title: 'ଓଡ଼ିଶା ସରକାରଙ୍କ ବଡ଼ ଘୋଷଣା: ୫ ଲକ୍ଷ ଘର ତିଆରି ହେବ', excerpt: 'ଆବାସ ଯୋଜନା ଅଧୀନରେ ଅଗଲା ୫ ବର୍ଷ ଭିତରେ ୫ ଲକ୍ଷ ଘର ତିଆରି ଲକ୍ଷ୍ୟ।', body: 'ଓଡ଼ିଶା ମୁଖ୍ୟମନ୍ତ୍ରୀ ଆଜି ଏକ ବଡ଼ ଘୋଷଣା କରି କହିଛନ୍ତି ଯେ ସରକାର ଅଗଲା ପାଞ୍ଚ ବର୍ଷରେ ୫ ଲକ୍ଷ ଘର ତିଆରି କରିବ। ଏହା ଆବାସ ଯୋଜନାର ବିସ୍ତାର ହେବ।', category: 'ରାଜନୀତି', reporter: 'ଅମିତ ପଣ୍ଡା', date: '2024-04-23', image: 'https://picsum.photos/seed/news7/800/500', status: 'published', featured: false, views: 7600 },
-    { id: 8, title: 'ଭୁବନେଶ୍ୱର ଓଡ଼ିଶା ବ୍ଲାଷ୍ଟର୍ସ: IPL ରୁ ନୂଆ ଇତିହାସ', excerpt: 'ଓଡ଼ିଶା ବ୍ଲାଷ୍ଟର୍ସ ପ୍ଲେ-ଅଫ ରଉଣ୍ଡ ଗଲା। ରାଜ୍ୟ ବ୍ୟାପୀ ଉତ୍ସାହ।', body: 'ଓଡ଼ିଶା ବ୍ଲାଷ୍ଟର୍ସ ଏକ ଐତିହାସିକ ଜୟ ସହ IPL ପ୍ଲେ-ଅଫ ଗଲେ। ସ୍ଥାନୀୟ ଖେଳାଳୀ ସୁଭଙ୍ଗ ପ୍ରଧାନ ୬୫ ବଲରେ ୯୨ ରନ ସ୍କୋର କଲେ। ରାଜ୍ୟ ଭରି ଖୁସି ତରଙ୍ଗ ଖେଳିଗଲା।', category: 'ଖେଳ', reporter: 'ସୁମିତ ରାୟ', date: '2024-04-22', image: 'https://picsum.photos/seed/news8/800/500', status: 'published', featured: false, views: 45000 },
-  ];
-
-  const videos = [
-    { id: 1, title: 'ସୀମାରେ ଉତ୍ତେଜନା: ସମ୍ପୂର୍ଣ ରିପୋର୍ଟ ଦେଖନ୍ତୁ', thumb: 'https://picsum.photos/seed/vid1/400/250', youtubeId: 'dQw4w9WgXcQ', reporter: 'ସୁଭଙ୍ଗ ପ୍ରଧାନ', date: '2024-04-29', views: 8500 },
-    { id: 2, title: 'IPL 2024 ହାଇଲାଇଟ୍ସ: ମୁମ୍ବାଇ vs ଦିଲ୍ଲୀ', thumb: 'https://picsum.photos/seed/vid2/400/250', youtubeId: 'dQw4w9WgXcQ', reporter: 'ଅନୁଜ ନାୟକ', date: '2024-04-28', views: 12000 },
-    { id: 3, title: 'ନୂଆ ଓଡ଼ିଆ ଚଳଚ୍ଚିତ୍ର "ଜୟ ଓଡ଼ିଶା": ଟ୍ରେଲର ରିଭ୍ୟୁ', thumb: 'https://picsum.photos/seed/vid3/400/250', youtubeId: 'dQw4w9WgXcQ', reporter: 'ସ୍ୱପ୍ନା ଦାଶ', date: '2024-04-27', views: 21000 },
-    { id: 4, title: 'ଶେୟାର ବଜାରରେ ଉଲ୍ଲମ୍ଫ: କଣ ବିନିଯୋଗ କରିବେ?', thumb: 'https://picsum.photos/seed/vid4/400/250', youtubeId: 'dQw4w9WgXcQ', reporter: 'ସଂଜୟ ମହାପାତ୍ର', date: '2024-04-26', views: 5600 },
-  ];
-
-  const reporters = [
-    { id: 1, name: 'ସୁଭଙ୍ଗ ପ୍ରଧାନ', role: 'ବରିଷ୍ଠ ସଂବାଦଦାତା', category: 'ରାଜନୀତି', email: 'rohit@mlf24.com', articles: 145, photo: 'https://picsum.photos/seed/rep1/100/100' },
-    { id: 2, name: 'ସ୍ୱପ୍ନା ଦାଶ', role: 'ମନୋରଞ୍ଜନ ସଂପାଦକ', category: 'ମନୋରଞ୍ଜନ', email: 'priya@mlf24.com', articles: 89, photo: 'https://picsum.photos/seed/rep2/100/100' },
-    { id: 3, name: 'ଅନୁଜ ନାୟକ', role: 'ଖେଳ ସଂବାଦଦାତା', category: 'ଖେଳ', email: 'anil@mlf24.com', articles: 201, photo: 'https://picsum.photos/seed/rep3/100/100' },
-    { id: 4, name: 'ସଂଜୟ ମହାପାତ୍ର', role: 'ବ୍ୟବସାୟ ସଂବାଦଦାତା', category: 'ବ୍ୟବସାୟ', email: 'sanjay@mlf24.com', articles: 67, photo: 'https://picsum.photos/seed/rep4/100/100' },
-  ];
-
-  const epapers = [
-    { id: 1, title: 'MLF News 24 - 29 April 2024', date: '29 April 2024', pages: 12, file: '#' },
-    { id: 2, title: 'MLF News 24 - 28 April 2024', date: '28 April 2024', pages: 10, file: '#' },
-    { id: 3, title: 'MLF News 24 - 27 April 2024', date: '27 April 2024', pages: 14, file: '#' },
-    { id: 4, title: 'MLF News 24 - 26 April 2024', date: '26 April 2024', pages: 12, file: '#' },
-    { id: 5, title: 'MLF News 24 - 25 April 2024', date: '25 April 2024', pages: 8, file: '#' },
-    { id: 6, title: 'MLF News 24 - 24 April 2024', date: '24 April 2024', pages: 10, file: '#' },
-    { id: 7, title: 'MLF News 24 - 23 April 2024', date: '23 April 2024', pages: 12, file: '#' },
-    { id: 8, title: 'MLF News 24 - 22 April 2024', date: '22 April 2024', pages: 10, file: '#' },
-  ];
-
-  const ads = [
-    { id: 1, title: 'Amazon Summer Sale', position: 'header', imageUrl: 'https://picsum.photos/seed/ad1/970/90', linkUrl: '#', active: true },
-    { id: 2, title: 'Flipkart Big Sale', position: 'sidebar', imageUrl: 'https://picsum.photos/seed/ad2/300/250', linkUrl: '#', active: true },
-    { id: 3, title: 'JioCinema Promo', position: 'article-middle', imageUrl: 'https://picsum.photos/seed/ad3/728/90', linkUrl: '#', active: false },
-  ];
-
-  DB.set('articles', articles);
-  DB.set('videos', videos);
-  DB.set('reporters', reporters);
-  DB.set('epapers', epapers);
-  DB.set('ads', ads);
-  DB.set('seeded', [1]);
-}
+// ===== MLF NEWS 24 - MASTER SCRIPT (Supabase) =====
 
 // ===== LIVE CLOCK =====
 function startClock() {
@@ -69,39 +6,53 @@ function startClock() {
   if (!el) return;
   function update() {
     const now = new Date();
-    el.textContent = now.toLocaleString('or-IN', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    el.textContent = now.toLocaleString('en-IN', {
+      weekday: 'short', day: 'numeric', month: 'short',
+      hour: '2-digit', minute: '2-digit', second: '2-digit'
+    });
   }
   update();
   setInterval(update, 1000);
 }
 
 // ===== BREAKING TICKER =====
-function loadTicker() {
+async function loadTicker() {
   const el = document.getElementById('breakingTicker');
   if (!el) return;
-  const articles = DB.get('articles').filter(a => a.status === 'published').slice(0, 6);
-  el.innerHTML = articles.map(a => `<span class="ticker-item">${a.title}</span>`).join('');
-  // duplicate for loop
-  el.innerHTML += el.innerHTML;
+  const items = await getTicker();
+  if (!items.length) {
+    // fallback: latest articles
+    const arts = await getArticles({ limit: 6 });
+    el.innerHTML = arts.map(a => `<span class="ticker-item">${a.title}</span>`).join('');
+  } else {
+    el.innerHTML = items.map(t =>
+      `<span class="ticker-item">${t.link_url ? `<a href="${t.link_url}" style="color:inherit;text-decoration:none">${t.text}</a>` : t.text}</span>`
+    ).join('');
+  }
+  el.innerHTML += el.innerHTML; // duplicate for seamless loop
 }
 
 // ===== HERO SLIDER =====
 let heroIdx = 0;
-function loadHero() {
+async function loadHero() {
   const container = document.getElementById('heroSlider');
   const dots = document.getElementById('heroDots');
   if (!container) return;
-  const featured = DB.get('articles').filter(a => a.status === 'published' && a.featured);
+
+  const featured = await getArticles({ featured: true, limit: 5 });
   if (!featured.length) return;
 
   container.innerHTML = featured.map(a => `
-    <div class="hero-slide" style="background-image:url(${a.image})" onclick="goArticle(${a.id})">
+    <div class="hero-slide" style="background-image:url(${a.image_url || 'https://picsum.photos/seed/' + a.id + '/1280/720'})"
+         onclick="location.href='article.html?id=${a.id}'">
       <div class="hero-content">
         <span class="hero-category">${a.category}</span>
         <h1 class="hero-title">${a.title}</h1>
-        <p class="hero-excerpt">${a.excerpt}</p>
+        <p class="hero-excerpt">${a.excerpt || ''}</p>
         <div class="hero-meta">
-          <span class="reporter">✍ ${a.reporter}</span> &nbsp;|&nbsp; 📅 ${a.date} &nbsp;|&nbsp; 👁 ${a.views.toLocaleString()}
+          <span class="reporter">✍ ${a.reporter_name || ''}</span> &nbsp;|&nbsp;
+          📅 ${formatDate(a.published_at)} &nbsp;|&nbsp;
+          👁 ${(a.views || 0).toLocaleString()}
         </div>
         <a href="article.html?id=${a.id}" class="hero-read-btn">ସଂପୂର୍ଣ ଖବର ପଢ଼ନ୍ତୁ →</a>
       </div>
@@ -109,9 +60,10 @@ function loadHero() {
   `).join('');
 
   if (dots) {
-    dots.innerHTML = featured.map((_, i) => `<button class="hero-dot ${i===0?'active':''}" onclick="goSlide(${i})"></button>`).join('');
+    dots.innerHTML = featured.map((_, i) =>
+      `<button class="hero-dot ${i === 0 ? 'active' : ''}" onclick="goSlide(${i})"></button>`
+    ).join('');
   }
-
   setInterval(() => goSlide((heroIdx + 1) % featured.length), 5000);
 }
 
@@ -122,26 +74,22 @@ function goSlide(idx) {
   document.querySelectorAll('.hero-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
 }
 
-function goArticle(id) {
-  window.location.href = `article.html?id=${id}`;
-}
-
 // ===== TOP STORIES =====
-function loadTopStories() {
+async function loadTopStories() {
   const grid = document.getElementById('topStoriesGrid');
   if (!grid) return;
-  const articles = DB.get('articles').filter(a => a.status === 'published').slice(0, 5);
+  const articles = await getArticles({ limit: 5 });
   grid.innerHTML = articles.map((a, i) => `
-    <a href="article.html?id=${a.id}" class="story-card ${i===0?'featured':''}">
-      <div class="card-img" style="background-image:url(${a.image})">
+    <a href="article.html?id=${a.id}" class="story-card ${i === 0 ? 'featured' : ''}">
+      <div class="card-img" style="background-image:url(${a.image_url || 'https://picsum.photos/seed/' + a.id + '/800/500'})">
         <span class="card-category">${a.category}</span>
       </div>
       <div class="card-body">
         <h3 class="card-title">${a.title}</h3>
-        <p class="card-excerpt">${a.excerpt}</p>
+        <p class="card-excerpt">${a.excerpt || ''}</p>
         <div class="card-meta">
-          <span class="card-reporter">✍ ${a.reporter}</span>
-          <span>📅 ${a.date}</span>
+          <span class="card-reporter">✍ ${a.reporter_name || ''}</span>
+          <span>📅 ${formatDate(a.published_at)}</span>
         </div>
       </div>
     </a>
@@ -149,23 +97,27 @@ function loadTopStories() {
 }
 
 // ===== TRENDING =====
-function loadTrending() {
+async function loadTrending() {
   const list = document.getElementById('trendingList');
   if (!list) return;
-  const articles = DB.get('articles').filter(a => a.status === 'published').sort((a,b) => b.views - a.views).slice(0, 6);
+  const { data } = await db.from('articles')
+    .select('id,title,views').eq('status', 'published')
+    .order('views', { ascending: false }).limit(6);
+  const articles = data || [];
   list.innerHTML = articles.map(a => `
-    <li onclick="goArticle(${a.id})">${a.title}</li>
+    <li onclick="location.href='article.html?id=${a.id}'">${a.title}</li>
   `).join('');
 }
 
 // ===== CATEGORY SECTIONS =====
-function loadCategorySections() {
+async function loadCategorySections() {
   const el = document.getElementById('categorySections');
   if (!el) return;
   const cats = ['ରାଜନୀତି', 'ଖେଳ', 'ମନୋରଞ୍ଜନ', 'ବ୍ୟବସାୟ'];
-  const articles = DB.get('articles').filter(a => a.status === 'published');
-  el.innerHTML = cats.map(cat => {
-    const catArticles = articles.filter(a => a.category === cat).slice(0, 4);
+  const sections = await Promise.all(cats.map(cat => getArticles({ category: cat, limit: 4 })));
+
+  el.innerHTML = cats.map((cat, ci) => {
+    const catArticles = sections[ci];
     if (!catArticles.length) return '';
     return `
       <section class="cat-section">
@@ -173,79 +125,95 @@ function loadCategorySections() {
         <div class="cat-grid">
           ${catArticles.map(a => `
             <a href="article.html?id=${a.id}" class="story-card">
-              <div class="card-img" style="background-image:url(${a.image})">
+              <div class="card-img" style="background-image:url(${a.image_url || 'https://picsum.photos/seed/' + a.id + '/800/500'})">
                 <span class="card-category">${a.category}</span>
               </div>
               <div class="card-body">
                 <h3 class="card-title">${a.title}</h3>
                 <div class="card-meta">
-                  <span class="card-reporter">✍ ${a.reporter}</span>
-                  <span>${a.date}</span>
+                  <span class="card-reporter">✍ ${a.reporter_name || ''}</span>
+                  <span>${formatDate(a.published_at)}</span>
                 </div>
               </div>
             </a>
           `).join('')}
         </div>
         <div style="text-align:right;margin-top:12px">
-          <a href="category.html?cat=${cat}" class="see-all-btn">${cat} ର ସମସ୍ତ ଖବର →</a>
+          <a href="category.html?cat=${encodeURIComponent(cat)}" class="see-all-btn">${cat} ର ସମସ୍ତ ଖବର →</a>
         </div>
       </section>
     `;
   }).join('');
 }
 
-// ===== HOME VIDEO GRID =====
-function loadHomeVideos() {
+// ===== HOME VIDEOS =====
+async function loadHomeVideos() {
   const grid = document.getElementById('homeVideoGrid');
   if (!grid) return;
-  const videos = DB.get('videos').slice(0, 4);
+  const videos = await getVideos(4);
+  if (!videos.length) { grid.innerHTML = '<p style="color:#888;padding:20px">No videos yet.</p>'; return; }
   grid.innerHTML = videos.map(v => `
     <a href="video.html?id=${v.id}" class="video-card">
-      <div class="video-thumb" style="background-image:url(${v.thumb})">
+      <div class="video-thumb" style="background-image:url(${v.thumb_url || 'https://img.youtube.com/vi/' + v.youtube_id + '/hqdefault.jpg'})">
         <div class="play-icon">▶</div>
       </div>
       <div class="video-info">
         <div class="video-title">${v.title}</div>
-        <div class="video-meta">✍ ${v.reporter} • 👁 ${v.views.toLocaleString()}</div>
+        <div class="video-meta">✍ ${v.reporter_name || ''} • 👁 ${(v.views || 0).toLocaleString()}</div>
       </div>
     </a>
   `).join('');
 }
 
 // ===== ARTICLE PAGE =====
-function loadArticlePage() {
+async function loadArticlePage() {
   if (!document.querySelector('.article-page')) return;
   const params = new URLSearchParams(window.location.search);
-  const id = parseInt(params.get('id'));
-  const article = DB.get('articles').find(a => a.id === id);
-  if (!article) { document.querySelector('.article-page').innerHTML = '<p>ଲେଖା ମିଳିଲା ନାହିଁ।</p>'; return; }
+  const id = params.get('id');
+  if (!id) return;
 
-  // increment views
-  const articles = DB.get('articles');
-  const idx = articles.findIndex(a => a.id === id);
-  if (idx > -1) { articles[idx].views++; DB.set('articles', articles); }
+  const article = await getArticleById(id);
+  if (!article) {
+    document.querySelector('.article-page').innerHTML = '<p style="padding:40px">ଲେଖା ମିଳିଲା ନାହିଁ।</p>';
+    return;
+  }
+
+  await incrementViews(id);
 
   document.title = article.title + ' - MLF News 24';
-  document.getElementById('artCategory').textContent = article.category;
-  document.getElementById('artTitle').textContent = article.title;
-  document.getElementById('artReporter').textContent = '✍ ' + article.reporter;
-  document.getElementById('artDate').textContent = '📅 ' + article.date;
-  document.getElementById('artViews').textContent = '👁 ' + article.views.toLocaleString();
-  document.getElementById('artHeroImg').style.backgroundImage = `url(${article.image})`;
-  document.getElementById('artBody').innerHTML = article.body.split('\n').map(p => `<p>${p}</p>`).join('');
+  const catEl = document.getElementById('artCategory');
+  const titleEl = document.getElementById('artTitle');
+  const repEl = document.getElementById('artReporter');
+  const dateEl = document.getElementById('artDate');
+  const viewsEl = document.getElementById('artViews');
+  const imgEl = document.getElementById('artHeroImg');
+  const bodyEl = document.getElementById('artBody');
 
-  // Related
-  const related = DB.get('articles').filter(a => a.id !== id && a.status === 'published').slice(0, 3);
+  if (catEl) catEl.textContent = article.category;
+  if (titleEl) titleEl.textContent = article.title;
+  if (repEl) repEl.textContent = '✍ ' + (article.reporter_name || '');
+  if (dateEl) dateEl.textContent = '📅 ' + formatDate(article.published_at);
+  if (viewsEl) viewsEl.textContent = '👁 ' + (article.views || 0).toLocaleString();
+  if (imgEl) imgEl.style.backgroundImage = `url(${article.image_url || ''})`;
+  if (bodyEl) bodyEl.innerHTML = (article.body || '').split('\n').filter(p => p.trim()).map(p => `<p>${p}</p>`).join('');
+
+  // Related articles
+  const { data: related } = await db.from('articles')
+    .select('id,title,image_url,category,reporter_name')
+    .eq('status', 'published')
+    .eq('category', article.category)
+    .neq('id', id)
+    .limit(3);
   const relGrid = document.getElementById('relatedGrid');
-  if (relGrid) {
+  if (relGrid && related?.length) {
     relGrid.innerHTML = related.map(a => `
       <a href="article.html?id=${a.id}" class="story-card">
-        <div class="card-img" style="background-image:url(${a.image})">
+        <div class="card-img" style="background-image:url(${a.image_url || 'https://picsum.photos/seed/' + a.id + '/800/500'})">
           <span class="card-category">${a.category}</span>
         </div>
         <div class="card-body">
           <h3 class="card-title">${a.title}</h3>
-          <div class="card-meta"><span class="card-reporter">✍ ${a.reporter}</span></div>
+          <div class="card-meta"><span class="card-reporter">✍ ${a.reporter_name || ''}</span></div>
         </div>
       </a>
     `).join('');
@@ -253,49 +221,49 @@ function loadArticlePage() {
 }
 
 // ===== CATEGORY PAGE =====
-function loadCategoryPage() {
+async function loadCategoryPage() {
   if (!document.querySelector('.category-page')) return;
   const params = new URLSearchParams(window.location.search);
-  const cat = params.get('cat') || 'ସବୁ';
-  document.getElementById('catTitle').textContent = cat;
-  document.title = cat + ' - MLF News 24';
+  const cat = params.get('cat') || '';
+  const titleEl = document.getElementById('catTitle');
+  if (titleEl) titleEl.textContent = cat || 'ସମସ୍ତ ଖବର';
+  document.title = (cat || 'ଖବର') + ' - MLF News 24';
 
-  let articles = DB.get('articles').filter(a => a.status === 'published');
-  if (cat !== 'ସବୁ') articles = articles.filter(a => a.category === cat);
-
+  const articles = await getArticles(cat ? { category: cat } : {});
   const grid = document.getElementById('catArticlesGrid');
-  if (grid) {
-    grid.innerHTML = articles.map(a => `
-      <a href="article.html?id=${a.id}" class="story-card">
-        <div class="card-img" style="background-image:url(${a.image})">
-          <span class="card-category">${a.category}</span>
+  if (!grid) return;
+  if (!articles.length) { grid.innerHTML = '<p style="padding:20px;color:#888">କୋଣସି ଖବର ନାହିଁ।</p>'; return; }
+  grid.innerHTML = articles.map(a => `
+    <a href="article.html?id=${a.id}" class="story-card">
+      <div class="card-img" style="background-image:url(${a.image_url || 'https://picsum.photos/seed/' + a.id + '/800/500'})">
+        <span class="card-category">${a.category}</span>
+      </div>
+      <div class="card-body">
+        <h3 class="card-title">${a.title}</h3>
+        <p class="card-excerpt">${a.excerpt || ''}</p>
+        <div class="card-meta">
+          <span class="card-reporter">✍ ${a.reporter_name || ''}</span>
+          <span>📅 ${formatDate(a.published_at)}</span>
         </div>
-        <div class="card-body">
-          <h3 class="card-title">${a.title}</h3>
-          <p class="card-excerpt">${a.excerpt}</p>
-          <div class="card-meta">
-            <span class="card-reporter">✍ ${a.reporter}</span>
-            <span>📅 ${a.date}</span>
-          </div>
-        </div>
-      </a>
-    `).join('');
-  }
+      </div>
+    </a>
+  `).join('');
 }
 
 // ===== VIDEO PAGE =====
-function loadVideoPage() {
+async function loadVideoPage() {
   const grid = document.getElementById('videoPageGrid');
   if (!grid) return;
-  const videos = DB.get('videos');
+  const videos = await getVideos(20);
+  if (!videos.length) { grid.innerHTML = '<p style="color:#888;padding:20px">No videos yet.</p>'; return; }
   grid.innerHTML = videos.map(v => `
-    <div class="video-card" onclick="playVideo('${v.youtubeId}', '${v.title}')">
-      <div class="video-thumb" style="background-image:url(${v.thumb})">
+    <div class="video-card" onclick="playVideo('${v.youtube_id}', '${v.title.replace(/'/g, "\\'")}')">
+      <div class="video-thumb" style="background-image:url(${v.thumb_url || 'https://img.youtube.com/vi/' + v.youtube_id + '/hqdefault.jpg'})">
         <div class="play-icon">▶</div>
       </div>
       <div class="video-info">
         <div class="video-title">${v.title}</div>
-        <div class="video-meta">✍ ${v.reporter} | 📅 ${v.date} | 👁 ${v.views.toLocaleString()}</div>
+        <div class="video-meta">✍ ${v.reporter_name || ''} | 📅 ${formatDate(v.published_at)} | 👁 ${(v.views || 0).toLocaleString()}</div>
       </div>
     </div>
   `).join('');
@@ -318,64 +286,85 @@ function closeVideoModal() {
   if (frame) frame.src = '';
 }
 
-// ===== E-PAPER PAGE =====
-function loadEpaperPage() {
+// ===== EPAPER PAGE =====
+async function loadEpaperPage() {
   const grid = document.getElementById('epaperGrid');
   if (!grid) return;
-  const epapers = DB.get('epapers');
-  grid.innerHTML = epapers.map((ep, i) => `
+  const epapers = await getEpapers();
+  if (!epapers.length) { grid.innerHTML = '<p style="padding:20px;color:#888">E-Paper ଉପଲବ୍ଧ ନାହିଁ।</p>'; return; }
+  grid.innerHTML = epapers.map(ep => `
     <div class="epaper-card">
-      <div class="epaper-thumb">📰</div>
+      <div class="epaper-thumb">
+        ${ep.thumbnail_url
+          ? `<img src="${ep.thumbnail_url}" style="width:100%;height:100%;object-fit:cover">`
+          : '📰'}
+      </div>
       <div class="epaper-info">
-        <div class="epaper-date">${ep.date}</div>
+        <div class="epaper-date">${ep.edition_date}</div>
         <div class="epaper-title">${ep.title}</div>
-        <div style="font-size:12px;color:#888;margin-top:4px">ପୃଷ୍ଠା: ${ep.pages}</div>
-        <a href="${ep.file}" class="epaper-download">📥 PDF ଡାଉନଲୋଡ</a>
+        <div style="font-size:12px;color:#888;margin-top:4px">ପୃଷ୍ଠା: ${ep.pages || 12}</div>
+        ${ep.file_url
+          ? `<a href="${ep.file_url}" target="_blank" class="epaper-download">📥 PDF ଡାଉନଲୋଡ</a>`
+          : '<span style="color:#888;font-size:12px">PDF ଆସୁଛି</span>'}
       </div>
     </div>
   `).join('');
 }
 
-// ===== LOAD ADS =====
-function loadAds() {
-  const ads = DB.get('ads').filter(a => a.active);
-  
-  // Sidebar ad
-  const sidebarAd = ads.find(a => a.position === 'sidebar');
+// ===== ADS =====
+async function loadAds() {
+  const sidebarAds = await getAds('sidebar');
   const sidebarEl = document.getElementById('sidebarAd');
-  if (sidebarAd && sidebarEl) {
+  if (sidebarAds.length && sidebarEl) {
+    const ad = sidebarAds[0];
     sidebarEl.innerHTML = `
-      <a href="${sidebarAd.linkUrl || '#'}" target="_blank">
-        <img src="${sidebarAd.imageUrl}" alt="${sidebarAd.title}" 
-             style="width:100%;border-radius:6px;display:block;">
+      <a href="${ad.link_url || '#'}" target="_blank">
+        <img src="${ad.image_url}" alt="${ad.title}" style="width:100%;border-radius:6px;display:block;">
       </a>`;
   }
 
-  // Bottom/footer ad
-  const bottomAd = ads.find(a => a.position === 'footer' || a.position === 'header');
+  const bottomAds = await getAds('header');
   const bottomEl = document.getElementById('bottomAd');
-  if (bottomAd && bottomEl) {
+  if (bottomAds.length && bottomEl) {
+    const ad = bottomAds[0];
     bottomEl.innerHTML = `
-      <a href="${bottomAd.linkUrl || '#'}" target="_blank">
-        <img src="${bottomAd.imageUrl}" alt="${bottomAd.title}" 
-             style="max-width:100%;border-radius:6px;display:block;margin:0 auto;">
+      <a href="${ad.link_url || '#'}" target="_blank">
+        <img src="${ad.image_url}" alt="${ad.title}" style="max-width:100%;border-radius:6px;display:block;margin:0 auto;">
       </a>`;
   }
 }
 
+// ===== SOCIAL LINKS =====
+async function loadSocialLinks() {
+  const settings = await getSiteSettings();
+  const map = { socialFb: 'facebook_url', socialWa: 'whatsapp_number', socialIg: 'instagram_url', socialYt: 'youtube_url' };
+  Object.entries(map).forEach(([elId, key]) => {
+    const el = document.getElementById(elId);
+    if (!el || !settings[key]) return;
+    if (key === 'whatsapp_number') {
+      el.href = 'https://wa.me/' + settings[key].replace(/[^0-9]/g, '');
+    } else {
+      el.href = settings[key];
+    }
+  });
+}
+
 // ===== INIT =====
-document.addEventListener('DOMContentLoaded', () => {
-  seedData();
+document.addEventListener('DOMContentLoaded', async () => {
   startClock();
-  loadTicker();
-  loadHero();
-  loadTopStories();
-  loadTrending();
-  loadCategorySections();
-  loadHomeVideos();
-  loadArticlePage();
-  loadCategoryPage();
-  loadVideoPage();
-  loadEpaperPage();
-  loadAds();
+  // Run all loaders in parallel for speed
+  await Promise.all([
+    loadTicker(),
+    loadHero(),
+    loadTopStories(),
+    loadTrending(),
+    loadCategorySections(),
+    loadHomeVideos(),
+    loadArticlePage(),
+    loadCategoryPage(),
+    loadVideoPage(),
+    loadEpaperPage(),
+    loadAds(),
+    loadSocialLinks(),
+  ]);
 });
