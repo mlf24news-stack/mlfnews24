@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login - MLF News 24</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background: #0A0A0A;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Segoe UI', sans-serif;
+}
+.login-box {
+  background: #141414;
+  border: 1px solid #222;
+  border-radius: 12px;
+  padding: 48px 40px;
+  width: 100%;
+  max-width: 420px;
+}
+.login-logo {
+  text-align: center;
+  margin-bottom: 32px;
+}
+.login-logo h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  color: white;
+  font-weight: 900;
+}
+.login-logo p {
+  color: #C8102E;
+  font-size: 11px;
+  letter-spacing: 2px;
+  margin-top: 4px;
+}
+.form-group { margin-bottom: 20px; }
+.form-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #888;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+.form-input {
+  width: 100%;
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 6px;
+  padding: 13px 16px;
+  color: white;
+  font-size: 14px;
+  transition: border-color 0.2s;
+}
+.form-input:focus { outline: none; border-color: #C8102E; }
+.btn-login {
+  width: 100%;
+  padding: 14px;
+  background: #C8102E;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 8px;
+}
+.btn-login:hover { background: #8B0000; }
+.btn-login:disabled { background: #555; cursor: not-allowed; }
+.error-msg {
+  background: rgba(200,16,46,0.1);
+  border: 1px solid rgba(200,16,46,0.3);
+  color: #C8102E;
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  margin-bottom: 20px;
+  display: none;
+}
+.back-link {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  color: #555;
+  font-size: 12px;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.back-link:hover { color: #888; }
+</style>
+</head>
+<body>
+
+<div class="login-box">
+  <div class="login-logo">
+    <h1>MLF News 24</h1>
+    <p>⚙ ADMIN PANEL</p>
+  </div>
+
+  <div class="error-msg" id="errorMsg"></div>
+
+  <div class="form-group">
+    <label class="form-label">Email</label>
+    <input class="form-input" type="email" id="loginEmail"
+           placeholder="admin@mlfnews24.com"
+           onkeydown="if(event.key==='Enter') doLogin()">
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">Password</label>
+    <input class="form-input" type="password" id="loginPassword"
+           placeholder="••••••••"
+           onkeydown="if(event.key==='Enter') doLogin()">
+  </div>
+
+  <button class="btn-login" id="loginBtn" onclick="doLogin()">
+    🔑 Login
+  </button>
+
+  <a href="../index.html" class="back-link">← Back to Website</a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = 'https://crltkbziyghpaqphdnzo.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNybHRrYnppeWdocGFxcGhkbnpvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1NzUyMzksImV4cCI6MjA5NTE1MTIzOX0.eM_hobjbUW4j-yLX7n5YSxj1uLEoRAbU9TgxmW6cHYI';
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// Already logged in? Redirect
+db.auth.getSession().then(({ data: { session } }) => {
+  if (session) window.location.href = 'index.html';
+});
+
+async function doLogin() {
+  const email    = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const btn      = document.getElementById('loginBtn');
+  const errEl    = document.getElementById('errorMsg');
+
+  if (!email || !password) {
+    showError('Please enter email and password');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = '⏳ Logging in...';
+  errEl.style.display = 'none';
+
+  const { error } = await db.auth.signInWithPassword({ email, password });
+
+  if (error) {
+    showError('❌ ' + (error.message === 'Invalid login credentials'
+      ? 'Wrong email or password'
+      : error.message));
+    btn.disabled = false;
+    btn.textContent = '🔑 Login';
+  } else {
+    btn.textContent = '✅ Success! Redirecting...';
+    window.location.href = 'index.html';
+  }
+}
+
+function showError(msg) {
+  const el = document.getElementById('errorMsg');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+</script>
+</body>
+</html>
