@@ -246,6 +246,14 @@ body { background: #0A0A0A; }
               </label>
             </div>
           </div>
+          <div id="article-wa-share-box" style="
+            background:#0d2818; border:1px solid #25d366;
+            border-radius:8px; padding:12px; display:none;
+            ">
+            <span style="color:#25d366; font-size:13px;">
+            📲 Publish ହେଲା ପରେ WhatsApp share prompt ଦେଖାଯିବ
+            </span>
+            </div>
 
           <div class="form-group">
             <label class="form-label">Summary / ସାରାଂଶ *</label>
@@ -691,6 +699,10 @@ async function saveArticle() {
     ({ error } = await db.from('articles').insert([{ ...payload, views: 0 }]));
     if (!error) toast('✅ Article published!', 'success');
   }
+  if (!error && payload.is_breaking) {
+  const slug = payload.slug;
+  setTimeout(() => showWhatsAppPrompt(payload.title, '/article.html?slug=' + slug, 'article'), 1000);
+}
   if (error) { toast('❌ Error: ' + error.message); return; }
   resetArticleForm();
   showSection('articles');
@@ -1095,7 +1107,265 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('vidDateInput') && (document.getElementById('vidDateInput').value = new Date().toISOString().split('T')[0]);
   document.getElementById('epDateInput').value  = new Date().toISOString().split('T')[0];
   await Promise.all([loadDashboard(), populateReporterDropdowns(), loadSettings()]);
+  const breakCb = document.getElementById('artBreakingInput');
+const waBox   = document.getElementById('article-wa-share-box');
+if (breakCb && waBox) {
+  breakCb.addEventListener('change', () => {
+    waBox.style.display = breakCb.checked ? 'block' : 'none';
+  });
+  }
 });
+
+  // ============================================================
+// ADMIN PANEL — Breaking Ticker + WhatsApp Functions
+// admin/index.html ke <script> section mein add karo
+// (existing admin functions ke SAATH)
+// ============================================================
+
+// Toggle switch visual update
+document.addEventListener('DOMContentLoaded', function() {
+  const checkbox = document.getElementById('ticker-whatsapp-share');
+  const bg       = document.getElementById('wa-toggle-bg');
+  const knob     = document.getElementById('wa-toggle-knob');
+
+  if (checkbox && bg && knob) {
+    // Initial state
+    updateToggle(checkbox.checked);
+
+    checkbox.addEventListener('change', () => updateToggle(checkbox.checked));
+
+    function updateToggle(checked) {
+      bg.style.background   = checked ? '#25d366' : '#333';
+      knob.style.transform  = checked ? 'translateX(22px)' : 'translateX(0)';
+    }
+  }
+
+  // Article is_breaking checkbox — WhatsApp box show/hide
+  const isBreakingCb = document.getElementById('article-is-breaking');
+  const waBox        = document.getElementById('article-wa-share-box');
+  if (isBreakingCb && waBox) {
+    isBreakingCb.addEventListener('change', () => {
+      waBox.style.display = isBreakingCb.checked ? 'block' : 'none';
+    });
+  }
+
+  // Tickers load karo page open hone par
+  if (document.getElementById('tickers-list')) {
+    loadBreakingTickers();
+  }
+});
+
+// ---- Save Breaking Ticker --------------------------------
+
+async function adminSaveBreakingTicker() {
+  const text      = document.getElementById('ticker-text')?.value?.trim();
+  const link      = document.getElementById('ticker-link')?.value?.trim();
+  const doWhatsApp = document.getElementById('ticker-whatsapp-share')?.checked;
+  const statusEl  = document.getElementById('ticker-status');
+
+  if (!text) {
+    showTickerStatus('⚠️ Ticker text likhiba mandatory achi!', 'error');
+    return;
+  }
+
+  // Button disable karo
+  const btn = event?.target;
+  if (btn) { btn.disabled = true; btn.textContent = 'Saving...'; }
+
+  try {
+    const { data, error } = await supabase
+      .from('breaking_ticker')
+      .insert([{
+        text:       text,
+        link_url:   link || null,
+        is_active:  true,
+        sort_order: 0,
+        created_at: new Date().toISOString()
+      }])
+      .select()
+      .single();
+
+    if (error) throw error;
+
+    // Form clear karo
+    document.getElementById('ticker-text').value = '';
+    document.getElementById('ticker-link').value = '';
+
+    showTickerStatus('✅ Ticker successfully save heigala!', 'success');
+
+    // Tickers list refresh karo
+    loadBreakingTickers();
+
+    // WhatsApp share prompt
+    if (doWhatsApp) {
+      setTimeout(() => {
+        showWhatsAppPrompt(text, link || '', 'ticker');
+      }, 800);
+    }
+
+  } catch (err) {
+    console.error('Ticker save error:', err);
+    showTickerStatus('❌ Error: ' + err.message, 'error');
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = '🔴 Save Breaking Ticker'; }
+  }
+}
+
+// ---- Load Active Tickers ---------------------------------
+
+async function loadBreakingTickers() {
+  const container = document.getElementById('tickers-list');
+  if (!container) return;
+
+  try {
+    const { data, error } = await supabase
+      .from('breaking_ticker')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(20);
+
+    if (error) throw error;
+
+    if (!data || data.length === 0) {
+      container.innerHTML = '<p style="color:#666; text-align:center; padding:20px;">କୌଣସି ticker ନାହିଁ</p>';
+      return;
+    }
+
+    container.innerHTML = data.map(ticker => `
+      <div style="
+        background:#0d1117; border:1px solid ${ticker.is_active ? '#333' : '#222'};
+        border-radius:8px; padding:14px; margin-bottom:10px;
+        display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
+        opacity:${ticker.is_active ? '1' : '0.5'};
+      ">
+        <div style="flex:1;">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+            <span style="
+              background:${ticker.is_active ? '#ff0040' : '#444'};
+              color:#fff; font-size:10px; padding:2px 8px; border-radius:4px;
+              font-weight:700; letter-spacing:0.5px;
+            ">
+              ${ticker.is_active ? '🔴 ACTIVE' : 'INACTIVE'}
+            </span>
+            <span style="color:#555; font-size:11px;">
+              ${new Date(ticker.created_at).toLocaleString('en-IN')}
+            </span>
+          </div>
+          <p style="color:#e0e0e0; margin:0 0 4px; font-size:14px; font-family:'Noto Serif Odia',serif;">
+            ${ticker.text}
+          </p>
+          ${ticker.link_url ? `<p style="color:#4a9eff; margin:0; font-size:11px;">🔗 ${ticker.link_url}</p>` : ''}
+        </div>
+
+        <div style="display:flex; gap:6px; flex-shrink:0;">
+          <!-- WhatsApp Share -->
+          <button
+            onclick="shareTickerToWhatsApp('${ticker.text.replace(/'/g, "\\'")}', '${ticker.link_url || ''}')"
+            title="WhatsApp Share"
+            style="
+              background:#0d2818; border:1px solid #25d366; color:#25d366;
+              width:32px; height:32px; border-radius:6px; cursor:pointer;
+              font-size:14px; display:flex; align-items:center; justify-content:center;
+            "
+          >📲</button>
+
+          <!-- Toggle Active/Inactive -->
+          <button
+            onclick="toggleTickerStatus('${ticker.id}', ${!ticker.is_active})"
+            title="${ticker.is_active ? 'Deactivate' : 'Activate'}"
+            style="
+              background:${ticker.is_active ? '#1a1a0d' : '#0d1a0d'};
+              border:1px solid ${ticker.is_active ? '#888' : '#25d366'};
+              color:${ticker.is_active ? '#888' : '#25d366'};
+              width:32px; height:32px; border-radius:6px; cursor:pointer;
+              font-size:14px;
+            "
+          >${ticker.is_active ? '⏸' : '▶'}</button>
+
+          <!-- Delete -->
+          <button
+            onclick="deleteBreakingTicker('${ticker.id}')"
+            title="Delete"
+            style="
+              background:#1a0d0d; border:1px solid #ff4444; color:#ff4444;
+              width:32px; height:32px; border-radius:6px; cursor:pointer;
+              font-size:14px;
+            "
+          >🗑</button>
+        </div>
+      </div>
+    `).join('');
+
+  } catch (err) {
+    container.innerHTML = `<p style="color:#ff4444; padding:16px;">Error loading tickers: ${err.message}</p>`;
+  }
+}
+
+// ---- Ticker Actions --------------------------------------
+
+async function toggleTickerStatus(id, newStatus) {
+  try {
+    const { error } = await supabase
+      .from('breaking_ticker')
+      .update({ is_active: newStatus })
+      .eq('id', id);
+    if (error) throw error;
+    loadBreakingTickers();
+  } catch (err) {
+    alert('Error: ' + err.message);
+  }
+}
+
+async function deleteBreakingTicker(id) {
+  if (!confirm('Ei ticker delete kariba?')) return;
+  try {
+    const { error } = await supabase
+      .from('breaking_ticker')
+      .delete()
+      .eq('id', id);
+    if (error) throw error;
+    loadBreakingTickers();
+  } catch (err) {
+    alert('Error: ' + err.message);
+  }
+}
+
+function shareTickerToWhatsApp(text, url) {
+  showWhatsAppPrompt(text, url, 'ticker');
+}
+
+// ---- Status Message Helper --------------------------------
+
+function showTickerStatus(message, type) {
+  const el = document.getElementById('ticker-status');
+  if (!el) return;
+  el.style.display = 'block';
+  el.style.padding = '10px 14px';
+  el.style.borderRadius = '8px';
+  el.style.fontSize = '13px';
+  el.style.fontFamily = "'Noto Serif Odia', serif";
+
+  if (type === 'success') {
+    el.style.background = '#0d2818';
+    el.style.border = '1px solid #25d366';
+    el.style.color = '#25d366';
+  } else {
+    el.style.background = '#1a0d0d';
+    el.style.border = '1px solid #ff4444';
+    el.style.color = '#ff4444';
+  }
+  el.textContent = message;
+
+  setTimeout(() => { el.style.display = 'none'; }, 4000);
+}
+
+// ---- Article Publish Hook --------------------------------
+// Existing article save function ke BAAD call karo:
+//
+//   const savedArticle = await saveArticleToSupabase(formData);
+//   onArticlePublished(savedArticle);  // <-- yeh add karo
+//
+// onArticlePublished() function whatsapp-feature.js mein hai
 </script>
 </body>
 </html>
