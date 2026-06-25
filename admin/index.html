@@ -1378,29 +1378,39 @@ function showTickerStatus(message, type) {
 
 const GEMINI_API_KEY = 'AQ.Ab8RN6LnsJT8iToByR4efU9ylMPoQ15rAp6U82OrjiWTg_Aa6Q';
 async function generateAISummary() {
-  const body  = document.getElementById('artBodyInput')?.value?.trim();
-  const title = document.getElementById('artTitleInput')?.value?.trim();
-  const btn   = document.getElementById('aiSummaryBtn');
-
-  if (!body || body.length < 50) {
-    toast('⚠️ Pehle Full Article likhо — tarpare summary generate heba');
+  const title    = document.getElementById('artTitleInput')?.value?.trim();
+  const category = document.getElementById('artCatInput')?.value?.trim();
+  const btn      = document.getElementById('aiSummaryBtn');
+ 
+  if (!title) {
+    toast('⚠️ Pehle Title likho — tarpare AI article generate heba');
     return;
   }
-
+ 
   // Button loading state
   btn.disabled = true;
-  btn.innerHTML = '⏳ Generating...';
-
+  btn.innerHTML = '⏳ AI Article Likhuchi...';
+ 
   try {
-    const prompt = `You are an Odia news editor. Read the following news article and write a 2-3 sentence summary in Odia language (ଓଡ଼ିଆ). The summary should be clear, concise and suitable for a news website excerpt.
-
-Article Title: ${title || 'News Article'}
-
-Article Content:
-${body.substring(0, 2000)}
-
-Write ONLY the Odia summary, nothing else. No English, no explanation.`;
-
+    const prompt = `You are an expert Odia news journalist. Write a complete, professional news article in Odia language (ଓଡ଼ିଆ script) based on the following title and category.
+ 
+Title: ${title}
+Category: ${category || 'General News'}
+ 
+Requirements:
+1. Write a FULL news article in Odia language (ଓଡ଼ିଆ) — minimum 300 words
+2. Use proper journalistic style
+3. Include relevant details, background, and context
+4. Write in formal Odia newspaper style
+5. At the END, after the full article, write "---SUMMARY---" and then write a 2-3 sentence summary in Odia
+ 
+Format your response EXACTLY like this:
+[Full Odia article here - minimum 300 words]
+---SUMMARY---
+[2-3 sentence Odia summary here]
+ 
+Write ONLY in Odia language. No English text in the article.`;
+ 
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
       {
@@ -1409,41 +1419,53 @@ Write ONLY the Odia summary, nothing else. No English, no explanation.`;
         body: JSON.stringify({
           contents: [{ parts: [{ text: prompt }] }],
           generationConfig: {
-            temperature: 0.3,
-            maxOutputTokens: 300,
+            temperature: 0.7,
+            maxOutputTokens: 1500,
           }
         })
       }
     );
-
+ 
     if (!response.ok) {
       const err = await response.json();
       throw new Error(err.error?.message || 'API Error');
     }
-
-    const data    = await response.json();
-    const summary = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
-
-    if (!summary) throw new Error('No summary generated');
-
-    // Excerpt field mein fill karo
-    document.getElementById('artExcerptInput').value = summary;
-
-    // Success feedback
-    btn.innerHTML = '✅ Summary Ready!';
+ 
+    const data   = await response.json();
+    const output = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+ 
+    if (!output) throw new Error('No content generated');
+ 
+    // Article aur Summary alag karo
+    const parts   = output.split('---SUMMARY---');
+    const article = parts[0]?.trim();
+    const summary = parts[1]?.trim();
+ 
+    // Full Article field mein fill karo
+    if (article) {
+      document.getElementById('artBodyInput').value = article;
+    }
+ 
+    // Summary field mein fill karo
+    if (summary) {
+      document.getElementById('artExcerptInput').value = summary;
+    }
+ 
+    // Success
+    btn.innerHTML = '✅ Article Ready!';
     btn.style.background = 'linear-gradient(135deg, #25d366, #1a9e4a)';
-    toast('✅ AI Summary generate heigala!', 'success');
-
+    toast('✅ AI Article + Summary generate heigala!', 'success');
+ 
     setTimeout(() => {
-      btn.innerHTML = '🤖 AI Summary Generate';
+      btn.innerHTML = '🤖 AI Article Generate';
       btn.style.background = 'linear-gradient(135deg, #4a47a3, #6c63ff)';
       btn.disabled = false;
     }, 3000);
-
+ 
   } catch (err) {
-    console.error('AI Summary error:', err);
+    console.error('AI Article error:', err);
     toast('❌ Error: ' + err.message);
-    btn.innerHTML = '🤖 AI Summary Generate';
+    btn.innerHTML = '🤖 AI Article Generate';
     btn.style.background = 'linear-gradient(135deg, #4a47a3, #6c63ff)';
     btn.disabled = false;
   }
