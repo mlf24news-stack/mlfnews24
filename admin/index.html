@@ -1413,9 +1413,11 @@ ${keyPoints ? `Key Facts:\n${keyPoints}` : ''}
 Requirements:
 1. Write minimum 300 words
 2. Use simple Odia + common English words mixed
-3. Do NOT repeat same sentences
+3. Do NOT repeat same sentences — each paragraph must have NEW information
 4. Make it realistic and detailed
 5. At the END write "---SUMMARY---" then 2-3 sentence summary in Odia
+6. Use quotes from officials, eyewitnesses to make it realistic
+7. Add background context and impact on people
 
 Format:
 [Full article]
@@ -1433,7 +1435,7 @@ Format:
     body: JSON.stringify({
       model: 'llama-3.3-70b-versatile',
       messages: [{ role: 'user', content: prompt }],
-      max_tokens: 1500,
+      max_tokens: 2048,
       temperature: 0.7
     })
   }
