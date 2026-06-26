@@ -1064,3 +1064,59 @@ body {
   .admin-main { margin-left: 220px; }
   .epaper-grid { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 768px) {
+
+  /* Header */
+  .header-top {
+    padding: 8px 12px;
+    gap: 8px;
+  }
+  .logo img { height: 48px; }
+  .live-clock { font-size: 11px; }
+  .epaper-btn { padding: 6px 10px; font-size: 11px; }
+
+  /* Navbar */
+  .main-nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .nav-links { gap: 0; }
+  .nav-links a { padding: 12px 14px; font-size: 13px; white-space: nowrap; }
+
+  /* Hero */
+  .hero-title { font-size: 22px; }
+  .hero-excerpt { font-size: 13px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+  /* Layout — sidebar neeche */
+  .main-layout { flex-direction: column; }
+  .sidebar { width: 100%; }
+
+  /* Top stories grid */
+  .top-stories-grid { grid-template-columns: 1fr; }
+  .story-card.featured { grid-column: span 1; }
+
+  /* Category grid */
+  .cat-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  /* Advertisement box */
+  .ads-widget { min-height: 100px; }
+
+  /* Weather */
+  .weather-widget { margin: 0 0 16px; }
+
+  /* Video grid */
+  .video-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  /* Footer */
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+
+  /* General padding */
+  .container { padding: 0 12px; }
+  section { margin-bottom: 24px; }
+}
+
+@media (max-width: 480px) {
+  .cat-grid { grid-template-columns: 1fr; }
+  .video-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .hero-title { font-size: 18px; }
+}
