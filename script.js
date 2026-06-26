@@ -224,7 +224,7 @@ async function loadArticlePage() {
 async function loadCategoryPage() {
   if (!document.querySelector('.category-page')) return;
   const params = new URLSearchParams(window.location.search);
-  const cat = params.get('cat') || '';
+  const cat = decodeURIComponent(params.get('cat') || '');
   const titleEl = document.getElementById('catTitle');
   if (titleEl) titleEl.textContent = cat || 'ସମସ୍ତ ଖବର';
   document.title = (cat || 'ଖବର') + ' - MLF News 24';
