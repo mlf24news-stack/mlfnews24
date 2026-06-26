@@ -1146,3 +1146,22 @@ body {
   .ads-widget:empty, #sidebarAd:empty, #bottomAd:empty {
   display: none;
 }
+
+  .nav-social {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-right: 16px;
+}
+.nav-social a {
+  display: flex;
+  align-items: center;
+  opacity: 0.85;
+  transition: opacity 0.2s;
+}
+.nav-social a:hover { opacity: 1; }
+
+@media (max-width: 768px) {
+  .nav-social { display: none; }
+}
