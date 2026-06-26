@@ -1152,7 +1152,8 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding-right: 16px;
+  padding: 0 16px;
+  border-left: 1px solid rgba(255,255,255,0.15);
 }
 .nav-social a {
   display: flex;
