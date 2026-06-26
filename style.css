@@ -1104,7 +1104,7 @@ body {
   .weather-widget { margin: 0 0 16px; }
 
   /* Video grid */
-  .video-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .video-grid { grid-template-columns: 1fr; gap: 16px; }
 
   /* Footer */
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
@@ -1142,3 +1142,7 @@ body {
   .category-layout {
     grid-template-columns: 1fr;
   }
+
+  .ads-widget:empty, #sidebarAd:empty, #bottomAd:empty {
+  display: none;
+}
