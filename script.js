@@ -579,28 +579,30 @@ window.showWhatsAppPrompt       = showWhatsAppPrompt;
 // ===== WEATHER =====
 async function loadWeather() {
   const API_KEY = 'dfedbb651b409f66c685444993985c9e';
-  const cityEl = document.querySelector('.weather-city');
-  const tempEl = document.querySelector('.weather-temp');
-  const descEl = document.querySelector('.weather-desc');
+  const cityEl = document.getElementById('weatherCity');
   if (!cityEl) return;
+
+  const iconMap = { Clear:'☀️', Clouds:'☁️', Rain:'🌧', Drizzle:'🌦', Thunderstorm:'⛈', Snow:'❄️', Mist:'🌫', Haze:'🌫', Fog:'🌫' };
+
+  async function setWeather(data) {
+    document.getElementById('weatherCity').textContent = data.name + ', ' + data.sys.country;
+    document.getElementById('weatherTemp').textContent = Math.round(data.main.temp) + '°C';
+    document.getElementById('weatherDesc').textContent = data.weather[0].description;
+    document.getElementById('weatherHumidity').textContent = data.main.humidity + '%';
+    document.getElementById('weatherFeels').textContent = Math.round(data.main.feels_like) + '°C';
+    document.getElementById('weatherWind').textContent = Math.round(data.wind.speed * 3.6) + ' km/h';
+    document.getElementById('weatherIcon').textContent = iconMap[data.weather[0].main] || '🌤';
+  }
 
   try {
     navigator.geolocation.getCurrentPosition(async (pos) => {
-      const { latitude, longitude } = pos.coords;
-      const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`);
-      const data = await res.json();
-      cityEl.textContent = data.name;
-      tempEl.textContent = Math.round(data.main.temp) + '°C';
-      descEl.textContent = data.weather[0].description;
+      const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&appid=${API_KEY}&units=metric`);
+      setWeather(await res.json());
     }, async () => {
-      // GPS denied — Bhubaneswar default
       const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=Bhubaneswar&appid=${API_KEY}&units=metric`);
-      const data = await res.json();
-      cityEl.textContent = data.name;
-      tempEl.textContent = Math.round(data.main.temp) + '°C';
-      descEl.textContent = data.weather[0].description;
+      setWeather(await res.json());
     });
   } catch (e) {
-    descEl.textContent = 'Data unavailable';
+    document.getElementById('weatherDesc').textContent = 'Data unavailable';
   }
 }
