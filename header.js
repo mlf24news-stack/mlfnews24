@@ -10,12 +10,12 @@ document.getElementById('site-header').innerHTML = `
         <img src="/logo.png" alt="MLF News 24" style="height:64px;width:auto;object-fit:contain;">
       </a>
     </div>
+    <div class="header-ad-banner" id="headerAdBanner">Advertisement</div>
     <div class="header-meta">
       <span id="liveClock"></span>
       <!-- <a href="/epaper.html" class="epaper-btn">📰 E-Paper</a> -->
     </div>
   </div>
-  <div class="header-ad-banner" id="headerAdBanner">Advertisement</div>
   <nav class="main-nav">
     <a href="/index.html">Home</a>
     <a href="/category.html?cat=ରାଜନୀତି">ରାଜନୀତି</a>
