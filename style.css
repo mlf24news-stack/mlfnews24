@@ -24,6 +24,7 @@ body {
   background: #F5F0EB;
   color: var(--text);
   overflow-x: hidden;
+  padding-top: 110px;
 }
 
 /* ===== BREAKING NEWS BAR ===== */
@@ -34,8 +35,10 @@ body {
   align-items: center;
   height: 36px;
   overflow: hidden;
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  width: 100%;
   z-index: 1000;
 }
 .breaking-label {
@@ -72,8 +75,10 @@ body {
 .site-header {
   background: var(--black);
   color: white;
-  position: sticky;
+  position: fixed;
   top: 36px;
+  left: 0;
+  width: 100%;
   z-index: 999;
   box-shadow: 0 2px 20px rgba(0,0,0,0.5);
 }
