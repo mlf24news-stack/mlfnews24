@@ -19,12 +19,13 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+html {
+  overflow-x: hidden;
+}
 body {
   font-family: var(--font-body);
   background: #F5F0EB;
   color: var(--text);
-  overflow-x: hidden;
-  padding-top: 110px;
 }
 
 /* ===== BREAKING NEWS BAR ===== */
@@ -35,10 +36,8 @@ body {
   align-items: center;
   height: 36px;
   overflow: hidden;
-  position: fixed;
+  position: sticky;
   top: 0;
-  left: 0;
-  width: 100%;
   z-index: 1000;
 }
 .breaking-label {
