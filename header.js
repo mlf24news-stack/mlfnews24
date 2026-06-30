@@ -12,7 +12,7 @@ document.getElementById('site-header').innerHTML = `
     </div>
     <div class="header-meta">
       <span id="liveClock"></span>
-      <a href="/epaper.html" class="epaper-btn">📰 E-Paper</a>
+      <!-- <a href="/epaper.html" class="epaper-btn">📰 E-Paper</a> -->
     </div>
   </div>
   <nav class="main-nav">
@@ -43,7 +43,7 @@ document.getElementById('site-footer').innerHTML = `
       <p>Odisha's trusted news source.</p>
       <p>ଓଡ଼ିଶାର ବିଶ୍ୱସ୍ତ ସମାଚାର ଉତ୍ସ।</p>
     </div>
-    <div class="footer-col"><h4>Quick Links</h4><a href="/index.html">Home</a><a href="/video.html">Videos</a><a href="/epaper.html">E-Paper</a></div>
+    <div class="footer-col"><h4>Quick Links</h4><a href="/index.html">Home</a><a href="/video.html">Videos</a></div>
     <div class="footer-col"><h4>Categories</h4><a href="/category.html?cat=ରାଜନୀତି">ରାଜନୀତି</a><a href="/category.html?cat=ଖେଳ">ଖେଳ</a><a href="/category.html?cat=ଓଡ଼ିଶା">ଓଡ଼ିଶା</a><a href="/category.html?cat=ବ୍ୟବସାୟ">ବ୍ୟବସାୟ</a><a href="/category.html?cat=ପାଣିପାଗ">ପାଣିପାଗ</a></div>
     <div class="footer-col"><h4>Contact Us</h4><p>📧 news@mlfnews24.com</p><p>📞 +91 98765 43210</p>
       <div style="display:flex;gap:12px;margin-top:12px">
