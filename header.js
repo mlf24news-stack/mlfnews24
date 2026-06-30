@@ -10,7 +10,11 @@ document.getElementById('site-header').innerHTML = `
         <img src="/logo.png" alt="MLF News 24" style="height:64px;width:auto;object-fit:contain;">
       </a>
     </div>
-    <div class="header-ad-banner" id="headerAdBanner">Advertisement</div>
+    <div class="header-ad-banner" id="headerAdBanner">
+      <div class="ad-slide active">Advertisement 1</div>
+      <div class="ad-slide">Advertisement 2</div>
+      <div class="ad-slide">Advertisement 3</div>
+    </div>
     <div class="header-meta">
       <span id="liveClock"></span>
       <!-- <a href="/epaper.html" class="epaper-btn">📰 E-Paper</a> -->
@@ -57,3 +61,26 @@ document.getElementById('site-footer').innerHTML = `
   </div>
   <div class="footer-bottom"><p>© 2026 MLF News 24 — My Lifeline Foundation. All Rights Reserved.</p></div>
 </footer>`;
+
+// Active nav link highlight
+(function() {
+  const currentPage = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.main-nav a').forEach(link => {
+    const linkPage = link.getAttribute('href').split('?')[0].replace(/^\//, '');
+    if (linkPage === currentPage) {
+      link.classList.add('active');
+    }
+  });
+})();
+
+// Ad banner rotation (works for all ad containers: header, sidebar, bottom)
+document.querySelectorAll('.header-ad-banner, .ads-widget, .ad-banner').forEach(container => {
+  const slides = container.querySelectorAll('.ad-slide');
+  if (slides.length < 2) return;
+  let current = 0;
+  setInterval(() => {
+    slides[current].classList.remove('active');
+    current = (current + 1) % slides.length;
+    slides[current].classList.add('active');
+  }, 4000);
+});
