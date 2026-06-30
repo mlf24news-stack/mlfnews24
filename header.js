@@ -34,6 +34,7 @@ document.getElementById('site-header').innerHTML = `
     </div>
   </nav>
 </header>`;
+<div class="header-ad-banner" id="headerAdBanner">Advertisement</div>`;
 
 document.getElementById('site-footer').innerHTML = `
 <footer class="site-footer">
