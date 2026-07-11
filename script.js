@@ -313,6 +313,7 @@ async function loadEpaperPage() {
 
 // ===== ADS =====
 async function loadAds() {
+  // Sidebar ad
   const sidebarAds = await getAds('sidebar');
   const sidebarEl = document.getElementById('sidebarAd');
   if (sidebarAds.length && sidebarEl) {
@@ -323,7 +324,19 @@ async function loadAds() {
       </a>`;
   }
 
-  const bottomAds = await getAds('header');
+  // Header banner ad
+  const headerAds = await getAds('header');
+  const headerEl = document.getElementById('headerAdBanner');
+  if (headerAds.length && headerEl) {
+    const ad = headerAds[0];
+    headerEl.innerHTML = `
+      <a href="${ad.link_url || '#'}" target="_blank" style="display:block;width:100%;height:100%;">
+        <img src="${ad.image_url}" alt="${ad.title}" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </a>`;
+  }
+
+  // Bottom ad
+  const bottomAds = await getAds('bottom');
   const bottomEl = document.getElementById('bottomAd');
   if (bottomAds.length && bottomEl) {
     const ad = bottomAds[0];
