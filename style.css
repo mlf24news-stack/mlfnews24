@@ -901,13 +901,14 @@ body {
 /* Ad containers */
 #sidebarAd {
   width: 100%;
-  height: 540px;
-  max-height: 540px;
+  height: 400px;
   overflow: hidden;
   border-radius: 8px;
   padding: 0;
   border: none;
 }
+#sidebarAd a { display: block; width: 100%; height: 100%; }
+#sidebarAd img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 8px; }
 
 #sidebarAd a {
   display: block;
@@ -926,17 +927,13 @@ body {
 #bottomAd {
   width: 100%;
   max-width: 970px;
+  height: 90px;
   margin: 20px auto;
-  max-height: 90px;
   overflow: hidden;
   border-radius: 6px;
 }
-
-#bottomAd img {
-  width: 100%;
-  height: 90px;
-  object-fit: cover;
-}
+#bottomAd a { display: block; width: 100%; height: 100%; }
+#bottomAd img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 /* Admin Form */
 .admin-form {
@@ -1181,14 +1178,16 @@ body {
 .header-ad-banner {
   flex: 1;
   max-width: 728px;
-  height: 60px;
+  height: 80px;
   margin: 0 24px;
-  background: #f0f0f0;
-  border: 1px dashed #ddd;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--gray);
-  font-size: 12px;
-  letter-spacing: 0.5px;
+  overflow: hidden;
+  border-radius: 4px;
+}
+.header-ad-banner img, .header-ad-banner a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.header-ad-banner img {
+  object-fit: cover;
 }
