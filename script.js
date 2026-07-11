@@ -195,7 +195,10 @@ async function loadArticlePage() {
   if (dateEl) dateEl.textContent = '📅 ' + formatDate(article.published_at);
   if (viewsEl) viewsEl.textContent = '👁 ' + (article.views || 0).toLocaleString();
   if (imgEl) imgEl.style.backgroundImage = `url(${article.image_url || ''})`;
-  if (bodyEl) bodyEl.innerHTML = (article.body || '').split('\n').filter(p => p.trim()).map(p => `<p>${p}</p>`).join('');
+  if (bodyEl) {
+    bodyEl.innerHTML = (article.body || '').split('\n').filter(p => p.trim()).map(p => `<p>${p}</p>`).join('');
+    if (article.font) bodyEl.style.fontFamily = `'${article.font}', serif`;
+  }
 
   // Related articles
   const { data: related } = await db.from('articles')
