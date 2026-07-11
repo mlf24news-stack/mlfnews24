@@ -332,9 +332,9 @@ async function loadAds() {
   const headerEl = document.getElementById('headerAdBanner');
   if (headerAds.length && headerEl) {
     const ad = headerAds[0];
-    headerEl.innerHTML = `
-      <a href="${ad.link_url || '#'}" target="_blank" style="display:block;width:100%;height:100%;">
-        <img src="${ad.image_url}" alt="${ad.title}" style="width:100%;height:100%;object-fit:cover;display:block;">
+    bottomEl.innerHTML = `
+      <a href="${ad.link_url || '#'}" target="_blank" style="display:block;width:100%;height:90px;">
+        <img src="${ad.image_url}" alt="${ad.title}" style="width:100%;height:90px;object-fit:cover;display:block;border-radius:6px;">
       </a>`;
   }
 
