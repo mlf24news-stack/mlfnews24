@@ -29,12 +29,12 @@ body { background: #0A0A0A; }
 .reporter-stats strong { font-size:22px; color:#C8102E; font-family:'Playfair Display',serif; }
 .epaper-admin-card { background:#1A1A1A; border:1px solid #262626; border-radius:8px; padding:16px; }
 .tag { display:inline-block; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600; background:rgba(200,16,46,0.15); color:#C8102E; margin-bottom:8px; }
-.ad-preview { width:100%;height:80px;background:#111;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#555;font-size:12px;margin-bottom:8px;overflow:hidden; }
+.ad-preview { width:100%;height:80px;background:#111;border-radius:4px;display:flex;align-items:center;justify-:center;color:#555;font-size:12px;margin-bottom:8px;overflow:hidden; }
 .ad-preview img { width:100%;height:100%;object-fit:cover; }
 .toggle-switch { position:relative;display:inline-block;width:44px;height:24px; }
 .toggle-switch input { opacity:0;width:0;height:0; }
 .toggle-slider { position:absolute;cursor:pointer;inset:0;background:#333;border-radius:24px;transition:0.3s; }
-.toggle-slider:before { content:'';position:absolute;height:18px;width:18px;left:3px;bottom:3px;background:white;border-radius:50%;transition:0.3s; }
+.toggle-slider:before { :'';position:absolute;height:18px;width:18px;left:3px;bottom:3px;background:white;border-radius:50%;transition:0.3s; }
 .toggle-switch input:checked + .toggle-slider { background:#C8102E; }
 .toggle-switch input:checked + .toggle-slider:before { transform:translateX(20px); }
 .grid-2 { display:grid;grid-template-columns:1fr 1fr;gap:20px; }
@@ -256,12 +256,12 @@ body { background: #0A0A0A; }
             </div>
 
           <div class="form-group">
-            <label class="form-label">🔑 Key Points (AI ke liye) / ମୁଖ୍ୟ ବିଷୟ</label>
+            <label class="form-label">🔑 Key Points (For AI) / ମୁଖ୍ୟ ବିଷୟ</label>
             <textarea class="form-textarea" id="artKeyPoints"
             placeholder="- Kahan hua&#10;- Kya hua&#10;- Kaun involved hai&#10;- Koi numbers/facts"
             style="min-height:100px"></textarea>
             <div style="font-size:11px;color:#555;margin-top:4px">
-            English ya Odia mein key points likho — AI full article banayega
+            Write the key points English or Odia — AI Generate full article
         </div>
     </div>
           
@@ -282,6 +282,16 @@ body { background: #0A0A0A; }
             <label class="form-label">Full Article / ସମ୍ପୂର୍ଣ ଖବର *</label>
             <textarea class="form-textarea" id="artBodyInput"
               placeholder="Write full article in Odia here..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Font / ଫଣ୍ଟ</label>
+            <select class="form-select" id="artFontInput">
+              <option value="Noto Serif Odia">Noto Serif Odia (Default)</option>
+              <option value="Baloo Chhanda 2">Baloo Chhanda 2</option>
+              <option value="Sarala">Sarala</option>
+              <option value="Tiro Oriya">Tiro Oriya</option>
+            </select>
           </div>
 
           <div style="display:flex;gap:12px">
@@ -1184,7 +1194,7 @@ async function adminSaveBreakingTicker() {
     return;
   }
 
-  // Button disable karo
+  // Button disable
   const btn = event?.target;
   if (btn) { btn.disabled = true; btn.textContent = 'Saving...'; }
 
@@ -1203,13 +1213,13 @@ async function adminSaveBreakingTicker() {
 
     if (error) throw error;
 
-    // Form clear karo
+    // Form clear
     document.getElementById('ticker-text').value = '';
     document.getElementById('ticker-link').value = '';
 
     showTickerStatus('✅ Ticker successfully save heigala!', 'success');
 
-    // Tickers list refresh karo
+    // Tickers list refresh
     loadBreakingTickers();
 
     // WhatsApp share prompt
