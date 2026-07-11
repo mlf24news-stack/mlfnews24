@@ -714,7 +714,8 @@ async function saveArticle() {
     is_breaking: document.getElementById('artBreakingInput').checked,
     published_at: status === 'published' ? now : null,
     updated_at:   now,
-    slug: title.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, '-').slice(0, 80) + '-' + Date.now()
+    slug: title.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, '-').slice(0, 80) + '-' + Date.now(),
+    font: document.getElementById('artFontInput').value || 'Noto Serif Odia'
   };
 
   let error;
@@ -749,6 +750,7 @@ async function editArticle(id) {
   document.getElementById('artStatusInput').value     = data.status;
   document.getElementById('artFeaturedInput').checked = data.is_featured || false;
   document.getElementById('artBreakingInput').checked = data.is_breaking || false;
+  document.getElementById('artFontInput').value = data.font || 'Noto Serif Odia';
   document.getElementById('articleFormTitle').textContent = '✏️ Edit Article / ଖବର ସଂଶୋଧନ';
   showSection('add-article');
 }
