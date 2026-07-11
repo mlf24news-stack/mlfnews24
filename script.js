@@ -339,7 +339,7 @@ async function loadAds() {
   }
 
   // Bottom ad
-  const bottomAds = await getAds('bottom');
+  const bottomAds = await getAds('footer');
   const bottomEl = document.getElementById('bottomAd');
   if (bottomAds.length && bottomEl) {
     const ad = bottomAds[0];
