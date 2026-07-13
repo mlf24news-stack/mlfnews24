@@ -900,15 +900,16 @@ body {
 
 /* Ad containers */
 #sidebarAd {
-  width: 100%;
-  height: 400px;
+  width: 300px;
+  height: 600px;
   overflow: hidden;
   border-radius: 8px;
   padding: 0;
   border: none;
+  background: #f0f0f0;
 }
 #sidebarAd a { display: block; width: 100%; height: 100%; }
-#sidebarAd img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 8px; }
+#sidebarAd img { width: 100%; height: 100%; object-fit: fill; display: block; border-radius: 8px; }
 
 #sidebarAd a {
   display: block;
@@ -931,9 +932,11 @@ body {
   margin: 20px auto;
   overflow: hidden;
   border-radius: 6px;
+  background: #f0f0f0;
+  border: 1px dashed #ddd;
 }
 #bottomAd a { display: block; width: 100%; height: 100%; }
-#bottomAd img { width: 100%; height: 100%; object-fit: cover; display: block; }
+#bottomAd img { width: 100%; height: 100%; object-fit: fill; display: block; }
 
 /* Admin Form */
 .admin-form {
@@ -1178,16 +1181,12 @@ body {
 .header-ad-banner {
   flex: 1;
   max-width: 728px;
-  height: 80px;
+  height: 90px;
   margin: 0 24px;
   overflow: hidden;
   border-radius: 4px;
+  background: #f0f0f0;
+  border: 1px dashed #ddd;
 }
-.header-ad-banner img, .header-ad-banner a {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-.header-ad-banner img {
-  object-fit: cover;
-}
+.header-ad-banner a { display: block; width: 100%; height: 100%; }
+.header-ad-banner img { width: 100%; height: 100%; object-fit: fill; display: block; }
