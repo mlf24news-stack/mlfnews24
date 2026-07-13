@@ -1187,3 +1187,13 @@ body {
   .header-ad-strip { height: 60px; }
   .header-ad-strip img { height: 60px; }
 }
+
+  @media (max-width: 600px) {
+  .header-ad-strip, #bottomAd {
+    height: 60px;
+  }
+  .header-ad-strip img, #bottomAd img {
+    height: 60px;
+  }
+}
+  
