@@ -927,16 +927,12 @@ body {
 
 #bottomAd {
   width: 100%;
-  max-width: 970px;
   height: 90px;
-  margin: 20px auto;
+  margin: 20px 0;
   overflow: hidden;
-  border-radius: 6px;
-  background: #f0f0f0;
-  border: 1px dashed #ddd;
 }
 #bottomAd a { display: block; width: 100%; height: 100%; }
-#bottomAd img { width: 100%; height: 100%; object-fit: fill; display: block; }
+#bottomAd img { width: 100%; height: 90px; object-fit: cover; display: block; }
 
 /* Admin Form */
 .admin-form {
@@ -1180,13 +1176,9 @@ body {
 
 .header-ad-banner {
   flex: 1;
-  max-width: 728px;
   height: 90px;
   margin: 0 24px;
   overflow: hidden;
-  border-radius: 4px;
-  background: #f0f0f0;
-  border: 1px dashed #ddd;
 }
 .header-ad-banner a { display: block; width: 100%; height: 100%; }
 .header-ad-banner img { width: 100%; height: 90px; object-fit: cover; display: block; }
