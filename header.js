@@ -10,11 +10,7 @@ document.getElementById('site-header').innerHTML = `
         <img src="/logo.png" alt="MLF News 24" style="height:64px;width:auto;object-fit:contain;">
       </a>
     </div>
-    <div class="header-ad-banner" id="headerAdBanner">
-      <div class="ad-slide active">Advertisement 1</div>
-      <div class="ad-slide">Advertisement 2</div>
-      <div class="ad-slide">Advertisement 3</div>
-    </div>
+    <div class="header-ad-banner" id="headerAdBanner"></div>
     <div class="header-meta">
       <span id="liveClock"></span>
       <!-- <a href="/epaper.html" class="epaper-btn">📰 E-Paper</a> -->
