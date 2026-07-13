@@ -333,8 +333,8 @@ async function loadAds() {
   if (headerAds.length && headerEl) {
     const ad = headerAds[0];
     headerEl.innerHTML = `
-      <a href="${ad.link_url || '#'}" target="_blank">
-        <img src="${ad.image_url}" alt="${ad.title}">
+      <a href="${ad.link_url || '#'}" target="_blank" style="display:block;width:100%;height:90px;overflow:hidden;">
+        <img src="${ad.image_url}" alt="${ad.title}" style="width:100%;height:90px;object-fit:cover;display:block;">
       </a>`;
   }
 
@@ -344,8 +344,8 @@ async function loadAds() {
   if (bottomAds.length && bottomEl) {
     const ad = bottomAds[0];
     bottomEl.innerHTML = `
-      <a href="${ad.link_url || '#'}" target="_blank">
-        <img src="${ad.image_url}" alt="${ad.title}">
+      <a href="${ad.link_url || '#'}" target="_blank" style="display:block;width:100%;height:90px;overflow:hidden;">
+        <img src="${ad.image_url}" alt="${ad.title}" style="width:100%;height:90px;object-fit:cover;display:block;">
       </a>`;
   }
 }
