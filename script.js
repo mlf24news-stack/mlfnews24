@@ -332,9 +332,9 @@ async function loadAds() {
   const headerEl = document.getElementById('headerAdBanner');
   if (headerAds.length && headerEl) {
     const ad = headerAds[0];
-    bottomEl.innerHTML = `
-      <a href="${ad.link_url || '#'}" target="_blank" style="display:block;width:100%;height:90px;">
-        <img src="${ad.image_url}" alt="${ad.title}" style="width:100%;height:90px;object-fit:cover;display:block;border-radius:6px;">
+    headerEl.innerHTML = `
+      <a href="${ad.link_url || '#'}" target="_blank">
+        <img src="${ad.image_url}" alt="${ad.title}">
       </a>`;
   }
 
@@ -345,7 +345,7 @@ async function loadAds() {
     const ad = bottomAds[0];
     bottomEl.innerHTML = `
       <a href="${ad.link_url || '#'}" target="_blank">
-        <img src="${ad.image_url}" alt="${ad.title}" style="max-width:100%;border-radius:6px;display:block;margin:0 auto;">
+        <img src="${ad.image_url}" alt="${ad.title}">
       </a>`;
   }
 }
