@@ -900,7 +900,7 @@ body {
 
 /* Ad containers */
 #sidebarAd {
-  width: 300px;
+  width: 100%;
   height: 600px;
   overflow: hidden;
   border-radius: 8px;
@@ -909,7 +909,7 @@ body {
   background: #f0f0f0;
 }
 #sidebarAd a { display: block; width: 100%; height: 100%; }
-#sidebarAd img { width: 100%; height: 100%; object-fit: fill; display: block; border-radius: 8px; }
+#sidebarAd img { width: 100%; height: 600px; object-fit: cover; display: block; border-radius: 8px; }
 
 #sidebarAd a {
   display: block;
@@ -1189,4 +1189,4 @@ body {
   border: 1px dashed #ddd;
 }
 .header-ad-banner a { display: block; width: 100%; height: 100%; }
-.header-ad-banner img { width: 100%; height: 100%; object-fit: fill; display: block; }
+.header-ad-banner img { width: 100%; height: 90px; object-fit: cover; display: block; }
