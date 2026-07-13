@@ -1174,11 +1174,16 @@ body {
   .nav-social { display: none; }
 }
 
-.header-ad-banner {
-  flex: 1;
+.header-ad-strip {
+  width: 100%;
   height: 90px;
-  margin: 0 24px;
   overflow: hidden;
+  background: #f0f0f0;
 }
-.header-ad-banner a { display: block; width: 100%; height: 100%; }
-.header-ad-banner img { width: 100%; height: 90px; object-fit: cover; display: block; }
+.header-ad-strip a { display: block; width: 100%; height: 100%; }
+.header-ad-strip img { width: 100%; height: 90px; object-fit: cover; display: block; }
+
+@media (max-width: 768px) {
+  .header-ad-strip { height: 60px; }
+  .header-ad-strip img { height: 60px; }
+}
