@@ -332,21 +332,13 @@ async function loadAds() {
   const headerEl = document.getElementById('headerAdBanner');
   if (headerAds.length && headerEl) {
     const ad = headerAds[0];
-    headerEl.innerHTML = `
-      <a href="${ad.link_url || '#'}" target="_blank">
-        <img src="${ad.image_url}" alt="${ad.title}">
-      </a>`;
+    headerEl.innerHTML = `<a href="${ad.link_url || '#'}" target="_blank"><img src="${ad.image_url}" alt="${ad.title}"></a>`;
   }
-
-  // Bottom ad
   const bottomAds = await getAds('footer');
   const bottomEl = document.getElementById('bottomAd');
   if (bottomAds.length && bottomEl) {
     const ad = bottomAds[0];
-    bottomEl.innerHTML = `
-      <a href="${ad.link_url || '#'}" target="_blank" style="display:block;width:100%;height:90px;overflow:hidden;">
-        <img src="${ad.image_url}" alt="${ad.title}" style="width:100%;height:90px;object-fit:cover;display:block;">
-      </a>`;
+    bottomEl.innerHTML = `<a href="${ad.link_url || '#'}" target="_blank"><img src="${ad.image_url}" alt="${ad.title}"></a>`;
   }
 }
 
