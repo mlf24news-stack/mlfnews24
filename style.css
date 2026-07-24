@@ -953,6 +953,13 @@ body {
 #bottomAd a { display: block; width: 100%; }
 #bottomAd img { width: 100%; height: auto; display: block; }
 
+.article-ad-mid {
+  max-width: 728px;
+  margin: 28px auto;
+  overflow: hidden;
+}
+.article-ad-mid img { width: 100%; height: auto; display: block; border-radius: 4px; }
+
 /* Admin Form */
 .admin-form {
   background: #1A1A1A;
