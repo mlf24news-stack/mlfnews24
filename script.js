@@ -196,8 +196,19 @@ async function loadArticlePage() {
   if (viewsEl) viewsEl.textContent = '👁 ' + (article.views || 0).toLocaleString();
   if (imgEl) imgEl.style.backgroundImage = `url(${article.image_url || ''})`;
   if (bodyEl) {
-    bodyEl.innerHTML = (article.body || '').split('\n').filter(p => p.trim()).map(p => `<p>${p}</p>`).join('');
+    const paragraphs = (article.body || '').split('\n').filter(p => p.trim());
+    const midPoint = Math.ceil(paragraphs.length / 2);
+    bodyEl.innerHTML = paragraphs.map((p, i) =>
+      (i === midPoint && paragraphs.length > 3 ? `<div class="article-ad-mid" id="articleMidAd"></div>` : '') + `<p>${p}</p>`
+    ).join('');
     if (article.font) bodyEl.style.fontFamily = `'${article.font}', serif`;
+
+    const midAds = await getAds('article-middle');
+    const midAdEl = document.getElementById('articleMidAd');
+    if (midAds.length && midAdEl) {
+      const ad = midAds[0];
+      midAdEl.innerHTML = `<div style="text-align:center;font-size:10px;color:#999;margin-bottom:6px;letter-spacing:1px;">ADVERTISEMENT</div><a href="${ad.link_url || '#'}" target="_blank"><img src="${ad.image_url}" alt="${ad.title}"></a>`;
+    }
   }
 
   // Related articles
@@ -345,7 +356,10 @@ async function loadAds() {
 // ===== SOCIAL LINKS =====
 async function loadSocialLinks() {
   const settings = await getSiteSettings();
-  const map = { socialFb: 'facebook_url', socialWa: 'whatsapp_number', socialIg: 'instagram_url', socialYt: 'youtube_url' };
+  const map = {
+    socialFb: 'facebook_url', socialWa: 'whatsapp_number', socialIg: 'instagram_url', socialYt: 'youtube_url',
+    footerFb: 'facebook_url', footerWa: 'whatsapp_number', footerIg: 'instagram_url', footerYt: 'youtube_url'
+  };
   Object.entries(map).forEach(([elId, key]) => {
     const el = document.getElementById(elId);
     if (!el || !settings[key]) return;
@@ -355,6 +369,10 @@ async function loadSocialLinks() {
       el.href = settings[key];
     }
   });
+  const emailEl = document.getElementById('footerEmailText');
+  if (emailEl && settings.contact_email) emailEl.textContent = settings.contact_email;
+  const phoneEl = document.getElementById('footerPhoneText');
+  if (phoneEl && settings.contact_phone) phoneEl.textContent = settings.contact_phone;
 }
 
 // ===== INIT =====
